@@ -8,7 +8,8 @@ NPacks <- c("here", "tidyverse")
 pacman::p_load(char = NPacks)
 
 # Load data ----
-s.data <- readRDS(here("data", "processed", "Survival", "survival-data.Rds"))
+s.data <- readRDS(here("data", "raw"#, "Survival"
+                       , "survival-data.Rds"))
 
 str(s.data)
 
