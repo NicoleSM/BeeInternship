@@ -1,0 +1,238 @@
+# Install the necessary packages ----
+NPacks <- c("tidyverse", "here", "GCalignR")
+
+# Load required packages ----
+pacman::p_load(char = NPacks)
+
+# FUNCTIONS ----#
+
+# Load the data ----
+# gcms_batch <- "0303-0903_2022"
+load(here("data", "tmp", "Plasticity", "data2align"
+          , paste0(gcms_batch
+                   , ".Rdata")))
+  
+# Data alignment ----
+# ## Samples #### #
+# blanks_list <- names(samples_data_list) %>% 
+#   str_subset("Hexane")
+ 
+# # Threshold for partial peak alignment step.
+# # Skimming the chromatograms no separated alkadienes/alkenes peaks seemed
+# # to have a separation below 0.033 min among samples
+# partial_alignment_threshold <- 0.03
+# 
+# # Keep the linear shift small. The half of the partial alignment criteria
+# # is just an arbitrary value. The idea is to avoid that this shift compromises
+# # the partial alignment or rows merging steps
+# linear_shift_criteria <- partial_alignment_threshold  / 2
+# 
+# # Threshold for merging rows step.
+# # Skimming the chromatograms no compound seemed to have a separation
+# # over 0.152 min between samples
+# row_merging_threshold <- 0.15
+## Nu-IW ####
+set.seed(12345)
+aligned_nu.iw_list <- 
+  align_chromatograms(nu.iw_data_list
+                      , rt_col_name = "RT"
+                      , max_linear_shift = linear_shift_criteria
+                      , max_diff_peak2mean = partial_alignment_threshold
+                      , min_diff_peak2peak = row_merging_threshold
+                      # , blanks = blanks_list
+                      )
+print(aligned_nu.iw_list)
+
+## PF-OW ####
+set.seed(12345)
+aligned_pf.ow_list <- 
+  align_chromatograms(pf.ow_data_list
+                      , rt_col_name = "RT"
+                      , max_linear_shift = linear_shift_criteria
+                      , max_diff_peak2mean = partial_alignment_threshold
+                      , min_diff_peak2peak = row_merging_threshold
+                      # , blanks = blanks_list
+  )
+print(aligned_pf.ow_list)
+
+## STD ####
+set.seed(12345)
+aligned_STD_data_list <- align_chromatograms(standards_list
+                                                 , rt_col_name = "RT"
+                                                 , max_linear_shift = 0.02
+                                                 , max_diff_peak2mean = 0.07
+                                                 , min_diff_peak2peak = 0.04)
+print(aligned_STD_data_list)
+
+# Check precision of the alignment ----
+## Get aligned data frames ####
+# ### Samples #### #
+### Nu-IW ####
+nu.iw_area  <- aligned_nu.iw_list$aligned$Area
+nu.iw_RT  <- aligned_nu.iw_list$aligned$RT
+
+#### Give a label to each peak.
+#### This is useful for distinguishing peaks, or filtering operations.
+rownames(nu.iw_area) <- paste0("P", 1:nrow(nu.iw_area))
+rownames(nu.iw_RT) <- paste0("P", 1:nrow(nu.iw_RT))
+
+### PF-OW ####
+pf.ow_area  <- aligned_pf.ow_list$aligned$Area
+pf.ow_RT  <- aligned_pf.ow_list$aligned$RT
+
+#### Give a label to each peak.
+#### This is useful for distinguishing peaks, or filtering operations.
+rownames(pf.ow_area) <- paste0("P", 1:nrow(pf.ow_area))
+rownames(pf.ow_RT) <- paste0("P", 1:nrow(pf.ow_RT))
+
+### STD ####
+### The area of standards is not important, only the retention time will be used
+### later for calculating the retention index of the different CHC
+STD_RT  <- aligned_STD_data_list$aligned$RT
+rownames(STD_RT) <- paste0("P", 1:nrow(STD_RT))
+
+# Export aligned data frames  ####
+## CSV of RT data frames ####
+## This is useful to check up the alignments, while looking at the chromatograms
+## in the GC-MS analysis software.
+write.csv(nu.iw_RT
+          , here("data"
+                 , "tmp"
+                 , "Plasticity"
+                 , paste0("aligned_RT_nu-iw_"
+                          , gcms_batch
+                          ,".csv")))
+
+write.csv(pf.ow_RT
+          , here("data"
+                 , "tmp"
+                 , "Plasticity"
+                 , paste0("aligned_RT_pf-ow_"
+                          , gcms_batch
+                          ,".csv")))
+
+write.csv(STD_RT
+          , here("data"
+                 , "tmp"
+                 , "Plasticity"
+                 , paste0("aligned_RT_STD_"
+                          , gcms_batch
+                          ,".csv")))
+
+## dataframes as Rdata file ####
+save(list = c("nu.iw_area", "nu.iw_RT", "pf.ow_area", "pf.ow_RT", "STD_RT")
+     , file = here("data", "tmp", "Plasticity", "data2align"
+                   , paste0("uncorrected-alignment_"
+                            , gcms_batch
+                            , ".Rdata")))
+print("The aligned data frames were exported")
+
+# Diagnostic plots ####
+## Normalize aligned abundance (area) ####
+### Nu-IW ####
+nu.iw_area_norm <- norm_peaks(data = aligned_nu.iw_list
+                             , rt_col_name = "RT"
+                             , conc_col_name = "Area")
+### Give a label to each peak
+colnames(nu.iw_area_norm) <- paste0("P", 1:length(colnames(nu.iw_area_norm)))
+str(nu.iw_area_norm)
+
+### PF-OW ####
+pf.ow_area_norm <- norm_peaks(data = aligned_pf.ow_list
+                              , rt_col_name = "RT"
+                              , conc_col_name = "Area")
+### Give a label to each peak
+colnames(pf.ow_area_norm) <- paste0("P", 1:length(colnames(pf.ow_area_norm)))
+str(pf.ow_area_norm)
+
+### STD ####
+STD_area_norm <- norm_peaks(data = aligned_STD_data_list
+                           , rt_col_name = "RT"
+                           , conc_col_name = "Area")
+### Give a label to each peak
+colnames(STD_area_norm) <- paste0("P", 1:length(colnames(STD_area_norm)))
+str(STD_area_norm)
+
+# Export diagnostic plots ####
+#### Set color palette
+heatmap_colors <- viridis::turbo(200)
+
+#### Generate PDF file to contain plots
+pdf(here("output"
+         , "Plasticity"
+         , paste0("uncorrected-alignment-plots_"
+                  , gcms_batch
+                  , '.pdf'))
+    , width = 30, height = 15)
+
+## Nu-IW ####
+gc_heatmap(aligned_nu.iw_list
+           , main_title = "Alignment of Nu/IW honeybee workers CHC")
+gc_heatmap(aligned_nu.iw_list
+           , type = "discrete"
+           , main_title = "Alignment of Nu/IW honeybee workers CHC")
+# Throws an error that stops the script if sourcing
+#plot(aligned_nu.iw_list), which_plot = "all")
+{gplots::heatmap.2(as.matrix(nu.iw_area_norm %>% log1p()), 
+                   main = "Clustering of Nu/IW honeybee workers CHC",
+                   srtCol = 90,
+                   dendrogram = "row",
+                   # Rowv = dend,
+                   Colv = "NA", # this to make sure the columns are not ordered
+                   trace = "none",          
+                   # margins =c(5,0.1),      
+                   key.xlab = "log1p of relative abundance (%) on Cuticle",
+                   #denscol = "grey",
+                   #density.info = "density",
+                   # RowSideColors = microlab, # to add nice colored strips        
+                   col = heatmap_colors
+                   )}
+## PF-OW ####
+gc_heatmap(aligned_pf.ow_list
+           , main_title = "Alignment of PF/OW honeybee workers CHC")
+gc_heatmap(aligned_pf.ow_list
+           , type = "discrete"
+           , main_title = "Alignment of PF/OW honeybee workers CHC")
+# Throws an error that stops the script if sourcing
+#plot(aligned_pf.ow_list), which_plot = "all")
+{gplots::heatmap.2(as.matrix(pf.ow_area_norm %>% log1p()), 
+                   main = "Clustering of PF/OW honeybee workers CHC",
+                   srtCol = 90,
+                   dendrogram = "row",
+                   # Rowv = dend,
+                   Colv = "NA", # this to make sure the columns are not ordered
+                   trace = "none",          
+                   # margins =c(5,0.1),      
+                   key.xlab = "log1p of relative abundance (%) on Cuticle",
+                   #denscol = "grey",
+                   #density.info = "density",
+                   # RowSideColors = microlab, # to add nice colored strips        
+                   col = heatmap_colors
+)}
+
+## STD ####
+gc_heatmap(aligned_STD_data_list
+           , main_title = "Alignment of standard alkanes")
+gc_heatmap(aligned_STD_data_list
+           , type = "discrete"
+           , main_title = "Alignment of standard alkanes")
+# Throws an error that stops the script if sourcing
+# plot(aligned_STD_data_list
+#      , which_plot = "all")
+{gplots::heatmap.2(as.matrix(STD_area_norm %>% log1p()), 
+                   main = "Clustering of standard alkanes",
+                   srtCol = 90,
+                   dendrogram = "row",
+                   # RSTDv = dend,
+                   Colv = "NA", # this to make sure the columns are not ordered
+                   trace = "none",          
+                   # margins =c(5,0.1),      
+                   key.xlab = "log1p of relative abundance (%)",
+                   #denscol = "grey",
+                   #density.info = "density",
+                   # RSTDSideColors = microlab, # to add nice colored strips        
+                   col = heatmap_colors)}
+#### Close graphic device to export plots into the PDF file
+dev.off()
+print("Diagnostic plots for the alignments were exported")
+
