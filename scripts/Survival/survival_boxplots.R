@@ -1,6 +1,6 @@
 
 # Install and/or load packages ----
-NPacks <- c("here", "tidyverse")
+NPacks <- c("here", "dplyr", "ggplot2")
 
 #install.packages(c(NPacks,"pacman"))
 
@@ -14,7 +14,7 @@ s.data <- readRDS(here("data", "raw"#, "Survival"
 str(s.data)
 
 survival_boxplot_summer <- ggplot(s.data %>% filter(Season == "Summer")
-                                  , aes(x = Subspecies
+                                  , aes(x = Subsp. #ecies
                                         , y = Time
                                         , fill = Task)) +
   geom_boxplot(size = 0.7)+
@@ -42,7 +42,7 @@ survival_boxplot_summer <- ggplot(s.data %>% filter(Season == "Summer")
 
 survival_boxplot_winter1 <- ggplot(s.data %>% 
                                     filter(Season == "Winter")
-                                  , aes(x = Subspecies
+                                  , aes(x = Subsp.#ecies
                                         , y = Time
                                         , fill = Task))+
   geom_boxplot(size = 0.7)+
