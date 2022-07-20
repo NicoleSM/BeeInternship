@@ -1,0 +1,6 @@
+﻿Name LastDataFile
+  LastDataPath$ = "D:\MASSHUNTER\GCMS\1\DATA\" 
+  LastDataFile$ = "Adapt2019_pasc_C144.D" 
+  LastDataSize  = 20997255
+  remove LastDataFile
+  return

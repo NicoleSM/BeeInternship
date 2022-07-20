@@ -1,0 +1,7 @@
+﻿Additional Information for default Back.m
+File created Fri Jan 18 15:43:56 2019
+
+Method : D:\MassHunter\GCMS\1\methods\default.m
+Renamed: D:\MassHunter\GCMS\1\methods\default Back.m
+Fri Jan 18 15:43:56 2019
+-----------------------------------------

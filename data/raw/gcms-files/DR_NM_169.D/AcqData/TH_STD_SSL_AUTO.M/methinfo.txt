@@ -1,0 +1,18 @@
+                                        Calibration Status Report 
+
+  Method Path : D:\MassHunter\GCMS\1\methods\
+  Method File : TH_STD_SSL_AUTO.m                                   
+  Title     :  
+  Last Update  :  
+  Response Via : Initial Calibration
+
+ #  ID   Conc   ISTD   Path\File
+                Conc             
+ -- ---- ----   ----   -------------------------------------------------
+
+
+
+ #  ID   Update Time           Quant Time          Acquisition Time
+ -- --   --------------------  -----------------   ---------------------
+
+TH_STD_SSL_AUTO.m Wed Dec 18 15:29:33 2019   
