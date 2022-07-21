@@ -2,7 +2,7 @@
 # install.packages('pacman')
 
 # Load required packages ----
-NPacks <- c("tidyverse", "readxl", "here")
+NPacks <- c("tidyverse", "readxl", "here", "GCalignR")
 pacman::p_load(char = NPacks)
 
 # FUNCTIONS ----
@@ -14,58 +14,105 @@ my_read_csv  <- function(file, skip) {
 
 # Import data files ----
 ## Make a list of the individual sample files paths
-### In-hive workers (IW)
-path_IW_data <- list.files(path = here("AMelliMelli-CHC-data", "raw", "IW")
+### Braganza iberiensis (Br_Ib)
+path_Br_Ib_data <- list.files(path = here("data", "raw", "NM-recognition", "gcms-integration-files", "iberiensis", "braganza")
                                    , pattern = ".CSV" # Get all CSV files in the folder
                                    , full.names = T) %>% 
   str_subset('STD', negate = T) # Do not include standards
-path_IW_data
+path_Br_Ib_data
 
-### Out-hive workers (OW)
-path_OW_data <- list.files(path = here("AMelliMelli-CHC-data", "raw", "OW")
+### Wuerzburg iberiensis (Wu_Ib)
+path_Wu_Ib_data <- list.files(path = here("data", "raw", "NM-recognition", "gcms-integration-files", "iberiensis", "wuerzburg")
+                           , pattern = ".CSV" # Get all CSV files in the folder
+                           , full.names = T) %>% 
+  str_subset('STD', negate = T) # Do not include standards
+path_Wu_Ib_data
+
+### Braganza carnica (Br_Ca)
+path_Br_Ca_data <- list.files(path = here("data", "raw", "NM-recognition"
+                                          , "gcms-integration-files"
+                                          , "carnica"
+                                          , "braganza")
                                    , pattern = ".CSV" # Get all CSV files in the folder
                                    , full.names = T) %>% 
   str_subset('STD', negate = T) # Do not include standards
-path_OW_data
+path_Br_Ca_data
+
+### Wuerzburg carnica (Wu_Ca)
+path_Wu_Ca_data <- list.files(path = here("data", "raw", "NM-recognition"
+                                          , "gcms-integration-files"
+                                          , "carnica", "wuerzburg")
+                           , pattern = ".CSV" # Get all CSV files in the folder
+                           , full.names = T) %>% 
+  str_subset('STD', negate = T) # Do not include standards
+path_Wu_Ca_data
 
 ### Standards (STD)
-path_standards <- list.files(path = here("AMelliMelli-CHC-data", "raw", "STD")
+path_standards <- list.files(path = here("data", "raw", "NM-recognition"
+                                         , "gcms-integration-files"
+                                         , "standards")
                              , pattern = ".CSV" # Get all CSV files in the folder
                              , full.names = T) %>% 
   str_subset('DR_', negate = T) # Do not include samples
 path_standards
 
 ## Import the files in the list, saving them into a list type object
-### IW
-IW_data_list <- lapply(path_IW_data, my_read_csv)
-IW_data_list %>% summary()
+### Br_Ib
+Br_Ib_data_list <- lapply(path_Br_Ib_data, my_read_csv)
+Br_Ib_data_list %>% summary()
 
-## OW
-OW_data_list <- lapply(path_OW_data, my_read_csv)
-OW_data_list %>% summary()
+## Wu_Ib
+Wu_Ib_data_list <- lapply(path_Wu_Ib_data, my_read_csv)
+Wu_Ib_data_list %>% summary()
+
+## Br_Ca
+Br_Ca_data_list <- lapply(path_Br_Ca_data, my_read_csv)
+Br_Ca_data_list %>% summary()
+
+## Wu_Ca
+Wu_Ca_data_list <- lapply(path_Wu_Ca_data, my_read_csv)
+Wu_Ca_data_list %>% summary()
 
 ## STD
 standards_list <- lapply(path_standards, my_read_csv)
 standards_list %>% summary()
 
 # Rename the data frames in the list as the samples to which they belong ----
-## IW
-names(IW_data_list) <- str_split(path_IW_data
+## Br_Ib
+names(Br_Ib_data_list) <- str_split(path_Br_Ib_data
                                      , "/"
                                      , simplify = T) %>% 
   str_subset(".CSV") %>% 
   str_remove("DR_") %>% 
   str_remove(".CSV") 
-names(IW_data_list)
+names(Br_Ib_data_list)
 
-## OW
-names(OW_data_list) <- str_split(path_OW_data
+## Wu_Ib
+names(Wu_Ib_data_list) <- str_split(path_Wu_Ib_data
                                          , "/"
                                          , simplify = T) %>% 
   str_subset(".CSV") %>% 
   str_remove("DR_") %>% 
   str_remove(".CSV") 
-names(OW_data_list)
+names(Wu_Ib_data_list)
+
+## Br_Ca
+names(Br_Ca_data_list) <- str_split(path_Br_Ca_data
+                                    , "/"
+                                    , simplify = T) %>% 
+  str_subset(".CSV") %>% 
+  str_remove("DR_") %>% 
+  str_remove(".CSV") 
+names(Br_Ca_data_list)
+
+## Wu_Ca
+names(Wu_Ca_data_list) <- str_split(path_Wu_Ca_data
+                                    , "/"
+                                    , simplify = T) %>% 
+  str_subset(".CSV") %>% 
+  str_remove("DR_") %>% 
+  str_remove(".CSV") 
+names(Wu_Ca_data_list)
 
 ## STD
 names(standards_list) <- str_split(path_standards
@@ -78,57 +125,130 @@ names(standards_list) <- str_split(path_standards
 names(standards_list)
 
 # Modify data frames to keep the necessary columns ----
-## IW
-names(IW_data_list)
-IW_data_list %>% summary()
-IW_sample.names <- names(IW_data_list)
-#IW_data_list[[eval(IW_sample.names[1])]]
-for (df in IW_sample.names) {
-  IW_data_list[[df]] <- IW_data_list[[df]] %>% 
+## Br_Ib
+names(Br_Ib_data_list)
+Br_Ib_data_list %>% summary()
+Br_Ib_sample.names <- names(Br_Ib_data_list)
+#Br_Ib_data_list[[eval(Br_Ib_sample.names[1])]]
+for (df in Br_Ib_sample.names) {
+  Br_Ib_data_list[[df]] <- Br_Ib_data_list[[df]] %>% 
     select("Center X", "Area") %>% 
     rename(RT = "Center X")
   #assign(df, df_n)
   #rm(df, df_n)
 }
-IW_data_list %>% summary()
+Br_Ib_data_list %>% summary()
 
-## OW
-names(OW_data_list)
-OW_data_list %>% summary()
-OW_sample.names <- names(OW_data_list)
-#OW_data_list[[eval(OW_sample.names[1])]]
-for (df in OW_sample.names) {
-  OW_data_list[[df]] <- OW_data_list[[df]] %>% 
+## Wu_Ib
+names(Wu_Ib_data_list)
+Wu_Ib_data_list %>% summary()
+Wu_Ib_sample.names <- names(Wu_Ib_data_list)
+#Wu_Ib_data_list[[eval(Wu_Ib_sample.names[1])]]
+for (df in Wu_Ib_sample.names) {
+  Wu_Ib_data_list[[df]] <- Wu_Ib_data_list[[df]] %>% 
     select("Center X", "Area") %>% 
     rename(RT = "Center X")
   #assign(df, df_n)
   #rm(df, df_n)
 }
-OW_data_list %>% summary()
+Wu_Ib_data_list %>% summary()
+
+## Br_Ca
+names(Br_Ca_data_list)
+Br_Ca_data_list %>% summary()
+Br_Ca_sample.names <- names(Br_Ca_data_list)
+#Br_Ca_data_list[[eval(Br_Ca_sample.names[1])]]
+for (df in Br_Ca_sample.names) {
+  Br_Ca_data_list[[df]] <- Br_Ca_data_list[[df]] %>% 
+    select("Center X", "Area") %>% 
+    rename(RT = "Center X")
+  #assign(df, df_n)
+  #rm(df, df_n)
+}
+Br_Ca_data_list %>% summary()
+
+## Wu_Ca
+names(Wu_Ca_data_list)
+Wu_Ca_data_list %>% summary()
+Wu_Ca_sample.names <- names(Wu_Ca_data_list)
+#Wu_Ca_data_list[[eval(Wu_Ca_sample.names[1])]]
+for (df in Wu_Ca_sample.names) {
+  Wu_Ca_data_list[[df]] <- Wu_Ca_data_list[[df]] %>% 
+    select("Center X", "Area") %>% 
+    rename(RT = "Center X")
+  #assign(df, df_n)
+  #rm(df, df_n)
+}
+Wu_Ca_data_list %>% summary()
 
 ## STD
 names(standards_list)
 standards_list %>% summary()
-OW_standards.names <- names(standards_list)
-#standards_list[[eval(OW_sample.names[1])]]
-for (df in OW_standards.names) {
+standards.names <- names(standards_list)
+#standards_list[[eval(standards_sample.names[1])]]
+for (df in standards.names) {
   standards_list[[df]] <- standards_list[[df]] %>% 
     select("Center X", "Area") %>% 
     rename(RT = "Center X")
 }
 standards_list %>% summary()
 
+# Separating WU_Ib based on acquisition date for STD assignment 
+Wu_Ib_0322_data_list <- Wu_Ib_data_list[1:7]
+
+Wu_Ib_0422_data_list <- Wu_Ib_data_list[8:length(Wu_Ca_data_list)]
+
+standards_0322_data_list <- purrr::keep(standards_list
+                                        , standards_list %>% 
+                                          names() %>% 
+                                          str_detect("03"))
+
+standards_0422_data_list <- purrr::keep(standards_list
+                                        , standards_list %>% 
+                                          names() %>% 
+                                          str_detect("04"))
+
+Wu_Ib_0422_data_list <- Wu_Ib_data_list[8:length(Wu_Ca_data_list)]
+
+# Input check-up for GCalignR ----
+pdf(here("output"
+         , paste0("GCalignR_input-check_PL_"
+                  , "nestmate-rec"
+                  , '.pdf'))
+    , width = 10, height = 5)
+
+## list ####
+check_input(list, plot = T)
+peak_interspace(list
+                , rt_col_name = "RT"
+                , quantile_range = c(0, 0.8)
+                , quantiles = 0.05)
+
+## list ####
+check_input(list, plot = T)
+peak_interspace(list
+                , rt_col_name = "RT"
+                , quantile_range = c(0, 0.8)
+                , quantiles = 0.05)
+
+#### Close graphic device to export plots into the PDF file
+dev.off()
+print("Input check-up plots were exported")
+
+
 # Export data ----
-## IW
-save(list = c("IW_data_list", "OW_data_list", "standards_list")
-     , file = here("AMelliMelli-CHC-data", "tmp", "data2align.Rdata"))
+## Br_Ib
+save(list = c("Br_Ib_data_list", "Wu_Ib_0322_data_list", "Wu_Ib_0422_data_list"
+              , "Br_Ca_data_list", "Wu_Ca_data_list", "standards_0322_data_list"
+              , "standards_0422_data_list")
+     , file = here("data", "raw", "NM-recognition", "tmp", "data2align.Rdata"))
 
 print("The data list(s) to align have been exported to the tmp data folder")
 
 # End ----
 ## Report session information
 capture.output(sessionInfo()
-               , file = here("output", "SInf_Script01.txt"))
+               , file = here("output", "SInf_NMR_Script01.txt"))
 
 # ## Detach/unload packages
 # lapply(NPacks, unloadNamespace)

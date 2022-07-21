@@ -7,10 +7,7 @@ pacman::p_load(char = NPacks)
 # FUNCTIONS ----#
 
 # Load the data ----
-# gcms_batch <- "0303-0903_2022"
-load(here("data", "tmp", "Plasticity", "data2align"
-          , paste0(gcms_batch
-                   , ".Rdata")))
+load(here("data", "raw", "NM-recognition", "tmp", "data2align.Rdata"))
   
 # Data alignment ----
 # ## Samples #### #
@@ -25,7 +22,7 @@ load(here("data", "tmp", "Plasticity", "data2align"
 # # Keep the linear shift small. The half of the partial alignment criteria
 # # is just an arbitrary value. The idea is to avoid that this shift compromises
 # # the partial alignment or rows merging steps
-# linear_shift_criteria <- partial_alignment_threshold  / 2
+linear_shift_criteria <- partial_alignment_threshold  / 2
 # 
 # # Threshold for merging rows step.
 # # Skimming the chromatograms no compound seemed to have a separation
