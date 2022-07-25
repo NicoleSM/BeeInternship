@@ -212,24 +212,25 @@ Wu_Ib_0422_data_list <- Wu_Ib_data_list[8:length(Wu_Ca_data_list)]
 
 # Input check-up for GCalignR ----
 pdf(here("output"
+         , "NM-recognition"
          , paste0("GCalignR_input-check_PL_"
                   , "nestmate-rec"
                   , '.pdf'))
     , width = 10, height = 5)
 
 ## list ####
-check_input(list, plot = T)
-peak_interspace(list
-                , rt_col_name = "RT"
-                , quantile_range = c(0, 0.8)
-                , quantiles = 0.05)
+#check_input(list, plot = T)
+#peak_interspace(list
+ #               , rt_col_name = "RT"
+  #              , quantile_range = c(0, 0.8)
+   #             , quantiles = 0.05)
 
 ## list ####
-check_input(list, plot = T)
-peak_interspace(list
-                , rt_col_name = "RT"
-                , quantile_range = c(0, 0.8)
-                , quantiles = 0.05)
+#check_input(list, plot = T)
+#peak_interspace(list
+ #               , rt_col_name = "RT"
+  #              , quantile_range = c(0, 0.8)
+   #             , quantiles = 0.05)
 
 #### Close graphic device to export plots into the PDF file
 dev.off()
@@ -248,7 +249,7 @@ print("The data list(s) to align have been exported to the tmp data folder")
 # End ----
 ## Report session information
 capture.output(sessionInfo()
-               , file = here("output", "SInf_NMR_Script01.txt"))
+               , file = here("output", "NM-Recognition", "SInf_NMR_Script01.txt"))
 
 # ## Detach/unload packages
 # lapply(NPacks, unloadNamespace)
