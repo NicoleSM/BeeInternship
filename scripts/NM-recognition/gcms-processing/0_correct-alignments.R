@@ -78,156 +78,259 @@ move_peaks <- function(df, Sample, peaks_list, movement_dirs){
   df
 }
 
+# Load the data ----
+load(here("data",  "raw"
+          , "NM-recognition"
+          , "tmp"
+          , paste0("uncorrected-alignment_"
+                   , "049-271"
+                   , ".Rdata")))
+
 # Correct miss-alignments ----
 # THIS IS PROBABLY NOT NECESSARY FOR THE STANDARDS!!!
 ## Extract the mean RTs
-samples_mean_RT <- samples_RT %>% select(mean_RT)
+Br_Ca_mean_RT <- Br_Ca_RT %>% select(mean_RT)
+
+Br_Ib_mean_RT <- Br_Ib_RT %>% select(mean_RT)
+
+Wu_Ca_mean_RT <- Wu_Ca_RT %>% select(mean_RT)
+
+Wu_Ib_0322_mean_RT <- Wu_Ib_0322_RT %>% select(mean_RT)
+
+Wu_Ib_0422_mean_RT <- Wu_Ib_0422_RT %>% select(mean_RT)
+
+STD_0322_mean_RT <- STD_0322_RT %>% select(mean_RT)
+
+STD_0422_mean_RT <- STD_0422_RT %>% select(mean_RT)
 
 ## Drop mean_RT from the data frames, it will be recalculated on a later step.
-### samples
-samples_area <- samples_area %>% 
+### Br_Ca
+Br_Ca_area <- Br_Ca_area %>% 
   select(-mean_RT) %>% 
   t %>% 
   as.data.frame()
-str(samples_area)
+str(Br_Ca_area)
 
-samples_RT <- samples_RT %>% 
+Br_Ca_RT <- Br_Ca_RT %>% 
   select(-mean_RT) %>% 
   t %>% 
   as.data.frame()
-str(samples_RT)
+str(Br_Ca_RT)
 
-### OW
-OW_area <- OW_area %>% 
+### Br_Ib
+Br_Ib_area <- Br_Ib_area %>% 
   select(-mean_RT) %>% 
   t %>% 
   as.data.frame()
-str(OW_area)
+str(Br_Ib_area)
 
-OW_RT <- OW_RT %>% 
+Br_Ib_RT <- Br_Ib_RT %>% 
   select(-mean_RT) %>% 
   t %>% 
   as.data.frame()
-str(OW_RT)
+str(Br_Ib_RT)
+
+### Wu_Ca
+Wu_Ca_area <- Wu_Ca_area %>% 
+  select(-mean_RT) %>% 
+  t %>% 
+  as.data.frame()
+str(Wu_Ca_area)
+
+Wu_Ca_RT <- Wu_Ca_RT %>% 
+  select(-mean_RT) %>% 
+  t %>% 
+  as.data.frame()
+str(Wu_Ca_RT)
+
+### Wu_Ib_0322
+Wu_Ib_0322_area <- Wu_Ib_0322_area %>% 
+  select(-mean_RT) %>% 
+  t %>% 
+  as.data.frame()
+str(Wu_Ib_0322_area)
+
+Wu_Ib_0322_RT <- Wu_Ib_0322_RT %>% 
+  select(-mean_RT) %>% 
+  t %>% 
+  as.data.frame()
+str(Wu_Ib_0322_RT)
+
+### Wu_Ib_0422
+Wu_Ib_0422_area <- Wu_Ib_0422_area %>% 
+  select(-mean_RT) %>% 
+  t %>% 
+  as.data.frame()
+str(Wu_Ib_0422_area)
+
+Wu_Ib_0422_RT <- Wu_Ib_0422_RT %>% 
+  select(-mean_RT) %>% 
+  t %>% 
+  as.data.frame()
+str(Wu_Ib_0422_RT)
+
+### STD_0322
+STD_0322_area <- STD_0322_area %>% 
+  select(-mean_RT) %>% 
+  t %>% 
+  as.data.frame()
+str(STD_0322_area)
+
+STD_0322_RT <- STD_0322_RT %>% 
+  select(-mean_RT) %>% 
+  t %>% 
+  as.data.frame()
+str(STD_0322_RT)
+
+### STD_0422
+STD_0422_area <- STD_0422_area %>% 
+  select(-mean_RT) %>% 
+  t %>% 
+  as.data.frame()
+str(STD_0422_area)
+
+STD_0422_RT <- STD_0422_RT %>% 
+  select(-mean_RT) %>% 
+  t %>% 
+  as.data.frame()
+str(STD_0422_RT)
 
 ## Peaks movement instructions ####
 ### Create data frames to guide the modifications of each sample
-#### samples ####
-movements_samples350 <- data.frame(peaks_list = c(paste0("P"
-                                                         , c(106, 107, 124)))
-                                   , movement_dirs = c('up', 'up', 'up'))
-str(movements_samples350)
+#### Br_Ca ####
+movements_Br_Ca194 <- data.frame(peaks_list = c(paste0("P"
+                                                         , c(124)))
+                                   , movement_dirs = c('up'))
+str(movements_Br_Ca194)
 
-movements_samples351 <- data.frame(peaks_list = c(paste0("P"
-                                                         , c(106, 107, 124)))
-                                   , movement_dirs = c('up','up','up'))
-str(movements_samples351)
+movements_Br_Ca197<- data.frame(peaks_list = c(paste0("P"
+                                                       , c(124)))
+                                 , movement_dirs = c('up'))
+str(movements_Br_Ca197)
 
-movements_samples352 <- data.frame(peaks_list = c(paste0("P"
-                                                         , c(106, 107, 124, 148)))
-                                   , movement_dirs = c('up','up','up','up'))
-str(movements_samples352)
+#### Wu_Ca ####
+movements_Wu_Ca63 <- data.frame(peaks_list = c(paste0("P"
+                                                       , c(198)))
+                                 , movement_dirs = c('up'))
+str(movements_Wu_Ca63)
 
-movements_samples354 <- data.frame(peaks_list =  'P144'
-                                   , movement_dirs = 'up')
-str(movements_samples354)
+movements_Wu_Ca64<- data.frame(peaks_list = c(paste0("P"
+                                                      , c(198)))
+                                , movement_dirs = c('up'))
+str(movements_Wu_Ca64)
 
-#### OW ####
-movements_OW328 <- data.frame(peaks_list = c(paste0("P"
-                                                    , c(26, 35, 85, 124, 128)))
-                              , movement_dirs = c('up', 'up', 'up', 'up', 'up'))
-str(movements_OW328)
+movements_Wu_Ca87<- data.frame(peaks_list = c(paste0("P"
+                                                     , c(198)))
+                               , movement_dirs = c('up'))
+str(movements_Wu_Ca87)
 
-movements_OW331 <- data.frame(peaks_list = c(paste0("P"
-                                                    , c(85, 128)))
-                              , movement_dirs = c('up', 'up'))
-str(movements_OW331)
+movements_Wu_Ca94<- data.frame(peaks_list = c(paste0("P"
+                                                     , c(198)))
+                               , movement_dirs = c('up'))
+str(movements_Wu_Ca94)
 
-movements_OW333 <- data.frame(peaks_list = c(paste0("P"
-                                                    , c(52, 128)))
-                              , movement_dirs = c('up', 'up'))
-str(movements_OW333)
+movements_Wu_Ca166<- data.frame(peaks_list = c(paste0("P"
+                                                     , c(198)))
+                               , movement_dirs = c('up'))
+str(movements_Wu_Ca166)
 
-movements_OW337 <- data.frame(peaks_list = c(paste0("P"
-                                                    , c(26, 52, 128)))
-                              , movement_dirs = c('up', 'up', 'up'))
-str(movements_OW337)
+#### STD_0422 ####
+movements_STD_0422_L2204_2 <- data.frame(peaks_list = c(paste0("P"
+                                                      , c(8, 87, 105)))
+                                , movement_dirs = c('up', 'up', 'up'))
+str(movements_STD_0422_L2204_2)
 
-movements_OW338 <- data.frame(peaks_list = c(paste0("P"
-                                                    , c(52)))
-                              , movement_dirs = c('up'))
-str(movements_OW338)
+movements_STD_0422_H2204_2<- data.frame(peaks_list = c(paste0("P"
+                                                     , c(113, 115, 127, 135
+                                                     , 144, 165, 184
+                                                     , 187, 189, 192)))
+                               , movement_dirs = c('up', 'up', 'up', 'up'
+                                                 , 'up', 'up', 'up', 'up'
+                                                 , 'up', 'up'))
+str(movements_STD_0422_H2204_2)
 
-movements_OW341 <- data.frame(peaks_list = c(paste0("P"
-                                                    , c(52, 124, 128)))
-                              , movement_dirs = c('up','up','up'))
-str(movements_OW341)
 
-movements_OW345 <- data.frame(peaks_list = c(paste0("P"
-                                                    , c(106, 107)))
-                              , movement_dirs = c('up', 'up'))
-str(movements_OW345)
+
+
+
+
 
 ## Move peaks within samples to correct alignments ####
 ### The function move_peaks() displaces the specified peaks of a sample 
 ### by one position up (previous table peak)/down (later table peak)
 ### It has to be applied to both RT and area data frames
-### samples ####
-# Sample 350
-samples_RT <- move_peaks(samples_RT
-                         , Sample = '350'
-                         , peaks_list = movements_samples350 %>%
+### Br_Ca ####
+# Sample 194
+Br_Ca_RT <- move_peaks(Br_Ca_RT
+                         , Sample = '194'
+                         , peaks_list = movements_Br_Ca194 %>%
                            pull(peaks_list)
-                         , movement_dirs = movements_samples350 %>%
+                         , movement_dirs = movements_Br_Ca194 %>%
                            pull(movement_dirs))
-samples_area <- move_peaks(samples_area
-                           , Sample = '350'
-                           , peaks_list = movements_samples350 %>%
+Br_Ca_area <- move_peaks(Br_Ca_area
+                           , Sample = '194'
+                           , peaks_list = movements_Br_Ca194 %>%
                              pull(peaks_list)
-                           , movement_dirs = movements_samples350 %>%
+                           , movement_dirs = movements_Br_Ca194 %>%
                              pull(movement_dirs))
 
-# Sample 351
-samples_RT <- move_peaks(samples_RT
-                         , Sample = '351'
-                         , peaks_list = movements_samples351 %>%
+# Sample 197
+Br_Ca_RT <- move_peaks(Br_Ca_RT
+                       , Sample = '197'
+                       , peaks_list = movements_Br_Ca197 %>%
+                         pull(peaks_list)
+                       , movement_dirs = movements_Br_Ca197 %>%
+                         pull(movement_dirs))
+Br_Ca_area <- move_peaks(Br_Ca_area
+                         , Sample = '197'
+                         , peaks_list = movements_Br_Ca197 %>%
                            pull(peaks_list)
-                         , movement_dirs = movements_samples351 %>%
+                         , movement_dirs = movements_Br_Ca197 %>%
                            pull(movement_dirs))
-samples_area <- move_peaks(samples_area
-                           , Sample = '351'
-                           , peaks_list = movements_samples351 %>%
-                             pull(peaks_list)
-                           , movement_dirs = movements_samples351 %>%
-                             pull(movement_dirs))
 
-# Sample 352
-samples_RT <- move_peaks(samples_RT
-                         , Sample = '352'
-                         , peaks_list = movements_samples352 %>%
+### Wu_Ca ####
+# Sample 63
+Wu_Ca_RT <- move_peaks(Wu_Ca_RT
+                       , Sample = '63'
+                       , peaks_list = movements_Wu_Ca63 %>%
+                         pull(peaks_list)
+                       , movement_dirs = movements_Wu_Ca63 %>%
+                         pull(movement_dirs))
+Wu_Ca_area <- move_peaks(Wu_Ca_area
+                         , Sample = '63'
+                         , peaks_list = movements_Wu_Ca63 %>%
                            pull(peaks_list)
-                         , movement_dirs = movements_samples352 %>%
+                         , movement_dirs = movements_Wu_Ca63 %>%
                            pull(movement_dirs))
-samples_area <- move_peaks(samples_area
-                           , Sample = '352'
-                           , peaks_list = movements_samples352 %>%
-                             pull(peaks_list)
-                           , movement_dirs = movements_samples352 %>%
-                             pull(movement_dirs))
 
-# Sample 354
-samples_RT <- move_peaks(samples_RT
-                         , Sample = '354'
-                         , peaks_list = movements_samples354 %>%
+# Sample 64
+Wu_Ca_RT <- move_peaks(Wu_Ca_RT
+                       , Sample = '64'
+                       , peaks_list = movements_Wu_Ca64 %>%
+                         pull(peaks_list)
+                       , movement_dirs = movements_Wu_Ca64 %>%
+                         pull(movement_dirs))
+Wu_Ca_area <- move_peaks(Wu_Ca_area
+                         , Sample = '64'
+                         , peaks_list = movements_Wu_Ca64 %>%
                            pull(peaks_list)
-                         , movement_dirs = movements_samples354 %>%
+                         , movement_dirs = movements_Wu_Ca64 %>%
                            pull(movement_dirs))
-samples_area <- move_peaks(samples_area
-                           , Sample = '354'
-                           , peaks_list = movements_samples354 %>%
-                             pull(peaks_list)
-                           , movement_dirs = movements_samples354 %>%
-                             pull(movement_dirs))
+
+# Sample 87
+Wu_Ca_RT <- move_peaks(Wu_Ca_RT
+                       , Sample = '87'
+                       , peaks_list = movements_Wu_Ca87 %>%
+                         pull(peaks_list)
+                       , movement_dirs = movements_Wu_Ca87 %>%
+                         pull(movement_dirs))
+Wu_Ca_area <- move_peaks(Wu_Ca_area
+                         , Sample = '87'
+                         , peaks_list = movements_Wu_Ca87 %>%
+                           pull(peaks_list)
+                         , movement_dirs = movements_Wu_Ca87 %>%
+                           pull(movement_dirs))
+
 
 ### OW ####
 # Sample 328
