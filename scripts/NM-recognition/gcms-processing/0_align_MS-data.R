@@ -488,3 +488,6 @@ gc_heatmap(aligned_STD_0422_data_list
 dev.off()
 print("Diagnostic plots for the alignments were exported")
 
+capture.output(sessionInfo()
+               , file = here("output", "NM-recognition", "SInf_Script02.txt"))
+print("The sessionInfo report was exported. The script 02 finished running")

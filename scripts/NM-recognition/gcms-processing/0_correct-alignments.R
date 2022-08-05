@@ -170,12 +170,6 @@ Wu_Ib_0422_RT <- Wu_Ib_0422_RT %>%
 str(Wu_Ib_0422_RT)
 
 ### STD_0322
-STD_0322_area <- STD_0322_area %>% 
-  select(-mean_RT) %>% 
-  t %>% 
-  as.data.frame()
-str(STD_0322_area)
-
 STD_0322_RT <- STD_0322_RT %>% 
   select(-mean_RT) %>% 
   t %>% 
@@ -183,12 +177,6 @@ STD_0322_RT <- STD_0322_RT %>%
 str(STD_0322_RT)
 
 ### STD_0422
-STD_0422_area <- STD_0422_area %>% 
-  select(-mean_RT) %>% 
-  t %>% 
-  as.data.frame()
-str(STD_0422_area)
-
 STD_0422_RT <- STD_0422_RT %>% 
   select(-mean_RT) %>% 
   t %>% 
@@ -243,10 +231,10 @@ str(movements_STD_0422_L2204_2)
 movements_STD_0422_H2204_2<- data.frame(peaks_list = c(paste0("P"
                                                      , c(113, 115, 127, 135
                                                      , 144, 165, 184
-                                                     , 187, 189, 192)))
+                                                     , 187, 189)))
                                , movement_dirs = c('up', 'up', 'up', 'up'
                                                  , 'up', 'up', 'up', 'up'
-                                                 , 'up', 'up'))
+                                                 , 'up'))
 str(movements_STD_0422_H2204_2)
 
 
@@ -262,13 +250,13 @@ str(movements_STD_0422_H2204_2)
 ### Br_Ca ####
 # Sample 194
 Br_Ca_RT <- move_peaks(Br_Ca_RT
-                         , Sample = '194'
+                         , Sample = 'NM_194'
                          , peaks_list = movements_Br_Ca194 %>%
                            pull(peaks_list)
                          , movement_dirs = movements_Br_Ca194 %>%
                            pull(movement_dirs))
 Br_Ca_area <- move_peaks(Br_Ca_area
-                           , Sample = '194'
+                           , Sample = 'NM_194'
                            , peaks_list = movements_Br_Ca194 %>%
                              pull(peaks_list)
                            , movement_dirs = movements_Br_Ca194 %>%
@@ -276,13 +264,13 @@ Br_Ca_area <- move_peaks(Br_Ca_area
 
 # Sample 197
 Br_Ca_RT <- move_peaks(Br_Ca_RT
-                       , Sample = '197'
+                       , Sample = 'NM_197'
                        , peaks_list = movements_Br_Ca197 %>%
                          pull(peaks_list)
                        , movement_dirs = movements_Br_Ca197 %>%
                          pull(movement_dirs))
 Br_Ca_area <- move_peaks(Br_Ca_area
-                         , Sample = '197'
+                         , Sample = 'NM_197'
                          , peaks_list = movements_Br_Ca197 %>%
                            pull(peaks_list)
                          , movement_dirs = movements_Br_Ca197 %>%
@@ -291,13 +279,13 @@ Br_Ca_area <- move_peaks(Br_Ca_area
 ### Wu_Ca ####
 # Sample 63
 Wu_Ca_RT <- move_peaks(Wu_Ca_RT
-                       , Sample = '63'
+                       , Sample = 'NM_063_1'
                        , peaks_list = movements_Wu_Ca63 %>%
                          pull(peaks_list)
                        , movement_dirs = movements_Wu_Ca63 %>%
                          pull(movement_dirs))
 Wu_Ca_area <- move_peaks(Wu_Ca_area
-                         , Sample = '63'
+                         , Sample = 'NM_063_1'
                          , peaks_list = movements_Wu_Ca63 %>%
                            pull(peaks_list)
                          , movement_dirs = movements_Wu_Ca63 %>%
@@ -305,13 +293,13 @@ Wu_Ca_area <- move_peaks(Wu_Ca_area
 
 # Sample 64
 Wu_Ca_RT <- move_peaks(Wu_Ca_RT
-                       , Sample = '64'
+                       , Sample = 'NM_064_1'
                        , peaks_list = movements_Wu_Ca64 %>%
                          pull(peaks_list)
                        , movement_dirs = movements_Wu_Ca64 %>%
                          pull(movement_dirs))
 Wu_Ca_area <- move_peaks(Wu_Ca_area
-                         , Sample = '64'
+                         , Sample = 'NM_064_1'
                          , peaks_list = movements_Wu_Ca64 %>%
                            pull(peaks_list)
                          , movement_dirs = movements_Wu_Ca64 %>%
@@ -319,135 +307,91 @@ Wu_Ca_area <- move_peaks(Wu_Ca_area
 
 # Sample 87
 Wu_Ca_RT <- move_peaks(Wu_Ca_RT
-                       , Sample = '87'
+                       , Sample = 'NM_087'
                        , peaks_list = movements_Wu_Ca87 %>%
                          pull(peaks_list)
                        , movement_dirs = movements_Wu_Ca87 %>%
                          pull(movement_dirs))
 Wu_Ca_area <- move_peaks(Wu_Ca_area
-                         , Sample = '87'
+                         , Sample = 'NM_087'
                          , peaks_list = movements_Wu_Ca87 %>%
                            pull(peaks_list)
                          , movement_dirs = movements_Wu_Ca87 %>%
                            pull(movement_dirs))
 
+# Sample 94
+Wu_Ca_RT <- move_peaks(Wu_Ca_RT
+                       , Sample = 'NM_094'
+                       , peaks_list = movements_Wu_Ca94 %>%
+                         pull(peaks_list)
+                       , movement_dirs = movements_Wu_Ca94 %>%
+                         pull(movement_dirs))
+Wu_Ca_area <- move_peaks(Wu_Ca_area
+                         , Sample = 'NM_094'
+                         , peaks_list = movements_Wu_Ca94 %>%
+                           pull(peaks_list)
+                         , movement_dirs = movements_Wu_Ca94 %>%
+                           pull(movement_dirs))
 
-### OW ####
-# Sample 328
-OW_RT <- move_peaks(OW_RT
-                    , Sample = '328'
-                    , peaks_list = movements_OW328 %>% 
-                      pull(peaks_list)
-                    , movement_dirs = movements_OW328 %>%
-                      pull(movement_dirs))
-OW_area <- move_peaks(OW_area
-                      , Sample = '328'
-                      , peaks_list = movements_OW328 %>% 
-                        pull(peaks_list)
-                      , movement_dirs = movements_OW328 %>%
-                        pull(movement_dirs))
+# Sample 166
+Wu_Ca_RT <- move_peaks(Wu_Ca_RT
+                       , Sample = 'NM_166'
+                       , peaks_list = movements_Wu_Ca166 %>%
+                         pull(peaks_list)
+                       , movement_dirs = movements_Wu_Ca166 %>%
+                         pull(movement_dirs))
+Wu_Ca_area <- move_peaks(Wu_Ca_area
+                         , Sample = 'NM_166'
+                         , peaks_list = movements_Wu_Ca166 %>%
+                           pull(peaks_list)
+                         , movement_dirs = movements_Wu_Ca166 %>%
+                           pull(movement_dirs))
+### STD_0422 ####
+# Sample L_SSL_2204_2
+STD_0422_RT <- move_peaks(STD_0422_RT
+                       , Sample = 'L_SSL_2204_2'
+                       , peaks_list = movements_STD_0422_L2204_2 %>%
+                         pull(peaks_list)
+                       , movement_dirs = movements_STD_0422_L2204_2 %>%
+                         pull(movement_dirs))
 
-# Sample 331
-OW_RT <- move_peaks(OW_RT
-                    , Sample = '331'
-                    , peaks_list = movements_OW331 %>% 
-                      pull(peaks_list)
-                    , movement_dirs = movements_OW331 %>%
-                      pull(movement_dirs))
-OW_area <- move_peaks(OW_area
-                      , Sample = '331'
-                      , peaks_list = movements_OW331 %>% 
-                        pull(peaks_list)
-                      , movement_dirs = movements_OW331 %>%
-                        pull(movement_dirs))
-
-# Sample 333
-OW_RT <- move_peaks(OW_RT
-                    , Sample = '333'
-                    , peaks_list = movements_OW333 %>% 
-                      pull(peaks_list)
-                    , movement_dirs = movements_OW333 %>%
-                      pull(movement_dirs))
-OW_area <- move_peaks(OW_area
-                      , Sample = '333'
-                      , peaks_list = movements_OW333 %>% 
-                        pull(peaks_list)
-                      , movement_dirs = movements_OW333 %>%
-                        pull(movement_dirs))
-
-# Sample 337
-OW_RT <- move_peaks(OW_RT
-                    , Sample = '337'
-                    , peaks_list = movements_OW337 %>% 
-                      pull(peaks_list)
-                    , movement_dirs = movements_OW337 %>%
-                      pull(movement_dirs))
-OW_area <- move_peaks(OW_area
-                      , Sample = '337'
-                      , peaks_list = movements_OW337 %>% 
-                        pull(peaks_list)
-                      , movement_dirs = movements_OW337 %>%
-                        pull(movement_dirs))
-
-# Sample 338
-OW_RT <- move_peaks(OW_RT
-                    , Sample = '338'
-                    , peaks_list = movements_OW338 %>% 
-                      pull(peaks_list)
-                    , movement_dirs = movements_OW338 %>%
-                      pull(movement_dirs))
-OW_area <- move_peaks(OW_area
-                      , Sample = '338'
-                      , peaks_list = movements_OW338 %>% 
-                        pull(peaks_list)
-                      , movement_dirs = movements_OW338 %>%
-                        pull(movement_dirs))
-
-# Sample 341
-OW_RT <- move_peaks(OW_RT
-                    , Sample = '341'
-                    , peaks_list = movements_OW341 %>%
-                      pull(peaks_list)
-                    , movement_dirs = movements_OW341 %>%
-                      pull(movement_dirs))
-OW_area <- move_peaks(OW_area
-                      , Sample = '341'
-                      , peaks_list = movements_OW341 %>%
-                        pull(peaks_list)
-                      , movement_dirs = movements_OW341 %>%
-                        pull(movement_dirs))
-
-
-# Sample 345
-OW_RT <- move_peaks(OW_RT
-                    , Sample = '345'
-                    , peaks_list = movements_OW345 %>%
-                      pull(peaks_list)
-                    , movement_dirs = movements_OW345 %>%
-                      pull(movement_dirs))
-OW_area <- move_peaks(OW_area
-                      , Sample = '345'
-                      , peaks_list = movements_OW345 %>%
-                        pull(peaks_list)
-                      , movement_dirs = movements_OW345 %>%
-                        pull(movement_dirs))
+# Sample H_SSL_2204_2
+STD_0422_RT <- move_peaks(STD_0422_RT
+                          , Sample = 'H_SSL_2204_2'
+                          , peaks_list = movements_STD_0422_H2204_2 %>%
+                            pull(peaks_list)
+                          , movement_dirs = movements_STD_0422_H2204_2 %>%
+                            pull(movement_dirs))
 
 print("Alignment was corrected. Check heat map to verify that it is correct.")
 
 # Check the corrected alignment ----
 # This is done with the clustered heat map
 ## Data set with relative abundance of each peak (%)\
-### samples
-samples_per <- samples_area / rowSums(samples_area) * 100
+### Br_Ca
+Br_Ca_per <- Br_Ca_area / rowSums(Br_Ca_area) * 100
 
-### OW
-OW_per <- OW_area / rowSums(OW_area) * 100
+### Br_Ib
+Br_Ib_per <- Br_Ib_area / rowSums(Br_Ib_area) * 100
+
+### Wu_Ca
+Wu_Ca_per <- Wu_Ca_area / rowSums(Wu_Ca_area) * 100
+
+### Wu_Ib_0322
+Wu_Ib_0322_per <- Wu_Ib_0322_area / rowSums(Wu_Ib_0322_area) * 100
+
+### Wu_Ib_0422
+Wu_Ib_0422_per <- Wu_Ib_0422_area / rowSums(Wu_Ib_0422_area) * 100
+
+#### Set color palette
+heatmap_colors <- viridis::turbo(200)
 
 # set.seed(12345)
-pdf(here("output", 'corrected-alginment_heatmap.pdf')
+pdf(here("output", "NM-Recognition", 'corrected-alginment_heatmap.pdf')
     , width = 20, height = 10)
-{gplots::heatmap.2(as.matrix(samples_per %>% log1p()), 
-                   main = "Clustering of in-hive workers CHC",
+{gplots::heatmap.2(as.matrix(Br_Ca_per %>% log1p()), 
+                   #Rowv = F,
+                   main = "Clustering of Braganza Carnica honeybee workers CHC",
                    srtCol = 90,
                    dendrogram = "row",
                    # Rowv = dend,
@@ -459,8 +403,10 @@ pdf(here("output", 'corrected-alginment_heatmap.pdf')
                    #density.info = "density",
                    # RowSideColors = microlab, # to add nice colored strips        
                    col = heatmap_colors)}
-{gplots::heatmap.2(as.matrix(OW_per %>% log1p()), 
-                   main = "Clustering of out-hive workers CHC",
+
+{gplots::heatmap.2(as.matrix(Br_Ib_per %>% log1p()), 
+                   main = "Clustering of Braganza Iberiensis honeybee workers 
+                   CHC",
                    srtCol = 90,
                    dendrogram = "row",
                    # Rowv = dend,
@@ -472,131 +418,420 @@ pdf(here("output", 'corrected-alginment_heatmap.pdf')
                    #density.info = "density",
                    # RowSideColors = microlab, # to add nice colored strips        
                    col = heatmap_colors)}
+
+{gplots::heatmap.2(as.matrix(Wu_Ca_per %>% log1p()), 
+                   main = "Clustering of Wuerzburg Carnica honeybee workers 
+                   CHC",
+                   srtCol = 90,
+                   dendrogram = "row",
+                   # Rowv = dend,
+                   Colv = "NA", # this to make sure the columns are not ordered
+                   trace = "none",          
+                   # margins =c(5,0.1),      
+                   key.xlab = "Relative abundance (%) on Cuticle",
+                   #denscol = "grey",
+                   #density.info = "density",
+                   # RowSideColors = microlab, # to add nice colored strips        
+                   col = heatmap_colors)}
+
+{gplots::heatmap.2(as.matrix(Wu_Ib_0322_per %>% log1p()), 
+                   main = "Clustering of Wuerzburg Iberiensis (03/22) honeybee 
+                   workers CHC",
+                   srtCol = 90,
+                   dendrogram = "row",
+                   # Rowv = dend,
+                   Colv = "NA", # this to make sure the columns are not ordered
+                   trace = "none",          
+                   # margins =c(5,0.1),      
+                   key.xlab = "Relative abundance (%) on Cuticle",
+                   #denscol = "grey",
+                   #density.info = "density",
+                   # RowSideColors = microlab, # to add nice colored strips        
+                   col = heatmap_colors)}
+
+{gplots::heatmap.2(as.matrix(Wu_Ib_0422_per %>% log1p()), 
+                   main = "Clustering of Wuerzburg Iberiensis (04/22) honeybee 
+                   workers CHC",
+                   srtCol = 90,
+                   dendrogram = "row",
+                   # Rowv = dend,
+                   Colv = "NA", # this to make sure the columns are not ordered
+                   trace = "none",          
+                   # margins =c(5,0.1),      
+                   key.xlab = "Relative abundance (%) on Cuticle",
+                   #denscol = "grey",
+                   #density.info = "density",
+                   # RowSideColors = microlab, # to add nice colored strips        
+                   col = heatmap_colors)}
+# 
+# 
+# {gplots::heatmap.2(as.matrix(STD_0322_per %>% log1p()), 
+#                    main = "Clustering of standard alkanes from 03/22", 
+#                    srtCol = 90,
+#                    dendrogram = "row",
+#                    # Rowv = dend,
+#                    Colv = "NA", # this to make sure the columns are not ordered
+#                    trace = "none",          
+#                    # margins =c(5,0.1),      
+#                    key.xlab = "Relative abundance (%) on Cuticle",
+#                    #denscol = "grey",
+#                    #density.info = "density",
+#                    # RowSideColors = microlab, # to add nice colored strips        
+#                    col = heatmap_colors)}
+# 
+# {gplots::heatmap.2(as.matrix(STD_0422_per %>% log1p()), 
+#                    main = "Clustering of standard alkanes from 04/22", 
+#                    srtCol = 90,
+#                    dendrogram = "row",
+#                    # Rowv = dend,
+#                    Colv = "NA", # this to make sure the columns are not ordered
+#                    trace = "none",          
+#                    # margins =c(5,0.1),      
+#                    key.xlab = "Relative abundance (%) on Cuticle",
+#                    #denscol = "grey",
+#                    #density.info = "density",
+#                    # RowSideColors = microlab, # to add nice colored strips        
+#                    col = heatmap_colors)}
 dev.off()
 print("Heat map to verify corrected alignment was exported")
 
 # Export the aligned data for CHC identification ----
 ## Drop empty columns
-### samples
-samples_RT <- samples_RT %>% 
-  select(-all_of(colnames(samples_RT[colSums(samples_RT) == 0])))
+### Br_Ca
+Br_Ca_RT <- Br_Ca_RT %>% 
+  select(-all_of(colnames(Br_Ca_RT[colSums(Br_Ca_RT) == 0])))
 
-samples_area <- samples_area %>% 
-  select(-all_of(colnames(samples_area[colSums(samples_area) == 0])))
+Br_Ca_area <- Br_Ca_area %>% 
+  select(-all_of(colnames(Br_Ca_area[colSums(Br_Ca_area) == 0])))
 
-samples_mean_RT <- samples_mean_RT %>% t %>% as.data.frame %>% 
-  select(all_of(colnames(samples_RT))) %>% t %>% as.data.frame
+Br_Ca_mean_RT <- Br_Ca_mean_RT %>% t %>% as.data.frame %>% 
+  select(all_of(colnames(Br_Ca_RT))) %>% t %>% as.data.frame
 
-### OW
-OW_RT <- OW_RT %>% 
-  select(-all_of(colnames(OW_RT[colSums(OW_RT) == 0])))
+### Br_Ib
+Br_Ib_RT <- Br_Ib_RT %>% 
+  select(-all_of(colnames(Br_Ib_RT[colSums(Br_Ib_RT) == 0])))
 
-OW_area <- OW_area %>% 
-  select(-all_of(colnames(OW_area[colSums(OW_area) == 0])))
+Br_Ib_area <- Br_Ib_area %>% 
+  select(-all_of(colnames(Br_Ib_area[colSums(Br_Ib_area) == 0])))
 
-OW_mean_RT <- OW_mean_RT %>% t %>% as.data.frame %>% 
-  select(all_of(colnames(OW_RT))) %>% t %>% as.data.frame
-OW_mean_RT
+Br_Ib_mean_RT <- Br_Ib_mean_RT %>% t %>% as.data.frame %>% 
+  select(all_of(colnames(Br_Ib_RT))) %>% t %>% as.data.frame
+
+### Wu_Ca
+Wu_Ca_RT <- Wu_Ca_RT %>% 
+  select(-all_of(colnames(Wu_Ca_RT[colSums(Wu_Ca_RT) == 0])))
+
+Wu_Ca_area <- Wu_Ca_area %>% 
+  select(-all_of(colnames(Wu_Ca_area[colSums(Wu_Ca_area) == 0])))
+
+Wu_Ca_mean_RT <- Wu_Ca_mean_RT %>% t %>% as.data.frame %>% 
+  select(all_of(colnames(Wu_Ca_RT))) %>% t %>% as.data.frame
+
+
+### Wu_Ib_0322
+Wu_Ib_0322_RT <- Wu_Ib_0322_RT %>% 
+  select(-all_of(colnames(Wu_Ib_0322_RT[colSums(Wu_Ib_0322_RT) == 0])))
+
+Wu_Ib_0322_area <- Wu_Ib_0322_area %>% 
+  select(-all_of(colnames(Wu_Ib_0322_area[colSums(Wu_Ib_0322_area) == 0])))
+
+Wu_Ib_0322_mean_RT <- Wu_Ib_0322_mean_RT %>% t %>% as.data.frame %>% 
+  select(all_of(colnames(Wu_Ib_0322_RT))) %>% t %>% as.data.frame
+
+### Wu_Ib_0422
+Wu_Ib_0422_RT <- Wu_Ib_0422_RT %>% 
+  select(-all_of(colnames(Wu_Ib_0422_RT[colSums(Wu_Ib_0422_RT) == 0])))
+
+Wu_Ib_0422_area <- Wu_Ib_0422_area %>% 
+  select(-all_of(colnames(Wu_Ib_0422_area[colSums(Wu_Ib_0422_area) == 0])))
+
+Wu_Ib_0422_mean_RT <- Wu_Ib_0422_mean_RT %>% t %>% as.data.frame %>% 
+  select(all_of(colnames(Wu_Ib_0422_RT))) %>% t %>% as.data.frame
+
+
+### STD_0322
+STD_0322_RT <- STD_0322_RT %>% 
+  select(-all_of(colnames(STD_0322_RT[colSums(STD_0322_RT) == 0])))
+
+STD_0322_mean_RT <- STD_0322_mean_RT %>% t %>% as.data.frame %>% 
+  select(all_of(colnames(STD_0322_RT))) %>% t %>% as.data.frame
+
+### STD_0422
+STD_0422_RT <- STD_0422_RT %>% 
+  select(-all_of(colnames(STD_0422_RT[colSums(STD_0422_RT) == 0])))
+
+STD_0422_mean_RT <- STD_0422_mean_RT %>% t %>% as.data.frame %>% 
+  select(all_of(colnames(STD_0422_RT))) %>% t %>% as.data.frame
+
 
 ## Recalculate the mean RT
-### samples
-samples_RT[samples_RT == 0] <- NA
-samples_mean_RT <- samples_mean_RT %>% 
+### Br_Ca
+Br_Ca_RT[Br_Ca_RT == 0] <- NA
+Br_Ca_mean_RT <- Br_Ca_mean_RT %>% 
   transmute(old_mean_RT = mean_RT) %>% 
-  mutate(new_mean_RT = samples_RT %>% colMeans(na.rm = T))
-### OW
-OW_RT[OW_RT == 0] <- NA
-OW_mean_RT <- OW_mean_RT %>% 
+  mutate(new_mean_RT = Br_Ca_RT %>% colMeans(na.rm = T))
+
+### Br_Ib
+Br_Ib_RT[Br_Ib_RT == 0] <- NA
+Br_Ib_mean_RT <- Br_Ib_mean_RT %>% 
   transmute(old_mean_RT = mean_RT) %>% 
-  mutate(new_mean_RT = OW_RT %>% colMeans(na.rm = T))
+  mutate(new_mean_RT = Br_Ib_RT %>% colMeans(na.rm = T))
+
+### Wu_Ca
+Wu_Ca_RT[Wu_Ca_RT == 0] <- NA
+Wu_Ca_mean_RT <- Wu_Ca_mean_RT %>% 
+  transmute(old_mean_RT = mean_RT) %>% 
+  mutate(new_mean_RT = Wu_Ca_RT %>% colMeans(na.rm = T))
+
+### Wu_Ib_0322
+Wu_Ib_0322_RT[Wu_Ib_0322_RT == 0] <- NA
+Wu_Ib_0322_mean_RT <- Wu_Ib_0322_mean_RT %>% 
+  transmute(old_mean_RT = mean_RT) %>% 
+  mutate(new_mean_RT = Wu_Ib_0322_RT %>% colMeans(na.rm = T))
+
+### Wu_Ib_0422
+Wu_Ib_0422_RT[Wu_Ib_0422_RT == 0] <- NA
+Wu_Ib_0422_mean_RT <- Wu_Ib_0422_mean_RT %>% 
+  transmute(old_mean_RT = mean_RT) %>% 
+  mutate(new_mean_RT = Wu_Ib_0422_RT %>% colMeans(na.rm = T))
+
+### STD_0422
+STD_0422_RT[STD_0422_RT == 0] <- NA
+STD_0422_mean_RT <- STD_0422_mean_RT %>% 
+  transmute(old_mean_RT = mean_RT) %>% 
+  mutate(new_mean_RT = STD_0422_RT %>% colMeans(na.rm = T))
+
+
+### STD_0322
+STD_0322_RT[STD_0322_RT == 0] <- NA
+STD_0322_mean_RT <- STD_0322_mean_RT %>% 
+  transmute(old_mean_RT = mean_RT) %>% 
+  mutate(new_mean_RT = STD_0322_RT %>% colMeans(na.rm = T))
 
 ## re-shape data frames before exporting them
-### samples
-samples_RT <- cbind.data.frame(Peak = row.names(samples_mean_RT)
-                               , mean_RT = samples_mean_RT$new_mean_RT
-                               # Place samples as columns
-                               , samples_RT %>%
+### Br_Ca
+Br_Ca_RT <- cbind.data.frame(Peak = row.names(Br_Ca_mean_RT)
+                               , mean_RT = Br_Ca_mean_RT$new_mean_RT
+                               # Place Br_Ca as columns
+                               , Br_Ca_RT %>%
                                  t %>% 
                                  as.data.frame %>% 
                                  # Order them in descending order
                                  # , regarding their total abundance
-                                 select(all_of(samples_area %>% 
+                                 select(all_of(Br_Ca_area %>% 
                                                  rowSums() %>% 
                                                  sort(decreasing = T) %>%
                                                  names()))) %>%
   as_tibble()
-samples_RT
+Br_Ca_RT
 
-samples_area <- cbind.data.frame(Peak = row.names(samples_mean_RT)
-                                 , mean_RT = samples_mean_RT$new_mean_RT
-                                 # Place samples as columns
-                                 , samples_area %>%
+Br_Ca_area <- cbind.data.frame(Peak = row.names(Br_Ca_mean_RT)
+                                 , mean_RT = Br_Ca_mean_RT$new_mean_RT
+                                 # Place Br_Ca as columns
+                                 , Br_Ca_area %>%
                                    t %>% 
                                    as.data.frame %>% 
                                    # Order them in descending order
                                    # , regarding their total abundance
-                                   select(all_of(samples_area %>% 
+                                   select(all_of(Br_Ca_area %>% 
                                                    rowSums() %>% 
                                                    sort(decreasing = T) %>%
                                                    names()))) %>%
   as_tibble()
-samples_area
+Br_Ca_area
 
-### OW
-OW_RT <- cbind.data.frame(Peak = row.names(OW_mean_RT)
-                          , mean_RT = OW_mean_RT$new_mean_RT
-                          # Place samples as columns
-                          , OW_RT %>%
-                            t %>% 
-                            as.data.frame %>% 
-                            # Order them in descending order
-                            # , regarding their total abundance
-                            select(all_of(OW_area %>% 
-                                            rowSums() %>% 
-                                            sort(decreasing = T) %>%
-                                            names()))) %>%
+### Br_Ib
+Br_Ib_RT <- cbind.data.frame(Peak = row.names(Br_Ib_mean_RT)
+                             , mean_RT = Br_Ib_mean_RT$new_mean_RT
+                             # Place Br_Ib as columns
+                             , Br_Ib_RT %>%
+                               t %>% 
+                               as.data.frame %>% 
+                               # Order them in descending order
+                               # , regarding their total abundance
+                               select(all_of(Br_Ib_area %>% 
+                                               rowSums() %>% 
+                                               sort(decreasing = T) %>%
+                                               names()))) %>%
   as_tibble()
-OW_RT
+Br_Ib_RT
 
-OW_area <- cbind.data.frame(Peak = row.names(OW_mean_RT)
-                            , mean_RT = OW_mean_RT$new_mean_RT
-                            # Place samples as columns
-                            , OW_area %>%
-                              t %>% 
-                              as.data.frame %>% 
-                              # Order them in descending order
-                              # , regarding their total abundance
-                              select(all_of(OW_area %>% 
-                                              rowSums() %>% 
-                                              sort(decreasing = T) %>%
-                                              names()))) %>%
+Br_Ib_area <- cbind.data.frame(Peak = row.names(Br_Ib_mean_RT)
+                               , mean_RT = Br_Ib_mean_RT$new_mean_RT
+                               # Place Br_Ib as columns
+                               , Br_Ib_area %>%
+                                 t %>% 
+                                 as.data.frame %>% 
+                                 # Order them in descending order
+                                 # , regarding their total abundance
+                                 select(all_of(Br_Ib_area %>% 
+                                                 rowSums() %>% 
+                                                 sort(decreasing = T) %>%
+                                                 names()))) %>%
   as_tibble()
-OW_area
+Br_Ib_area
+
+### Wu_Ca
+Wu_Ca_RT <- cbind.data.frame(Peak = row.names(Wu_Ca_mean_RT)
+                             , mean_RT = Wu_Ca_mean_RT$new_mean_RT
+                             # Place Wu_Ca as columns
+                             , Wu_Ca_RT %>%
+                               t %>% 
+                               as.data.frame %>% 
+                               # Order them in descending order
+                               # , regarding their total abundance
+                               select(all_of(Wu_Ca_area %>% 
+                                               rowSums() %>% 
+                                               sort(decreasing = T) %>%
+                                               names()))) %>%
+  as_tibble()
+Wu_Ca_RT
+
+Wu_Ca_area <- cbind.data.frame(Peak = row.names(Wu_Ca_mean_RT)
+                               , mean_RT = Wu_Ca_mean_RT$new_mean_RT
+                               # Place Wu_Ca as columns
+                               , Wu_Ca_area %>%
+                                 t %>% 
+                                 as.data.frame %>% 
+                                 # Order them in descending order
+                                 # , regarding their total abundance
+                                 select(all_of(Wu_Ca_area %>% 
+                                                 rowSums() %>% 
+                                                 sort(decreasing = T) %>%
+                                                 names()))) %>%
+  as_tibble()
+Wu_Ca_area
+
+### Wu_Ib_0322
+Wu_Ib_0322_RT <- cbind.data.frame(Peak = row.names(Wu_Ib_0322_mean_RT)
+                             , mean_RT = Wu_Ib_0322_mean_RT$new_mean_RT
+                             # Place Wu_Ib_0322 as columns
+                             , Wu_Ib_0322_RT %>%
+                               t %>% 
+                               as.data.frame %>% 
+                               # Order them in descending order
+                               # , regarding their total abundance
+                               select(all_of(Wu_Ib_0322_area %>% 
+                                               rowSums() %>% 
+                                               sort(decreasing = T) %>%
+                                               names()))) %>%
+  as_tibble()
+Wu_Ib_0322_RT
+
+Wu_Ib_0322_area <- cbind.data.frame(Peak = row.names(Wu_Ib_0322_mean_RT)
+                               , mean_RT = Wu_Ib_0322_mean_RT$new_mean_RT
+                               # Place Wu_Ib_0322 as columns
+                               , Wu_Ib_0322_area %>%
+                                 t %>% 
+                                 as.data.frame %>% 
+                                 # Order them in descending order
+                                 # , regarding their total abundance
+                                 select(all_of(Wu_Ib_0322_area %>% 
+                                                 rowSums() %>% 
+                                                 sort(decreasing = T) %>%
+                                                 names()))) %>%
+  as_tibble()
+Wu_Ib_0322_area
+
+### Wu_Ib_0422
+Wu_Ib_0422_RT <- cbind.data.frame(Peak = row.names(Wu_Ib_0422_mean_RT)
+                             , mean_RT = Wu_Ib_0422_mean_RT$new_mean_RT
+                             # Place Wu_Ib_0422 as columns
+                             , Wu_Ib_0422_RT %>%
+                               t %>% 
+                               as.data.frame %>% 
+                               # Order them in descending order
+                               # , regarding their total abundance
+                               select(all_of(Wu_Ib_0422_area %>% 
+                                               rowSums() %>% 
+                                               sort(decreasing = T) %>%
+                                               names()))) %>%
+  as_tibble()
+Wu_Ib_0422_RT
+
+Wu_Ib_0422_area <- cbind.data.frame(Peak = row.names(Wu_Ib_0422_mean_RT)
+                               , mean_RT = Wu_Ib_0422_mean_RT$new_mean_RT
+                               # Place Wu_Ib_0422 as columns
+                               , Wu_Ib_0422_area %>%
+                                 t %>% 
+                                 as.data.frame %>% 
+                                 # Order them in descending order
+                                 # , regarding their total abundance
+                                 select(all_of(Wu_Ib_0422_area %>% 
+                                                 rowSums() %>% 
+                                                 sort(decreasing = T) %>%
+                                                 names()))) %>%
+  as_tibble()
+Wu_Ib_0422_area
+
+### STD_0422
+STD_0422_RT <- cbind.data.frame(Peak = row.names(STD_0422_mean_RT)
+                             , mean_RT = STD_0422_mean_RT$new_mean_RT
+                             # Place STD_0422 as columns
+                             , STD_0422_RT %>%
+                               t %>% 
+                               as.data.frame) %>% 
+  as_tibble()
+STD_0422_RT
+
+
+### STD_0322
+STD_0322_RT <- cbind.data.frame(Peak = row.names(STD_0322_mean_RT)
+                             , mean_RT = STD_0322_mean_RT$new_mean_RT
+                             # Place STD_0322 as columns
+                             , STD_0322_RT %>%
+                               t %>% 
+                               as.data.frame) %>%
+  as_tibble()
+STD_0322_RT
+
+
 
 ## Save the data frames 
-save(list = c("samples_area", "samples_RT", "OW_area", "OW_RT")
-     , file = here("AMelliMelli-CHC-data"
-                   , "processed", "aligned_gcms-data.Rdata"))
+save(list = c("Br_Ca_area", "Br_Ca_RT", "Br_Ib_area", "Br_Ib_RT"
+            , "Wu_Ca_area", "Wu_Ca_RT", "Wu_Ib_0322_area", "Wu_Ib_0322_RT"
+            , "Wu_Ib_0422_area", "Wu_Ib_0422_RT"
+            , "STD_0422_RT", "STD_0322_RT")
+     , file = here("data"
+                   , "processed", "NM-recognition", "aligned_gcms-data.Rdata"))
 print("The aligned data frames were exported")
 
-openxlsx::write.xlsx(samples_RT
-                     , here("AMelliMelli-CHC-data", "tmp", "samples_RT_table.xlsx"))
+openxlsx::write.xlsx(Br_Ca_RT
+                     , here("data", "raw", "NM-recognition"
+                            , "tmp", "Br_Ca_RT_table.xlsx"))
 
-openxlsx::write.xlsx(OW_RT
-                     , here("AMelliMelli-CHC-data", "tmp", "OW_RT_table.xlsx"))
+openxlsx::write.xlsx(Br_Ib_RT
+                     , here("data", "raw", "NM-recognition"
+                            , "tmp", "Br_Ib_RT_table.xlsx"))
 
+openxlsx::write.xlsx(Wu_Ca_RT
+                     , here("data", "raw", "NM-recognition"
+                            , "tmp", "Wu_Ca_RT_table.xlsx"))
 
-openxlsx::write.xlsx(STD_RT
-                     , here("AMelliMelli-CHC-data"
-                            , "tmp", "STD_RT_table.xlsx"))
+openxlsx::write.xlsx(Wu_Ib_0322_RT
+                     , here("data", "raw", "NM-recognition"
+                            , "tmp", "Wu_Ib_0322_RT_table.xlsx"))
+
+openxlsx::write.xlsx(Wu_Ib_0422_RT
+                     , here("data", "raw", "NM-recognition"
+                            , "tmp", "Wu_Ib_0422_RT_table.xlsx"))
+
+openxlsx::write.xlsx(STD_0422_RT
+                     , here("data", "raw", "NM-recognition"
+                            , "tmp", "STD_0422_RT_table.xlsx"))
+
+openxlsx::write.xlsx(STD_0322_RT
+                     , here("data", "raw", "NM-recognition"
+                            , "tmp", "STD_0322_RT_table.xlsx"))
+
 
 print("The RT tables for CHC identification was exported")
 
 # End ----
 ## Report session information
 capture.output(sessionInfo()
-               , file = here("output", "SInf_Script02.txt"))
-print("The sessionInfo report was exported. The script 02 finished running")
+               , file = here("output", "NM-recognition", "SInf_Script03.txt"))
+print("The sessionInfo report was exported. The script 03 finished running")
 
 # ## Detach/unload packages
 # lapply(NPacks, unloadNamespace)
