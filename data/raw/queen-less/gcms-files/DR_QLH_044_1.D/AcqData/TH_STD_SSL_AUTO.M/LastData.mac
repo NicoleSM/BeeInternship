@@ -1,0 +1,6 @@
+﻿Name LastDataFile
+  LastDataPath$ = "D:\MASSHUNTER\GCMS\1\DATA\" 
+  LastDataFile$ = "DR_QLH_043_1.D" 
+  LastDataSize  = 9023056
+  remove LastDataFile
+  return
