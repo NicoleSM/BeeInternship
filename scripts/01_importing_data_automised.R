@@ -11,10 +11,23 @@ my_read_csv  <- function(file, skip) {
   skip = 2
   read_csv(file = file, skip = skip)
 }
+# analysis = c("queen-less")
+
+## 
+adjust_dfs <- function(mg.list){
+  for (group_df_list in mg.list %>%  names()) {
+    for (df in group_df_list %>% names()) {
+      mg.list[[group_df_list]][[df]] <- mg.list[[group_df_list]][[df]] %>% 
+        select("Center X", "Area") %>% 
+        rename(RT = "Center X")
+    } 
+  }
+}
 
 # Import data files ----
 ## Make a list of the gcms integration files path
-path_gcms_integration_data <- list.files(path = here("data", "raw", "queen-less"
+path_gcms_integration_data <- list.files(path = here("data", "raw"
+                                          , analysis
                                           , "gcms-integration-files")
                               , pattern = ".CSV" # Get all CSV files in the folder
                               , full.names = T) %>% 
@@ -25,16 +38,105 @@ path_gcms_integration_data
 gcms_integration_data_list <- lapply(path_gcms_integration_data, my_read_csv)
 gcms_integration_data_list %>% summary()
 
+# Rename the data frames in the list as the samples to which they belong ----
+## Gcms integration files
+names(gcms_integration_data_list) <- str_split(path_gcms_integration_data
+                                    , "/"
+                                    , simplify = T) %>% 
+  str_subset(".CSV") %>% 
+  str_remove("DR_") %>% 
+  str_remove(".CSV") %>% 
+  str_remove("_1") %>% 
+  str_remove("_2")
+
+# sample_list = c("Queenless_hive_table.csv")
+
 ## Load group membership information
 sample_info <- read_csv(here("data"
                              , "raw"
-                             , "queen-less"
-                             , "Queenless_hive_table.csv"))
+                             , analysis, sample_list))
 sample_info
 
-factors <- c("Task", "Date")
+## Add group label column combining desired factors to analyse
+# factors <- c("Task", "Date")
 
 sample_info <- sample_info %>% 
-                mutate(group_label = paste(sample_info %>% select(all_of(factors)), collapse = "_"))
-sample_info
+                unite(group_label, factors, sep = "_", remove = F) %>% 
+                relocate(group_label, .after = last_col())
 
+## Group gcms data files based on unique group labels
+
+mg_list <- list()
+for(i in unique(sample_info$group_label)){
+  tmp <- sample_info %>% 
+    filter(group_label == i) %>% 
+    pull(`Bee number`)
+  tmp <- purrr::keep(gcms_integration_data_list
+                     , gcms_integration_data_list %>% 
+                       names() %in% tmp) %>% 
+    as.list()
+  mg_list[[i]] <- tmp
+}
+
+
+# Modify data frames to keep the necessary columns ----
+mg_list <-  mg_list %>% adjust_dfs()
+
+# ## STD
+# names(standards_list)
+# standards_list %>% summary()
+# standards.names <- names(standards_list)
+# #standards_list[[eval(standards_sample.names[1])]]
+# for (df in standards.names) {
+#   standards_list[[df]] <- standards_list[[df]] %>% 
+#     select("Center X", "Area") %>% 
+#     rename(RT = "Center X")
+# }
+# standards_list %>% summary()
+
+
+# # Input check-up for GCalignR ----
+pdf(here("output"
+         , analysis
+         , paste0("GCalignR_input-check_PL_"
+                  , analysis
+                  , '.pdf'))
+    , width = 10, height = 5)
+
+## list ####
+#check_input(list, plot = T)
+#peak_interspace(list
+#               , rt_col_name = "RT"
+#              , quantile_range = c(0, 0.8)
+#             , quantiles = 0.05)
+
+## list ####
+#check_input(list, plot = T)
+#peak_interspace(list
+#               , rt_col_name = "RT"
+#              , quantile_range = c(0, 0.8)
+#             , quantiles = 0.05)
+
+# #### Close graphic device to export plots into the PDF file
+dev.off()
+print("Input check-up plots were exported")
+
+
+# # Export data ----
+# ## W1_Nu
+save(list = c("mg_list")
+     , file = here("data", "raw", analysis, "tmp", "data2align.Rdata"))
+
+print("The data list(s) to align have been exported to the tmp data folder")
+
+# # End ----
+# ## Report session information
+capture.output(sessionInfo()
+               , file = here("output", analysis, "SInf_Script01.txt"))
+                                                       
+
+# ## Detach/unload packages
+# lapply(NPacks, unloadNamespace)
+#
+# ## Clear environment
+# rm(list=ls())
