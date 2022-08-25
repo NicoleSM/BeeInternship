@@ -14,16 +14,12 @@ my_read_csv  <- function(file, skip) {
 # analysis = c("queen-less")
 
 ## 
-adjust_dfs <- function(mg.list){
-  for (group_df_list in mg.list %>%  names()) {
-    for (df in group_df_list %>% names()) {
-      mg.list[[group_df_list]][[df]] <- mg.list[[group_df_list]][[df]] %>% 
-        select("Center X", "Area") %>% 
-        rename(RT = "Center X")
-    } 
-  }
+adjust_df <- function(df){
+  df <- df %>% 
+    select("Center X", "Area") %>% 
+    rename(RT = "Center X")
+  df
 }
-
 # Import data files ----
 ## Make a list of the gcms integration files path
 path_gcms_integration_data <- list.files(path = here("data", "raw"
@@ -80,7 +76,7 @@ for(i in unique(sample_info$group_label)){
 
 
 # Modify data frames to keep the necessary columns ----
-mg_list <-  mg_list %>% adjust_dfs()
+mg_list <-  lapply(mg_list, lapply, adjust_df)
 
 # ## STD
 # names(standards_list)
