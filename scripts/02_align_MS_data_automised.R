@@ -9,6 +9,19 @@ pacman::p_load(char = NPacks)
 # Load the data ----
 load(here("data", "raw", analysis, "tmp", "data2align.Rdata"))
 
+## 
+align_df <- function(df){
+  set.seed(12345)
+  df <- align_chromatograms(df
+                            , rt_col_name = "RT"
+                            , max_linear_shift = linear_shift_criteria
+                            , max_diff_peak2mean = partial_alignment_threshold
+                            , min_diff_peak2peak = row_merging_threshold
+                            # , blanks = blanks_list
+  )
+  df
+}
+
 # Data alignment ----
 # ## Samples #### #
 # blanks_list <- names(samples_data_list) %>% 
@@ -29,51 +42,18 @@ linear_shift_criteria <- partial_alignment_threshold  / 3
 # # over 0.083 min between samples
 row_merging_threshold <- 0.08
 
+## mg_list ####
+aligned_mg_list <-  lapply(mg_list, align_df)
+print(aligned_mg_list)
 
-## W1_Nu ####
+## standards (STD) ####
 set.seed(12345)
-aligned_W1_Nu_list <- 
-  align_chromatograms(W1_Nu_data_list
-                      , rt_col_name = "RT"
-                      , max_linear_shift = linear_shift_criteria
-                      , max_diff_peak2mean = partial_alignment_threshold
-                      , min_diff_peak2peak = row_merging_threshold
-                      # , blanks = blanks_list
-  )
-print(aligned_W1_Nu_list)
-
-## W3_EIW ####
-set.seed(12345)
-aligned_W3_EIW_list <- 
-  align_chromatograms(W3_EIW_data_list
-                      , rt_col_name = "RT"
-                      , max_linear_shift = linear_shift_criteria
-                      , max_diff_peak2mean = partial_alignment_threshold
-                      , min_diff_peak2peak = row_merging_threshold
-                      # , blanks = blanks_list
-  )
-print(aligned_W3_EIW_list)
-
-## W3_NIW ####
-set.seed(12345)
-aligned_W3_NIW_list <- 
-  align_chromatograms(W3_NIW_data_list
-                      , rt_col_name = "RT"
-                      , max_linear_shift = linear_shift_criteria
-                      , max_diff_peak2mean = partial_alignment_threshold
-                      , min_diff_peak2peak = row_merging_threshold
-                      # , blanks = blanks_list
-  )
-print(aligned_W3_NIW_list)
-
-# ## STD-0422 ####
-# set.seed(12345)
-# aligned_STD_0422_data_list <- align_chromatograms(standards_0422_data_list
-#                                                   , rt_col_name = "RT"
-#                                                   , max_linear_shift = 0.02
-#                                                   , max_diff_peak2mean = 0.07
-#                                                   , min_diff_peak2peak = 0.04)
-# print(aligned_STD_0422_data_list)
+aligned_STD_list <- align_chromatograms(standards_list
+                                                  , rt_col_name = "RT"
+                                                  , max_linear_shift = 0.02
+                                                  , max_diff_peak2mean = 0.07
+                                                  , min_diff_peak2peak = 0.04)
+print(aligned_STD_list)
 
 # Check precision of the alignment ----
 ## Get aligned data frames ####

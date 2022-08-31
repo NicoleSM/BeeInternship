@@ -21,10 +21,12 @@ adjust_df <- function(df){
   df
 }
 # Import data files ----
+## Samples ####
 ## Make a list of the gcms integration files path
 path_gcms_integration_data <- list.files(path = here("data", "raw"
                                           , analysis
-                                          , "gcms-integration-files")
+                                          , "gcms-integration-files"
+                                          , gcms_batch)
                               , pattern = ".CSV" # Get all CSV files in the folder
                               , full.names = T) %>% 
   str_subset('STD', negate = T) # Do not include standards
@@ -33,6 +35,20 @@ path_gcms_integration_data
 ## Import the files in the list, saving them into a list type object
 gcms_integration_data_list <- lapply(path_gcms_integration_data, my_read_csv)
 gcms_integration_data_list %>% summary()
+
+## Standards (STD) ####
+path_standards <- list.files(path = here("data", "raw"
+                                         , analysis
+                                         , "gcms-integration-files"
+                                         , gcms_batch)
+                             , pattern = ".CSV" # Get all CSV files in the folder
+                             , full.names = T) %>% 
+  str_subset('STD') # Do not include samples
+path_standards
+
+## Import the files in the list, saving them into a list type object
+standards_list <- lapply(path_standards, my_read_csv)
+standards_list %>% summary()
 
 # Rename the data frames in the list as the samples to which they belong ----
 ## Gcms integration files
@@ -46,6 +62,19 @@ names(gcms_integration_data_list) <- str_split(path_gcms_integration_data
   str_remove("_2")
 
 # sample_list = c("Queenless_hive_table.csv")
+
+
+## STD ####
+names(standards_list) <- str_split(path_standards
+                                   , "/"
+                                   , simplify = T) %>% 
+  str_subset(".CSV") %>% 
+  str_remove("STD") %>% 
+  str_remove("_SSL_") %>% 
+  str_remove(".CSV") %>% 
+  str_remove("_1") %>% 
+  str_remove("_2") 
+names(standards_list)
 
 ## Load group membership information
 sample_info <- read_csv(here("data"
@@ -78,17 +107,17 @@ for(i in unique(sample_info$group_label)){
 # Modify data frames to keep the necessary columns ----
 mg_list <-  lapply(mg_list, lapply, adjust_df)
 
-# ## STD
-# names(standards_list)
-# standards_list %>% summary()
-# standards.names <- names(standards_list)
-# #standards_list[[eval(standards_sample.names[1])]]
-# for (df in standards.names) {
-#   standards_list[[df]] <- standards_list[[df]] %>% 
-#     select("Center X", "Area") %>% 
-#     rename(RT = "Center X")
-# }
-# standards_list %>% summary()
+## STD
+names(standards_list)
+standards_list %>% summary()
+standards.names <- names(standards_list)
+#standards_list[[eval(standards_sample.names[1])]]
+for (df in standards.names) {
+  standards_list[[df]] <- standards_list[[df]] %>%
+    select("Center X", "Area") %>%
+    rename(RT = "Center X")
+}
+standards_list %>% summary()
 
 
 # # Input check-up for GCalignR ----
@@ -119,8 +148,8 @@ print("Input check-up plots were exported")
 
 
 # # Export data ----
-# ## W1_Nu
-save(list = c("mg_list")
+
+save(list = c("mg_list", "standards_list")
      , file = here("data", "raw", analysis, "tmp", "data2align.Rdata"))
 
 print("The data list(s) to align have been exported to the tmp data folder")
