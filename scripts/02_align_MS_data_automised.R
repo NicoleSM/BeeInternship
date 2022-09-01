@@ -9,7 +9,7 @@ pacman::p_load(char = NPacks)
 # Load the data ----
 load(here("data", "raw", analysis, "tmp", "data2align.Rdata"))
 
-## 
+# Align dataframes ####
 align_df <- function(df){
   set.seed(12345)
   df <- align_chromatograms(df
@@ -21,6 +21,23 @@ align_df <- function(df){
   )
   df
 }
+
+# Check precision ####
+## A function to obtain aligned dataframes within the master group list and label each peak
+RT_df <- function(df){
+  df_RT <- df$aligned$RT
+  rownames(df_RT) <- paste0("P", 1:nrow(df_RT))
+  df_RT
+  
+}
+
+area_df <- function(df){
+  df_area <- df$aligned$Area
+  rownames(df_area) <- paste0("P", 1:nrow(df_area))
+  df_area
+  
+}
+
 
 # Data alignment ----
 # ## Samples #### #
@@ -58,49 +75,45 @@ print(aligned_STD_list)
 # Check precision of the alignment ----
 ## Get aligned data frames ####
 # ### Samples #### #
-### W1_Nu ####
-W1_Nu_area  <- aligned_W1_Nu_list$aligned$Area
-W1_Nu_RT  <- aligned_W1_Nu_list$aligned$RT
 
-#### Give a label to each peak.
-#### This is useful for distinguishing peaks, or filtering operations.
-rownames(W1_Nu_area) <- paste0("P", 1:nrow(W1_Nu_area))
-rownames(W1_Nu_RT) <- paste0("P", 1:nrow(W1_Nu_RT))
+mg_list_RT <-  lapply(aligned_mg_list, RT_df)
+print(mg_list_RT)
 
-### W3_EIW ####
-W3_EIW_area  <- aligned_W3_EIW_list$aligned$Area
-W3_EIW_RT  <- aligned_W3_EIW_list$aligned$RT
-
-#### Give a label to each peak.
-#### This is useful for distinguishing peaks, or filtering operations.
-rownames(W3_EIW_area) <- paste0("P", 1:nrow(W3_EIW_area))
-rownames(W3_EIW_RT) <- paste0("P", 1:nrow(W3_EIW_RT))
-
-### W3_NIW ####
-W3_NIW_area  <- aligned_W3_NIW_list$aligned$Area
-W3_NIW_RT  <- aligned_W3_NIW_list$aligned$RT
-
-#### Give a label to each peak.
-#### This is useful for distinguishing peaks, or filtering operations.
-rownames(W3_NIW_area) <- paste0("P", 1:nrow(W3_NIW_area))
-rownames(W3_NIW_RT) <- paste0("P", 1:nrow(W3_NIW_RT))
+mg_list_area <-  lapply(aligned_mg_list, area_df)
+print(mg_list_area)
 
 
-# ### STD-0322 ####
-# ### The area of standards is not important, only the retention time will be used
-# ### later for calculating the retention index of the different CHC
-# STD_0322_RT  <- aligned_STD_0322_data_list$aligned$RT
-# rownames(STD_0322_RT) <- paste0("P", 1:nrow(STD_0322_RT))
+### STD ####
+### The area of standards is not important, only the retention time will be used
+### later for calculating the retention index of the different CHC
+STD_RT  <- aligned_STD_list$aligned$RT
+rownames(STD_RT) <- paste0("P", 1:nrow(STD_RT))
 
 
 # Export aligned data frames  ####
 ## CSV of RT data frames ####
 ## This is useful to check up the alignments, while looking at the chromatograms
 ## in the GC-MS analysis software.
+DF_names <- names(mg_list_RT) 
+for(df in DF_names){
+  name_change <- str_replace(df, "_", "-")
+  write.csv(mg_list_RT[df]
+            , here("data"
+                   , "raw"
+                   , analysis
+                   , "tmp"
+                   , paste0("aligned_RT_"
+                            , name_change
+                            ,"_"
+                            , gcms_batch
+                            ,".csv")))
+}
+
+
 write.csv(W3_EIW_RT
           , here("data"
                  , "raw"
-                 , "queen-less"
+                 , analysis
                  , "tmp"
                  , paste0("aligned_RT_W3-EIW_"
                           , "001-051"
