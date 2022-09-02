@@ -37,6 +37,17 @@ area_df <- function(df){
   df_area
   
 }
+# Normalise aligned abundance (area) ####
+## A function to normalise area and give a label to each peak
+area_norm_df <- function(df){
+  df_area_norm <- norm_peaks(data = df
+                              , rt_col_name = "RT"
+                              , conc_col_name = "Area")
+ 
+  colnames(df_area_norm) <- paste0("P", 1:length(colnames(df_area_norm)))
+  str(df_area_norm) 
+  df_area_norm
+} 
 
 
 # Data alignment ----
@@ -53,11 +64,7 @@ partial_alignment_threshold <- 0.045
 # # is just an arbitrary value. The idea is to avoid that this shift compromises
 # # the partial alignment or rows merging steps
 linear_shift_criteria <- partial_alignment_threshold  / 3
-# 
-# # Threshold for merging rows step.
-# # Skimming the chromatograms no compound seemed to have a separation
-# # over 0.083 min between samples
-row_merging_threshold <- 0.08
+
 
 ## mg_list ####
 aligned_mg_list <-  lapply(mg_list, align_df)
@@ -97,7 +104,7 @@ rownames(STD_RT) <- paste0("P", 1:nrow(STD_RT))
 DF_names <- names(mg_list_RT) 
 for(df in DF_names){
   name_change <- str_replace(df, "_", "-")
-  write.csv(mg_list_RT[df]
+  write.csv(mg_list_RT[[df]]
             , here("data"
                    , "raw"
                    , analysis
@@ -109,91 +116,39 @@ for(df in DF_names){
                             ,".csv")))
 }
 
-
-write.csv(W3_EIW_RT
-          , here("data"
-                 , "raw"
-                 , analysis
-                 , "tmp"
-                 , paste0("aligned_RT_W3-EIW_"
-                          , "001-051"
-                          ,".csv")))
-
-write.csv(W1_Nu_RT
+### STD ####
+write.csv(STD_RT
           , here("data"
                  , "raw"
                  , "queen-less"
                  , "tmp"
-                 , paste0("aligned_RT_W1-Nu_"
-                          , "001-051"
+                 , paste0("aligned_RT_STD_"
+                          , gcms_batch
                           ,".csv")))
-
-write.csv(W3_NIW_RT
-          , here("data"
-                 , "raw"
-                 , "queen-less"
-                 , "tmp"
-                 , paste0("aligned_RT_W3-NIW_"
-                          , "001-051"
-                          ,".csv")))
-# 
-# write.csv(STD_0322_RT
-#           , here("data"
-#                  , "raw"
-#                  , "queen-less"
-#                  , "tmp"
-#                  , paste0("aligned_RT_STD_0322_"
-#                           , "001-051"
-#                           ,".csv")))
 
 
 ## dataframes as Rdata file ####
-save(list = c("W1_Nu_area", "W1_Nu_RT", "W3_EIW_area", "W3_EIW_RT"
-              , "W3_NIW_area", "W3_NIW_RT")
+save(list = c("mg_list_area", "mg_list_RT")
      , file = here("data",  "raw"
-                   , "queen-less"
+                   , analysis
                    , "tmp"
                    , paste0("uncorrected-alignment_"
-                            , "001-051"
+                            , gcms_batch
                             , ".Rdata")))
 print("The aligned data frames were exported")
 
 # Diagnostic plots ####
 ## Normalize aligned abundance (area) ####
-### W1_Nu ####
-W1_Nu_area_norm <- norm_peaks(data = aligned_W1_Nu_list
-                              , rt_col_name = "RT"
-                              , conc_col_name = "Area")
+mg_list_area_norm <-  lapply(aligned_mg_list, area_norm_df)
+
+
+### STD ####
+STD_area_norm <- norm_peaks(data = aligned_STD_list
+                                 , rt_col_name = "RT"
+                                 , conc_col_name = "Area")
 ### Give a label to each peak
-colnames(W1_Nu_area_norm) <- paste0("P", 1:length(colnames(W1_Nu_area_norm)))
-str(W1_Nu_area_norm)
-
-
-### W3_EIW ####
-W3_EIW_area_norm <- norm_peaks(data = aligned_W3_EIW_list
-                              , rt_col_name = "RT"
-                              , conc_col_name = "Area")
-### Give a label to each peak
-colnames(W3_EIW_area_norm) <- paste0("P", 1:length(colnames(W3_EIW_area_norm)))
-str(W3_EIW_area_norm)
-
-### W3_NIW ####
-W3_NIW_area_norm <- norm_peaks(data = aligned_W3_NIW_list
-                              , rt_col_name = "RT"
-                              , conc_col_name = "Area")
-### Give a label to each peak
-colnames(W3_NIW_area_norm) <- paste0("P", 1:length(colnames(W3_NIW_area_norm)))
-str(W3_NIW_area_norm)
-
-
-
-# ### STD_0322 ####
-# STD_0322_area_norm <- norm_peaks(data = aligned_STD_0322_data_list
-#                                  , rt_col_name = "RT"
-#                                  , conc_col_name = "Area")
-# ### Give a label to each peak
-# colnames(STD_0322_area_norm) <- paste0("P", 1:length(colnames(STD_0322_area_norm)))
-# str(STD_0322_area_norm)
+colnames(STD_area_norm) <- paste0("P", 1:length(colnames(STD_area_norm)))
+str(STD_area_norm)
 
 
 # Export diagnostic plots ####
@@ -202,103 +157,59 @@ heatmap_colors <- viridis::turbo(200)
 
 #### Generate PDF file to contain plots
 pdf(here("output"
-         , "queen-less"
+         , analysis
          , paste0("uncorrected-alignment-plots_"
-                  , "001-051"
+                  , gcms_batch
                   , '.pdf'))
     , width = 30, height = 15)
 
-## W1_Nu ####
-gc_heatmap(aligned_W1_Nu_list
-           , main_title = "Alignment of week 1 nurses CHC")
-gc_heatmap(aligned_W1_Nu_list
+## mg_list ####
+for(df in DF_names){
+  name_plot <- df
+  gc_heatmap(aligned_mg_list[[df]]
+             , main_title = paste0("Alignment of ", name_plot, " CHC"))
+  gc_heatmap(aligned_mg_list[[df]]
+             , type = "discrete"
+             , main_title = paste0("Alignment of ", name_plot, " CHC"))
+  # Throws an error that stops the script if sourcing
+  #plot(aligned_W1_Nu_list), which_plot = "all")
+  {gplots::heatmap.2(as.matrix(mg_list_area_norm[[df]] %>% log1p()), 
+                     main = paste0("Clustering of ", name_plot, " CHC"),
+                     srtCol = 90,
+                     dendrogram = "row",
+                     # Rowv = dend,
+                     Colv = "NA", # this to make sure the columns are not ordered
+                     trace = "none",          
+                     # margins =c(5,0.1),      
+                     key.xlab = "log1p of relative abundance (%) on Cuticle",
+                     #denscol = "grey",
+                     #density.info = "density",
+                     # RowSideColors = microlab, # to add nice colored strips        
+                     col = heatmap_colors
+  )}}
+
+## STD ####
+gc_heatmap(aligned_STD_list
+           , main_title = paste0("Alignment of ", gcms_batch, " standard alkanes"))
+gc_heatmap(aligned_STD_list
            , type = "discrete"
-           , main_title = "Alignment of week 1 nurses CHC")
+           , main_title = paste0("Alignment of ", gcms_batch, " standard alkanes"))
 # Throws an error that stops the script if sourcing
-#plot(aligned_W1_Nu_list), which_plot = "all")
-{gplots::heatmap.2(as.matrix(W1_Nu_area_norm %>% log1p()), 
-                   main = "Clustering of week 1 nurses CHC",
+# plot(aligned_STD_0322_data_list
+#      , which_plot = "all")
+{gplots::heatmap.2(as.matrix(STD_area_norm %>% log1p()),
+                   main =  paste0("Clustering of ", gcms_batch, " standard alkanes"),
                    srtCol = 90,
                    dendrogram = "row",
-                   # Rowv = dend,
+                   # RSTDv = dend,
                    Colv = "NA", # this to make sure the columns are not ordered
-                   trace = "none",          
-                   # margins =c(5,0.1),      
-                   key.xlab = "log1p of relative abundance (%) on Cuticle",
+                   trace = "none",
+                   # margins =c(5,0.1),
+                   key.xlab = "log1p of relative abundance (%)",
                    #denscol = "grey",
                    #density.info = "density",
-                   # RowSideColors = microlab, # to add nice colored strips        
-                   col = heatmap_colors
-)}
-## W3_EIW ####
-gc_heatmap(aligned_W3_EIW_list
-           , main_title = "Alignment of week 3 elongated abdomen in-hive workers CHC")
-gc_heatmap(aligned_W3_EIW_list
-           , type = "discrete"
-           , main_title = "Alignment of week 3 elongated abdomen in-hive workers CHC")
-# Throws an error that stops the script if sourcing
-#plot(aligned_W3_EIW_list), which_plot = "all")
-{gplots::heatmap.2(as.matrix(W3_EIW_area_norm %>% log1p()), 
-                   main = "Clustering of week 3 elongated abdomen in-hive workers CHC",
-                   srtCol = 90,
-                   dendrogram = "row",
-                   # Rowv = dend,
-                   Colv = "NA", # this to make sure the columns are not ordered
-                   trace = "none",          
-                   # margins =c(5,0.1),      
-                   key.xlab = "log1p of relative abundance (%) on Cuticle",
-                   #denscol = "grey",
-                   #density.info = "density",
-                   # RowSideColors = microlab, # to add nice colored strips        
-                   col = heatmap_colors
-)}
-
-## W3_NIW ####
-gc_heatmap(aligned_W3_NIW_list
-           , main_title = "Alignment of week 3 normal in-hive workers CHC")
-gc_heatmap(aligned_W3_NIW_list
-           , type = "discrete"
-           , main_title = "Alignment of week 3 normal in-hive workers CHC")
-# Throws an error that stops the script if sourcing
-#plot(aligned_W3_NIW_list), which_plot = "all")
-{gplots::heatmap.2(as.matrix(W3_NIW_area_norm %>% log1p()), 
-                   main = "Clustering of week 3 normal in-hive workers CHC",
-                   srtCol = 90,
-                   dendrogram = "row",
-                   # Rowv = dend,
-                   Colv = "NA", # this to make sure the columns are not ordered
-                   trace = "none",          
-                   # margins =c(5,0.1),      
-                   key.xlab = "log1p of relative abundance (%) on Cuticle",
-                   #denscol = "grey",
-                   #density.info = "density",
-                   # RowSideColors = microlab, # to add nice colored strips        
-                   col = heatmap_colors
-)}
-
-
-# ## STD_0322 ####
-# gc_heatmap(aligned_STD_0322_data_list
-#            , main_title = "Alignment of standard alkanes from 03/22")
-# gc_heatmap(aligned_STD_0322_data_list
-#            , type = "discrete"
-#            , main_title = "Alignment of standard alkanes from 03/22")
-# # Throws an error that stops the script if sourcing
-# # plot(aligned_STD_0322_data_list
-# #      , which_plot = "all")
-# {gplots::heatmap.2(as.matrix(STD_0322_area_norm %>% log1p()), 
-#                    main = "Clustering of standard alkanes from 03/22",
-#                    srtCol = 90,
-#                    dendrogram = "row",
-#                    # RSTDv = dend,
-#                    Colv = "NA", # this to make sure the columns are not ordered
-#                    trace = "none",          
-#                    # margins =c(5,0.1),      
-#                    key.xlab = "log1p of relative abundance (%)",
-#                    #denscol = "grey",
-#                    #density.info = "density",
-#                    # RSTDSideColors = microlab, # to add nice colored strips        
-#                    col = heatmap_colors)}
+                   # RSTDSideColors = microlab, # to add nice colored strips
+                   col = heatmap_colors)}
 
 
 #### Close graphic device to export plots into the PDF file
@@ -306,5 +217,5 @@ dev.off()
 print("Diagnostic plots for the alignments were exported")
 
 capture.output(sessionInfo()
-               , file = here("output", "queen-less", "SInf_Script02.txt"))
+               , file = here("output", analysis, "SInf_Script02.txt"))
 print("The sessionInfo report was exported. The script 02 finished running")
