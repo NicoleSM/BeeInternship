@@ -1,0 +1,37 @@
+---
+title: "qPCR_Report"
+author: "Nicole M"
+date: "9/8/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE, include = TRUE)
+```
+
+## qPCR Data Analysis
+
+- Different result spreadsheets for analysis with averages of the ct values for each sample for each gene
+- Ref-finder determines most stable genes using four methods and shows the comprehensive results
+- Code calculates efficiencies of replication for each gene relative to the standard curve ct values
+- Then efficiencies are used to determine the relative concentrations based on the reference genes as the baseline and the calibrators to be able to compare between groups
+```{r}
+cal_run1 <- calData(nrmData(data=run1_CT,
+                         r=3, #triplets of aliquots
+                         E=Ef, #efficiency factors which are logarithmic (2.0 is 100%)
+                         Eerror=c(0.02,0.02,0.02,0.02,0.02,0.02), #errors for each gene
+                         nSpl=21, #amount of samples
+                         nbRef=2, #2 reference genes
+                         Refposcol=(1:2), #position of reference genes
+                         nCTL=5, #which first samples are control (this has no control yet)
+                         CF=c(1,1,1,1,1,1), # control factor for each gene
+                         CalPos=21, # position of calibrator
+                         trace=FALSE,
+                         geo=TRUE,
+                         na.rm=TRUE)[[3]]) #remove NA values (empty cells)
+cal_run1
+```
+
+
+
+
