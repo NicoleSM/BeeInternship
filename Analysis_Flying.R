@@ -14,3 +14,4 @@ row_merging_threshold <- 0.155
 
 source(here("scripts", "02_align_MS_data_automised.R"))
 
+source(here("scripts", analysis, "03_correct-alignments-flying.R"))

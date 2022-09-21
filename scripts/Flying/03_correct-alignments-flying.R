@@ -148,86 +148,86 @@ movements_Ca_TRUE07<- data.frame(peaks_list = c(paste0("P"
 str(movements_Ca_TRUE07)
 
 #### Ib_FALSE ####
-movements_IB_FALSE21 <- data.frame(peaks_list = c(paste0("P"
+movements_Ib_FALSE21 <- data.frame(peaks_list = c(paste0("P"
                                                         , c(173, 187)))
                                   , movement_dirs = c('down','up'))
-str(movements_IB_FALSE21)
+str(movements_Ib_FALSE21)
 
-movements_IB_FALSE23<- data.frame(peaks_list = c(paste0("P"
+movements_Ib_FALSE23<- data.frame(peaks_list = c(paste0("P"
                                                        , c(173)))
                                  , movement_dirs = c('down'))
-str(movements_IB_FALSE23)
+str(movements_Ib_FALSE23)
 
-movements_IB_FALSE24<- data.frame(peaks_list = c(paste0("P"
+movements_Ib_FALSE24<- data.frame(peaks_list = c(paste0("P"
                                                         , c(173)))
                                   , movement_dirs = c('down'))
-str(movements_IB_FALSE24)
+str(movements_Ib_FALSE24)
 
-movements_IB_FALSE25<- data.frame(peaks_list = c(paste0("P"
+movements_Ib_FALSE25<- data.frame(peaks_list = c(paste0("P"
                                                         , c(173, 187)))
                                   , movement_dirs = c('down','up'))
-str(movements_IB_FALSE25)
+str(movements_Ib_FALSE25)
 
-movements_IB_FALSE26<- data.frame(peaks_list = c(paste0("P"
+movements_Ib_FALSE26<- data.frame(peaks_list = c(paste0("P"
                                                         , c(173, 187)))
                                   , movement_dirs = c('down','up'))
-str(movements_IB_FALSE26)
+str(movements_Ib_FALSE26)
 
-movements_IB_FALSE31<- data.frame(peaks_list = c(paste0("P"
+movements_Ib_FALSE31<- data.frame(peaks_list = c(paste0("P"
                                                         , c(173)))
                                   , movement_dirs = c('down'))
-str(movements_IB_FALSE31)
+str(movements_Ib_FALSE31)
 
-movements_IB_FALSE36<- data.frame(peaks_list = c(paste0("P"
+movements_Ib_FALSE36<- data.frame(peaks_list = c(paste0("P"
                                                         , c(173)))
                                   , movement_dirs = c('down'))
-str(movements_IB_FALSE36)
+str(movements_Ib_FALSE36)
 
-movements_IB_FALSE32<- data.frame(peaks_list = c(paste0("P"
+movements_Ib_FALSE32<- data.frame(peaks_list = c(paste0("P"
                                                         , c(256)))
                                   , movement_dirs = c('up'))
-str(movements_IB_FALSE32)
+str(movements_Ib_FALSE32)
 
 #### Ib_TRUE ####
-movements_IB_TRUE27 <- data.frame(peaks_list = c(paste0("P"
+movements_Ib_TRUE27 <- data.frame(peaks_list = c(paste0("P"
                                                          , c(99)))
                                    , movement_dirs = c('up'))
-str(movements_IB_TRUE27)
+str(movements_Ib_TRUE27)
 
-movements_IB_TRUE28 <- data.frame(peaks_list = c(paste0("P"
+movements_Ib_TRUE28 <- data.frame(peaks_list = c(paste0("P"
                                                         , c(99, 209)))
                                   , movement_dirs = c('up', 'up'))
-str(movements_IB_TRUE28)
+str(movements_Ib_TRUE28)
 
-movements_IB_TRUE29 <- data.frame(peaks_list = c(paste0("P"
+movements_Ib_TRUE29 <- data.frame(peaks_list = c(paste0("P"
                                                         , c(99)))
                                   , movement_dirs = c('up'))
-str(movements_IB_TRUE29)
+str(movements_Ib_TRUE29)
 
-movements_IB_TRUE39 <- data.frame(peaks_list = c(paste0("P"
+movements_Ib_TRUE39 <- data.frame(peaks_list = c(paste0("P"
                                                         , c(99, 138)))
                                   , movement_dirs = c('up', 'up'))
-str(movements_IB_TRUE39)
+str(movements_Ib_TRUE39)
 
-movements_IB_TRUE38 <- data.frame(peaks_list = c(paste0("P"
+movements_Ib_TRUE38 <- data.frame(peaks_list = c(paste0("P"
                                                         , c(139, 138, 144)))
                                   , movement_dirs = c('up', 'up', 'up'))
-str(movements_IB_TRUE38)
+str(movements_Ib_TRUE38)
 
-movements_IB_TRUE30 <- data.frame(peaks_list = c(paste0("P"
+movements_Ib_TRUE30 <- data.frame(peaks_list = c(paste0("P"
                                                         , c(163, 138)))
                                   , movement_dirs = c('down', 'up'))
-str(movements_IB_TRUE30)
+str(movements_Ib_TRUE30)
 
-movements_IB_TRUE22 <- data.frame(peaks_list = c(paste0("P"
+movements_Ib_TRUE22 <- data.frame(peaks_list = c(paste0("P"
                                                         , c(144)))
                                   , movement_dirs = c('up'))
-str(movements_IB_TRUE22)
+str(movements_Ib_TRUE22)
 
-movements_IB_TRUE40 <- data.frame(peaks_list = c(paste0("P"
+movements_Ib_TRUE40 <- data.frame(peaks_list = c(paste0("P"
                                                         , c(144, 209)))
                                   , movement_dirs = c('up', 'down'))
-str(movements_IB_TRUE40)
+str(movements_Ib_TRUE40)
 
 
 
@@ -238,151 +238,290 @@ str(movements_IB_TRUE40)
 ### The function move_peaks() displaces the specified peaks of a sample 
 ### by one position up (previous table peak)/down (later table peak)
 ### It has to be applied to both RT and area data frames
-### Br_Ca ####
+### Ca_FALSE ####
 # Sample 20
-mg_list_RT <- move_peaks(mg_list_RT
+mg_list_RT[["Ca_FALSE"]] <- move_peaks(mg_list_RT[["Ca_FALSE"]]
                          , Sample = 'Fly_020'
                          , peaks_list = movements_Ca_FALSE20 %>%
                            pull(peaks_list)
                          , movement_dirs = movements_Ca_FALSE20 %>%
                            pull(movement_dirs))
-mg_list_area <- move_peaks(mg_list_area
+mg_list_area[["Ca_FALSE"]] <- move_peaks(mg_list_area[["Ca_FALSE"]]
                            , Sample = 'Fly_020'
                            , peaks_list = movements_Ca_FALSE20 %>%
                              pull(peaks_list)
                            , movement_dirs = movements_Ca_FALSE20 %>%
                              pull(movement_dirs))
+### Ca_TRUE ####
+# Sample 07
+mg_list_RT[["Ca_TRUE"]] <- move_peaks(mg_list_RT[["Ca_TRUE"]]
+                                       , Sample = 'Fly_007'
+                                       , peaks_list = movements_Ca_TRUE07 %>%
+                                         pull(peaks_list)
+                                       , movement_dirs = movements_Ca_TRUE07 %>%
+                                         pull(movement_dirs))
+mg_list_area[["Ca_TRUE"]] <- move_peaks(mg_list_area[["Ca_TRUE"]]
+                                         , Sample = 'Fly_007'
+                                         , peaks_list = movements_Ca_TRUE07 %>%
+                                           pull(peaks_list)
+                                         , movement_dirs = movements_Ca_TRUE07 %>%
+                                           pull(movement_dirs))
+# Sample 10
+mg_list_RT[["Ca_TRUE"]] <- move_peaks(mg_list_RT[["Ca_TRUE"]]
+                                      , Sample = 'Fly_010'
+                                      , peaks_list = movements_Ca_TRUE10 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ca_TRUE10 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ca_TRUE"]] <- move_peaks(mg_list_area[["Ca_TRUE"]]
+                                        , Sample = 'Fly_010'
+                                        , peaks_list = movements_Ca_TRUE10 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ca_TRUE10 %>%
+                                          pull(movement_dirs))
+### Ib_FALSE ####
+# Sample 21
+mg_list_RT[["Ib_FALSE"]] <- move_peaks(mg_list_RT[["Ib_FALSE"]]
+                                      , Sample = 'Fly_021'
+                                      , peaks_list = movements_Ib_FALSE21 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ib_FALSE21 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ib_FALSE"]] <- move_peaks(mg_list_area[["Ib_FALSE"]]
+                                        , Sample = 'Fly_021'
+                                        , peaks_list = movements_Ib_FALSE21 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ib_FALSE21 %>%
+                                          pull(movement_dirs))
 
-# Sample 197
-Br_Ca_RT <- move_peaks(Br_Ca_RT
-                       , Sample = 'NM_197'
-                       , peaks_list = movements_Br_Ca197 %>%
-                         pull(peaks_list)
-                       , movement_dirs = movements_Br_Ca197 %>%
-                         pull(movement_dirs))
-Br_Ca_area <- move_peaks(Br_Ca_area
-                         , Sample = 'NM_197'
-                         , peaks_list = movements_Br_Ca197 %>%
-                           pull(peaks_list)
-                         , movement_dirs = movements_Br_Ca197 %>%
-                           pull(movement_dirs))
+# Sample 23
+mg_list_RT[["Ib_FALSE"]] <- move_peaks(mg_list_RT[["Ib_FALSE"]]
+                                       , Sample = 'Fly_023'
+                                       , peaks_list = movements_Ib_FALSE23 %>%
+                                         pull(peaks_list)
+                                       , movement_dirs = movements_Ib_FALSE23 %>%
+                                         pull(movement_dirs))
+mg_list_area[["Ib_FALSE"]] <- move_peaks(mg_list_area[["Ib_FALSE"]]
+                                         , Sample = 'Fly_023'
+                                         , peaks_list = movements_Ib_FALSE23 %>%
+                                           pull(peaks_list)
+                                         , movement_dirs = movements_Ib_FALSE23 %>%
+                                           pull(movement_dirs))
 
-### Wu_Ca ####
-# Sample 63
-Wu_Ca_RT <- move_peaks(Wu_Ca_RT
-                       , Sample = 'NM_063_1'
-                       , peaks_list = movements_Wu_Ca63 %>%
-                         pull(peaks_list)
-                       , movement_dirs = movements_Wu_Ca63 %>%
-                         pull(movement_dirs))
-Wu_Ca_area <- move_peaks(Wu_Ca_area
-                         , Sample = 'NM_063_1'
-                         , peaks_list = movements_Wu_Ca63 %>%
-                           pull(peaks_list)
-                         , movement_dirs = movements_Wu_Ca63 %>%
-                           pull(movement_dirs))
+# Sample 24
+mg_list_RT[["Ib_FALSE"]] <- move_peaks(mg_list_RT[["Ib_FALSE"]]
+                                       , Sample = 'Fly_024'
+                                       , peaks_list = movements_Ib_FALSE24 %>%
+                                         pull(peaks_list)
+                                       , movement_dirs = movements_Ib_FALSE24 %>%
+                                         pull(movement_dirs))
+mg_list_area[["Ib_FALSE"]] <- move_peaks(mg_list_area[["Ib_FALSE"]]
+                                         , Sample = 'Fly_024'
+                                         , peaks_list = movements_Ib_FALSE24 %>%
+                                           pull(peaks_list)
+                                         , movement_dirs = movements_Ib_FALSE24 %>%
+                                           pull(movement_dirs))
 
-# Sample 64
-Wu_Ca_RT <- move_peaks(Wu_Ca_RT
-                       , Sample = 'NM_064_1'
-                       , peaks_list = movements_Wu_Ca64 %>%
-                         pull(peaks_list)
-                       , movement_dirs = movements_Wu_Ca64 %>%
-                         pull(movement_dirs))
-Wu_Ca_area <- move_peaks(Wu_Ca_area
-                         , Sample = 'NM_064_1'
-                         , peaks_list = movements_Wu_Ca64 %>%
-                           pull(peaks_list)
-                         , movement_dirs = movements_Wu_Ca64 %>%
-                           pull(movement_dirs))
+# Sample 25
+mg_list_RT[["Ib_FALSE"]] <- move_peaks(mg_list_RT[["Ib_FALSE"]]
+                                       , Sample = 'Fly_025'
+                                       , peaks_list = movements_Ib_FALSE25 %>%
+                                         pull(peaks_list)
+                                       , movement_dirs = movements_Ib_FALSE25 %>%
+                                         pull(movement_dirs))
+mg_list_area[["Ib_FALSE"]] <- move_peaks(mg_list_area[["Ib_FALSE"]]
+                                         , Sample = 'Fly_025'
+                                         , peaks_list = movements_Ib_FALSE25 %>%
+                                           pull(peaks_list)
+                                         , movement_dirs = movements_Ib_FALSE25 %>%
+                                           pull(movement_dirs))
+# Sample 26
+mg_list_RT[["Ib_FALSE"]] <- move_peaks(mg_list_RT[["Ib_FALSE"]]
+                                       , Sample = 'Fly_026'
+                                       , peaks_list = movements_Ib_FALSE26 %>%
+                                         pull(peaks_list)
+                                       , movement_dirs = movements_Ib_FALSE26 %>%
+                                         pull(movement_dirs))
+mg_list_area[["Ib_FALSE"]] <- move_peaks(mg_list_area[["Ib_FALSE"]]
+                                         , Sample = 'Fly_026'
+                                         , peaks_list = movements_Ib_FALSE26 %>%
+                                           pull(peaks_list)
+                                         , movement_dirs = movements_Ib_FALSE26 %>%
+                                           pull(movement_dirs))
 
-# Sample 87
-Wu_Ca_RT <- move_peaks(Wu_Ca_RT
-                       , Sample = 'NM_087'
-                       , peaks_list = movements_Wu_Ca87 %>%
-                         pull(peaks_list)
-                       , movement_dirs = movements_Wu_Ca87 %>%
-                         pull(movement_dirs))
-Wu_Ca_area <- move_peaks(Wu_Ca_area
-                         , Sample = 'NM_087'
-                         , peaks_list = movements_Wu_Ca87 %>%
-                           pull(peaks_list)
-                         , movement_dirs = movements_Wu_Ca87 %>%
-                           pull(movement_dirs))
+# Sample 31
+mg_list_RT[["Ib_FALSE"]] <- move_peaks(mg_list_RT[["Ib_FALSE"]]
+                                       , Sample = 'Fly_031'
+                                       , peaks_list = movements_Ib_FALSE31 %>%
+                                         pull(peaks_list)
+                                       , movement_dirs = movements_Ib_FALSE31 %>%
+                                         pull(movement_dirs))
+mg_list_area[["Ib_FALSE"]] <- move_peaks(mg_list_area[["Ib_FALSE"]]
+                                         , Sample = 'Fly_031'
+                                         , peaks_list = movements_Ib_FALSE31 %>%
+                                           pull(peaks_list)
+                                         , movement_dirs = movements_Ib_FALSE31 %>%
+                                           pull(movement_dirs))
 
-# Sample 94
-Wu_Ca_RT <- move_peaks(Wu_Ca_RT
-                       , Sample = 'NM_094'
-                       , peaks_list = movements_Wu_Ca94 %>%
-                         pull(peaks_list)
-                       , movement_dirs = movements_Wu_Ca94 %>%
-                         pull(movement_dirs))
-Wu_Ca_area <- move_peaks(Wu_Ca_area
-                         , Sample = 'NM_094'
-                         , peaks_list = movements_Wu_Ca94 %>%
-                           pull(peaks_list)
-                         , movement_dirs = movements_Wu_Ca94 %>%
-                           pull(movement_dirs))
+# Sample 32
+mg_list_RT[["Ib_FALSE"]] <- move_peaks(mg_list_RT[["Ib_FALSE"]]
+                                       , Sample = 'Fly_032'
+                                       , peaks_list = movements_Ib_FALSE32 %>%
+                                         pull(peaks_list)
+                                       , movement_dirs = movements_Ib_FALSE32 %>%
+                                         pull(movement_dirs))
+mg_list_area[["Ib_FALSE"]] <- move_peaks(mg_list_area[["Ib_FALSE"]]
+                                         , Sample = 'Fly_032'
+                                         , peaks_list = movements_Ib_FALSE32 %>%
+                                           pull(peaks_list)
+                                         , movement_dirs = movements_Ib_FALSE32 %>%
+                                           pull(movement_dirs))
 
-# Sample 166
-Wu_Ca_RT <- move_peaks(Wu_Ca_RT
-                       , Sample = 'NM_166'
-                       , peaks_list = movements_Wu_Ca166 %>%
-                         pull(peaks_list)
-                       , movement_dirs = movements_Wu_Ca166 %>%
-                         pull(movement_dirs))
-Wu_Ca_area <- move_peaks(Wu_Ca_area
-                         , Sample = 'NM_166'
-                         , peaks_list = movements_Wu_Ca166 %>%
-                           pull(peaks_list)
-                         , movement_dirs = movements_Wu_Ca166 %>%
-                           pull(movement_dirs))
-### STD_0422 ####
-# Sample L_SSL_2204_2
-STD_0422_RT <- move_peaks(STD_0422_RT
-                       , Sample = 'L_SSL_2204_2'
-                       , peaks_list = movements_STD_0422_L2204_2 %>%
-                         pull(peaks_list)
-                       , movement_dirs = movements_STD_0422_L2204_2 %>%
-                         pull(movement_dirs))
-
-# Sample H_SSL_2204_2
-STD_0422_RT <- move_peaks(STD_0422_RT
-                          , Sample = 'H_SSL_2204_2'
-                          , peaks_list = movements_STD_0422_H2204_2 %>%
-                            pull(peaks_list)
-                          , movement_dirs = movements_STD_0422_H2204_2 %>%
-                            pull(movement_dirs))
+# Sample 36
+mg_list_RT[["Ib_FALSE"]] <- move_peaks(mg_list_RT[["Ib_FALSE"]]
+                                       , Sample = 'Fly_036'
+                                       , peaks_list = movements_Ib_FALSE36 %>%
+                                         pull(peaks_list)
+                                       , movement_dirs = movements_Ib_FALSE36 %>%
+                                         pull(movement_dirs))
+mg_list_area[["Ib_FALSE"]] <- move_peaks(mg_list_area[["Ib_FALSE"]]
+                                         , Sample = 'Fly_036'
+                                         , peaks_list = movements_Ib_FALSE36 %>%
+                                           pull(peaks_list)
+                                         , movement_dirs = movements_Ib_FALSE36 %>%
+                                           pull(movement_dirs))
+### Ib_TRUE ####
+# Sample 22
+mg_list_RT[["Ib_TRUE"]] <- move_peaks(mg_list_RT[["Ib_TRUE"]]
+                                      , Sample = 'Fly_022'
+                                      , peaks_list = movements_Ib_TRUE22 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ib_TRUE22 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ib_TRUE"]] <- move_peaks(mg_list_area[["Ib_TRUE"]]
+                                        , Sample = 'Fly_022'
+                                        , peaks_list = movements_Ib_TRUE22 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ib_TRUE22 %>%
+                                          pull(movement_dirs))
+# Sample 27
+mg_list_RT[["Ib_TRUE"]] <- move_peaks(mg_list_RT[["Ib_TRUE"]]
+                                      , Sample = 'Fly_027'
+                                      , peaks_list = movements_Ib_TRUE27 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ib_TRUE27 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ib_TRUE"]] <- move_peaks(mg_list_area[["Ib_TRUE"]]
+                                        , Sample = 'Fly_027'
+                                        , peaks_list = movements_Ib_TRUE27 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ib_TRUE27 %>%
+                                          pull(movement_dirs))
+# Sample 28
+mg_list_RT[["Ib_TRUE"]] <- move_peaks(mg_list_RT[["Ib_TRUE"]]
+                                      , Sample = 'Fly_028'
+                                      , peaks_list = movements_Ib_TRUE28 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ib_TRUE28 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ib_TRUE"]] <- move_peaks(mg_list_area[["Ib_TRUE"]]
+                                        , Sample = 'Fly_028'
+                                        , peaks_list = movements_Ib_TRUE28 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ib_TRUE28 %>%
+                                          pull(movement_dirs))
+# Sample 29
+mg_list_RT[["Ib_TRUE"]] <- move_peaks(mg_list_RT[["Ib_TRUE"]]
+                                      , Sample = 'Fly_029'
+                                      , peaks_list = movements_Ib_TRUE29 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ib_TRUE29 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ib_TRUE"]] <- move_peaks(mg_list_area[["Ib_TRUE"]]
+                                        , Sample = 'Fly_029'
+                                        , peaks_list = movements_Ib_TRUE29 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ib_TRUE29 %>%
+                                          pull(movement_dirs))
+# Sample 30
+mg_list_RT[["Ib_TRUE"]] <- move_peaks(mg_list_RT[["Ib_TRUE"]]
+                                      , Sample = 'Fly_030'
+                                      , peaks_list = movements_Ib_TRUE30 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ib_TRUE30 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ib_TRUE"]] <- move_peaks(mg_list_area[["Ib_TRUE"]]
+                                        , Sample = 'Fly_030'
+                                        , peaks_list = movements_Ib_TRUE30 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ib_TRUE30 %>%
+                                          pull(movement_dirs))
+# Sample 38
+mg_list_RT[["Ib_TRUE"]] <- move_peaks(mg_list_RT[["Ib_TRUE"]]
+                                      , Sample = 'Fly_038'
+                                      , peaks_list = movements_Ib_TRUE38 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ib_TRUE38 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ib_TRUE"]] <- move_peaks(mg_list_area[["Ib_TRUE"]]
+                                        , Sample = 'Fly_038'
+                                        , peaks_list = movements_Ib_TRUE38 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ib_TRUE38 %>%
+                                          pull(movement_dirs))
+# Sample 39
+mg_list_RT[["Ib_TRUE"]] <- move_peaks(mg_list_RT[["Ib_TRUE"]]
+                                      , Sample = 'Fly_039'
+                                      , peaks_list = movements_Ib_TRUE39 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ib_TRUE39 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ib_TRUE"]] <- move_peaks(mg_list_area[["Ib_TRUE"]]
+                                        , Sample = 'Fly_039'
+                                        , peaks_list = movements_Ib_TRUE39 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ib_TRUE39 %>%
+                                          pull(movement_dirs))
+# Sample 40
+mg_list_RT[["Ib_TRUE"]] <- move_peaks(mg_list_RT[["Ib_TRUE"]]
+                                      , Sample = 'Fly_040'
+                                      , peaks_list = movements_Ib_TRUE40 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ib_TRUE40 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ib_TRUE"]] <- move_peaks(mg_list_area[["Ib_TRUE"]]
+                                        , Sample = 'Fly_040'
+                                        , peaks_list = movements_Ib_TRUE40 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ib_TRUE40 %>%
+                                          pull(movement_dirs))
 
 print("Alignment was corrected. Check heat map to verify that it is correct.")
 
 # Check the corrected alignment ----
 # This is done with the clustered heat map
 ## Data set with relative abundance of each peak (%)\
-### Br_Ca
-Br_Ca_per <- Br_Ca_area / rowSums(Br_Ca_area) * 100
+### Ca_FALSE
+Ca_FALSE_per <- mg_list_area[['Ca_FALSE']] / rowSums(mg_list_area[['Ca_FALSE']]) * 100
 
-### Br_Ib
-Br_Ib_per <- Br_Ib_area / rowSums(Br_Ib_area) * 100
+### Ca_TRUE
+Ca_TRUE_per <- mg_list_area[['Ca_TRUE']] / rowSums(mg_list_area[['Ca_TRUE']]) * 100
 
-### Wu_Ca
-Wu_Ca_per <- Wu_Ca_area / rowSums(Wu_Ca_area) * 100
+### Ib_FALSE
+Ib_FALSE_per <- mg_list_area[['Ib_FALSE']] / rowSums(mg_list_area[['Ib_FALSE']]) * 100
 
-### Wu_Ib_0322
-Wu_Ib_0322_per <- Wu_Ib_0322_area / rowSums(Wu_Ib_0322_area) * 100
-
-### Wu_Ib_0422
-Wu_Ib_0422_per <- Wu_Ib_0422_area / rowSums(Wu_Ib_0422_area) * 100
+### Ib_TRUE
+Ib_TRUE_per <- mg_list_area[['Ib_TRUE']] / rowSums(mg_list_area[['Ib_TRUE']]) * 100
 
 #### Set color palette
 heatmap_colors <- viridis::turbo(200)
 
 # set.seed(12345)
-pdf(here("output", "NM-Recognition", 'corrected-alginment_heatmap.pdf')
+pdf(here("output", analysis, 'corrected-alignment_heatmap.pdf')
     , width = 20, height = 10)
-{gplots::heatmap.2(as.matrix(Br_Ca_per %>% log1p()), 
+{gplots::heatmap.2(as.matrix(Ca_FALSE_per %>% log1p()), 
                    #Rowv = F,
-                   main = "Clustering of Braganza Carnica honeybee workers CHC",
+                   main = "Clustering of Carnica non-flying honeybee workers CHC",
                    srtCol = 90,
                    dendrogram = "row",
                    # Rowv = dend,
@@ -395,9 +534,8 @@ pdf(here("output", "NM-Recognition", 'corrected-alginment_heatmap.pdf')
                    # RowSideColors = microlab, # to add nice colored strips        
                    col = heatmap_colors)}
 
-{gplots::heatmap.2(as.matrix(Br_Ib_per %>% log1p()), 
-                   main = "Clustering of Braganza Iberiensis honeybee workers 
-                   CHC",
+{gplots::heatmap.2(as.matrix(Ca_TRUE_per %>% log1p()), 
+                   main = "Clustering of Carnica flying honeybee workers CHC",
                    srtCol = 90,
                    dendrogram = "row",
                    # Rowv = dend,
@@ -410,9 +548,9 @@ pdf(here("output", "NM-Recognition", 'corrected-alginment_heatmap.pdf')
                    # RowSideColors = microlab, # to add nice colored strips        
                    col = heatmap_colors)}
 
-{gplots::heatmap.2(as.matrix(Wu_Ca_per %>% log1p()), 
-                   main = "Clustering of Wuerzburg Carnica honeybee workers 
-                   CHC",
+{gplots::heatmap.2(as.matrix(Ib_FALSE_per %>% log1p()), 
+                   #Rowv = F,
+                   main = "Clustering of Iberiensis non-flying honeybee workers CHC",
                    srtCol = 90,
                    dendrogram = "row",
                    # Rowv = dend,
@@ -425,9 +563,8 @@ pdf(here("output", "NM-Recognition", 'corrected-alginment_heatmap.pdf')
                    # RowSideColors = microlab, # to add nice colored strips        
                    col = heatmap_colors)}
 
-{gplots::heatmap.2(as.matrix(Wu_Ib_0322_per %>% log1p()), 
-                   main = "Clustering of Wuerzburg Iberiensis (03/22) honeybee 
-                   workers CHC",
+{gplots::heatmap.2(as.matrix(Ib_TRUE_per %>% log1p()), 
+                   main = "Clustering of Iberiensis flying honeybee workers CHC",
                    srtCol = 90,
                    dendrogram = "row",
                    # Rowv = dend,
@@ -440,388 +577,262 @@ pdf(here("output", "NM-Recognition", 'corrected-alginment_heatmap.pdf')
                    # RowSideColors = microlab, # to add nice colored strips        
                    col = heatmap_colors)}
 
-{gplots::heatmap.2(as.matrix(Wu_Ib_0422_per %>% log1p()), 
-                   main = "Clustering of Wuerzburg Iberiensis (04/22) honeybee 
-                   workers CHC",
-                   srtCol = 90,
-                   dendrogram = "row",
-                   # Rowv = dend,
-                   Colv = "NA", # this to make sure the columns are not ordered
-                   trace = "none",          
-                   # margins =c(5,0.1),      
-                   key.xlab = "Relative abundance (%) on Cuticle",
-                   #denscol = "grey",
-                   #density.info = "density",
-                   # RowSideColors = microlab, # to add nice colored strips        
-                   col = heatmap_colors)}
-# 
-# 
-# {gplots::heatmap.2(as.matrix(STD_0322_per %>% log1p()), 
-#                    main = "Clustering of standard alkanes from 03/22", 
-#                    srtCol = 90,
-#                    dendrogram = "row",
-#                    # Rowv = dend,
-#                    Colv = "NA", # this to make sure the columns are not ordered
-#                    trace = "none",          
-#                    # margins =c(5,0.1),      
-#                    key.xlab = "Relative abundance (%) on Cuticle",
-#                    #denscol = "grey",
-#                    #density.info = "density",
-#                    # RowSideColors = microlab, # to add nice colored strips        
-#                    col = heatmap_colors)}
-# 
-# {gplots::heatmap.2(as.matrix(STD_0422_per %>% log1p()), 
-#                    main = "Clustering of standard alkanes from 04/22", 
-#                    srtCol = 90,
-#                    dendrogram = "row",
-#                    # Rowv = dend,
-#                    Colv = "NA", # this to make sure the columns are not ordered
-#                    trace = "none",          
-#                    # margins =c(5,0.1),      
-#                    key.xlab = "Relative abundance (%) on Cuticle",
-#                    #denscol = "grey",
-#                    #density.info = "density",
-#                    # RowSideColors = microlab, # to add nice colored strips        
-#                    col = heatmap_colors)}
 dev.off()
 print("Heat map to verify corrected alignment was exported")
 
 # Export the aligned data for CHC identification ----
 ## Drop empty columns
-### Br_Ca
-Br_Ca_RT <- Br_Ca_RT %>% 
-  select(-all_of(colnames(Br_Ca_RT[colSums(Br_Ca_RT) == 0])))
+### Ca_FALSE
+mg_list_RT[["Ca_FALSE"]] <- mg_list_RT[["Ca_FALSE"]] %>% 
+  select(-all_of(colnames(mg_list_RT[["Ca_FALSE"]][colSums(mg_list_RT[["Ca_FALSE"]]) == 0])))
 
-Br_Ca_area <- Br_Ca_area %>% 
-  select(-all_of(colnames(Br_Ca_area[colSums(Br_Ca_area) == 0])))
-
-Br_Ca_mean_RT <- Br_Ca_mean_RT %>% t %>% as.data.frame %>% 
-  select(all_of(colnames(Br_Ca_RT))) %>% t %>% as.data.frame
-
-### Br_Ib
-Br_Ib_RT <- Br_Ib_RT %>% 
-  select(-all_of(colnames(Br_Ib_RT[colSums(Br_Ib_RT) == 0])))
-
-Br_Ib_area <- Br_Ib_area %>% 
-  select(-all_of(colnames(Br_Ib_area[colSums(Br_Ib_area) == 0])))
-
-Br_Ib_mean_RT <- Br_Ib_mean_RT %>% t %>% as.data.frame %>% 
-  select(all_of(colnames(Br_Ib_RT))) %>% t %>% as.data.frame
-
-### Wu_Ca
-Wu_Ca_RT <- Wu_Ca_RT %>% 
-  select(-all_of(colnames(Wu_Ca_RT[colSums(Wu_Ca_RT) == 0])))
-
-Wu_Ca_area <- Wu_Ca_area %>% 
-  select(-all_of(colnames(Wu_Ca_area[colSums(Wu_Ca_area) == 0])))
-
-Wu_Ca_mean_RT <- Wu_Ca_mean_RT %>% t %>% as.data.frame %>% 
-  select(all_of(colnames(Wu_Ca_RT))) %>% t %>% as.data.frame
+mg_list_area[["Ca_FALSE"]] <- mg_list_area[["Ca_FALSE"]] %>% 
+  select(-all_of(colnames(mg_list_area[["Ca_FALSE"]][colSums(mg_list_area[["Ca_FALSE"]]) == 0])))
 
 
-### Wu_Ib_0322
-Wu_Ib_0322_RT <- Wu_Ib_0322_RT %>% 
-  select(-all_of(colnames(Wu_Ib_0322_RT[colSums(Wu_Ib_0322_RT) == 0])))
+mg_list_mean_RT[["Ca_FALSE"]] <- mg_list_mean_RT[["Ca_FALSE"]] %>% t %>% as.data.frame %>% 
+  select(all_of(colnames(mg_list_RT[["Ca_FALSE"]]))) %>% t %>% as.data.frame
 
-Wu_Ib_0322_area <- Wu_Ib_0322_area %>% 
-  select(-all_of(colnames(Wu_Ib_0322_area[colSums(Wu_Ib_0322_area) == 0])))
+### Ca_TRUE
+mg_list_RT[["Ca_TRUE"]] <- mg_list_RT[["Ca_TRUE"]] %>% 
+  select(-all_of(colnames(mg_list_RT[["Ca_TRUE"]][colSums(mg_list_RT[["Ca_TRUE"]]) == 0])))
 
-Wu_Ib_0322_mean_RT <- Wu_Ib_0322_mean_RT %>% t %>% as.data.frame %>% 
-  select(all_of(colnames(Wu_Ib_0322_RT))) %>% t %>% as.data.frame
-
-### Wu_Ib_0422
-Wu_Ib_0422_RT <- Wu_Ib_0422_RT %>% 
-  select(-all_of(colnames(Wu_Ib_0422_RT[colSums(Wu_Ib_0422_RT) == 0])))
-
-Wu_Ib_0422_area <- Wu_Ib_0422_area %>% 
-  select(-all_of(colnames(Wu_Ib_0422_area[colSums(Wu_Ib_0422_area) == 0])))
-
-Wu_Ib_0422_mean_RT <- Wu_Ib_0422_mean_RT %>% t %>% as.data.frame %>% 
-  select(all_of(colnames(Wu_Ib_0422_RT))) %>% t %>% as.data.frame
+mg_list_area[["Ca_TRUE"]] <- mg_list_area[["Ca_TRUE"]] %>% 
+  select(-all_of(colnames(mg_list_area[["Ca_TRUE"]][colSums(mg_list_area[["Ca_TRUE"]]) == 0])))
 
 
-### STD_0322
-STD_0322_RT <- STD_0322_RT %>% 
-  select(-all_of(colnames(STD_0322_RT[colSums(STD_0322_RT) == 0])))
+mg_list_mean_RT[["Ca_TRUE"]] <- mg_list_mean_RT[["Ca_TRUE"]] %>% t %>% as.data.frame %>% 
+  select(all_of(colnames(mg_list_RT[["Ca_TRUE"]]))) %>% t %>% as.data.frame
 
-STD_0322_mean_RT <- STD_0322_mean_RT %>% t %>% as.data.frame %>% 
-  select(all_of(colnames(STD_0322_RT))) %>% t %>% as.data.frame
+### Ib_FALSE
+mg_list_RT[["Ib_FALSE"]] <- mg_list_RT[["Ib_FALSE"]] %>% 
+  select(-all_of(colnames(mg_list_RT[["Ib_FALSE"]][colSums(mg_list_RT[["Ib_FALSE"]]) == 0])))
 
-### STD_0422
-STD_0422_RT <- STD_0422_RT %>% 
-  select(-all_of(colnames(STD_0422_RT[colSums(STD_0422_RT) == 0])))
+mg_list_area[["Ib_FALSE"]] <- mg_list_area[["Ib_FALSE"]] %>% 
+  select(-all_of(colnames(mg_list_area[["Ib_FALSE"]][colSums(mg_list_area[["Ib_FALSE"]]) == 0])))
 
-STD_0422_mean_RT <- STD_0422_mean_RT %>% t %>% as.data.frame %>% 
-  select(all_of(colnames(STD_0422_RT))) %>% t %>% as.data.frame
 
+mg_list_mean_RT[["Ib_FALSE"]] <- mg_list_mean_RT[["Ib_FALSE"]] %>% t %>% as.data.frame %>% 
+  select(all_of(colnames(mg_list_RT[["Ib_FALSE"]]))) %>% t %>% as.data.frame
+
+### Ib_TRUE
+mg_list_RT[["Ib_TRUE"]] <- mg_list_RT[["Ib_TRUE"]] %>% 
+  select(-all_of(colnames(mg_list_RT[["Ib_TRUE"]][colSums(mg_list_RT[["Ib_TRUE"]]) == 0])))
+
+mg_list_area[["Ib_TRUE"]] <- mg_list_area[["Ib_TRUE"]] %>% 
+  select(-all_of(colnames(mg_list_area[["Ib_TRUE"]][colSums(mg_list_area[["Ib_TRUE"]]) == 0])))
+
+
+mg_list_mean_RT[["Ib_TRUE"]] <- mg_list_mean_RT[["Ib_TRUE"]] %>% t %>% as.data.frame %>% 
+  select(all_of(colnames(mg_list_RT[["Ib_TRUE"]]))) %>% t %>% as.data.frame
+
+
+### STD
+STD_RT <- STD_RT %>% 
+  select(-all_of(colnames(STD_RT[colSums(STD_RT) == 0])))
+
+STD_mean_RT <- STD_mean_RT %>% t %>% as.data.frame %>% 
+  select(all_of(colnames(STD_RT))) %>% t %>% as.data.frame
 
 ## Recalculate the mean RT
-### Br_Ca
-Br_Ca_RT[Br_Ca_RT == 0] <- NA
-Br_Ca_mean_RT <- Br_Ca_mean_RT %>% 
+### Ca_FALSE
+mg_list_RT[["Ca_FALSE"]][mg_list_RT[["Ca_FALSE"]] == 0] <- NA
+mg_list_mean_RT[["Ca_FALSE"]] <- mg_list_mean_RT[["Ca_FALSE"]] %>% 
   transmute(old_mean_RT = mean_RT) %>% 
-  mutate(new_mean_RT = Br_Ca_RT %>% colMeans(na.rm = T))
+  mutate(new_mean_RT = mg_list_RT[["Ca_FALSE"]] %>% colMeans(na.rm = T))
 
-### Br_Ib
-Br_Ib_RT[Br_Ib_RT == 0] <- NA
-Br_Ib_mean_RT <- Br_Ib_mean_RT %>% 
+### Ca_TRUE
+mg_list_RT[["Ca_TRUE"]][mg_list_RT[["Ca_TRUE"]] == 0] <- NA
+mg_list_mean_RT[["Ca_TRUE"]] <- mg_list_mean_RT[["Ca_TRUE"]] %>% 
   transmute(old_mean_RT = mean_RT) %>% 
-  mutate(new_mean_RT = Br_Ib_RT %>% colMeans(na.rm = T))
+  mutate(new_mean_RT = mg_list_RT[["Ca_TRUE"]] %>% colMeans(na.rm = T))
 
-### Wu_Ca
-Wu_Ca_RT[Wu_Ca_RT == 0] <- NA
-Wu_Ca_mean_RT <- Wu_Ca_mean_RT %>% 
+### Ib_FALSE
+mg_list_RT[["Ib_FALSE"]][mg_list_RT[["Ib_FALSE"]] == 0] <- NA
+mg_list_mean_RT[["Ib_FALSE"]] <- mg_list_mean_RT[["Ib_FALSE"]] %>% 
   transmute(old_mean_RT = mean_RT) %>% 
-  mutate(new_mean_RT = Wu_Ca_RT %>% colMeans(na.rm = T))
+  mutate(new_mean_RT = mg_list_RT[["Ib_FALSE"]] %>% colMeans(na.rm = T))
 
-### Wu_Ib_0322
-Wu_Ib_0322_RT[Wu_Ib_0322_RT == 0] <- NA
-Wu_Ib_0322_mean_RT <- Wu_Ib_0322_mean_RT %>% 
+### Ib_TRUE
+mg_list_RT[["Ib_TRUE"]][mg_list_RT[["Ib_TRUE"]] == 0] <- NA
+mg_list_mean_RT[["Ib_TRUE"]] <- mg_list_mean_RT[["Ib_TRUE"]] %>% 
   transmute(old_mean_RT = mean_RT) %>% 
-  mutate(new_mean_RT = Wu_Ib_0322_RT %>% colMeans(na.rm = T))
+  mutate(new_mean_RT = mg_list_RT[["Ib_TRUE"]] %>% colMeans(na.rm = T))
 
-### Wu_Ib_0422
-Wu_Ib_0422_RT[Wu_Ib_0422_RT == 0] <- NA
-Wu_Ib_0422_mean_RT <- Wu_Ib_0422_mean_RT %>% 
+### STD
+STD_RT[STD_RT == 0] <- NA
+STD_mean_RT <- STD_mean_RT %>% 
   transmute(old_mean_RT = mean_RT) %>% 
-  mutate(new_mean_RT = Wu_Ib_0422_RT %>% colMeans(na.rm = T))
+  mutate(new_mean_RT = STD_RT %>% colMeans(na.rm = T))
 
-### STD_0422
-STD_0422_RT[STD_0422_RT == 0] <- NA
-STD_0422_mean_RT <- STD_0422_mean_RT %>% 
-  transmute(old_mean_RT = mean_RT) %>% 
-  mutate(new_mean_RT = STD_0422_RT %>% colMeans(na.rm = T))
-
-
-### STD_0322
-STD_0322_RT[STD_0322_RT == 0] <- NA
-STD_0322_mean_RT <- STD_0322_mean_RT %>% 
-  transmute(old_mean_RT = mean_RT) %>% 
-  mutate(new_mean_RT = STD_0322_RT %>% colMeans(na.rm = T))
 
 ## re-shape data frames before exporting them
-### Br_Ca
-Br_Ca_RT <- cbind.data.frame(Peak = row.names(Br_Ca_mean_RT)
-                               , mean_RT = Br_Ca_mean_RT$new_mean_RT
-                               # Place Br_Ca as columns
-                               , Br_Ca_RT %>%
+### Ca_FALSE
+mg_list_RT[['Ca_FALSE']] <- cbind.data.frame(Peak = row.names(mg_list_mean_RT[['Ca_FALSE']])
+                               , mean_RT = mg_list_mean_RT[['Ca_FALSE']]$new_mean_RT
+                               # Place Ca_FALSE as columns
+                               , mg_list_RT[['Ca_FALSE']] %>%
                                  t %>% 
                                  as.data.frame %>% 
                                  # Order them in descending order
                                  # , regarding their total abundance
-                                 select(all_of(Br_Ca_area %>% 
+                                 select(all_of(mg_list_area[['Ca_FALSE']] %>% 
                                                  rowSums() %>% 
                                                  sort(decreasing = T) %>%
                                                  names()))) %>%
   as_tibble()
-Br_Ca_RT
+mg_list_RT[['Ca_FALSE']]
 
-Br_Ca_area <- cbind.data.frame(Peak = row.names(Br_Ca_mean_RT)
-                                 , mean_RT = Br_Ca_mean_RT$new_mean_RT
-                                 # Place Br_Ca as columns
-                                 , Br_Ca_area %>%
+mg_list_area[['Ca_FALSE']] <- cbind.data.frame(Peak = row.names(mg_list_mean_RT[['Ca_FALSE']])
+                                 , mean_RT = mg_list_mean_RT[['Ca_FALSE']]$new_mean_RT
+                                 # Place Ca_FALSE as columns
+                                 , mg_list_area[['Ca_FALSE']] %>%
                                    t %>% 
                                    as.data.frame %>% 
                                    # Order them in descending order
                                    # , regarding their total abundance
-                                   select(all_of(Br_Ca_area %>% 
+                                   select(all_of(mg_list_area[['Ca_FALSE']] %>% 
                                                    rowSums() %>% 
                                                    sort(decreasing = T) %>%
                                                    names()))) %>%
   as_tibble()
-Br_Ca_area
+mg_list_area[['Ca_FALSE']]
 
-### Br_Ib
-Br_Ib_RT <- cbind.data.frame(Peak = row.names(Br_Ib_mean_RT)
-                             , mean_RT = Br_Ib_mean_RT$new_mean_RT
-                             # Place Br_Ib as columns
-                             , Br_Ib_RT %>%
-                               t %>% 
-                               as.data.frame %>% 
-                               # Order them in descending order
-                               # , regarding their total abundance
-                               select(all_of(Br_Ib_area %>% 
-                                               rowSums() %>% 
-                                               sort(decreasing = T) %>%
-                                               names()))) %>%
+### Ca_TRUE
+mg_list_RT[['Ca_TRUE']] <- cbind.data.frame(Peak = row.names(mg_list_mean_RT[['Ca_TRUE']])
+                                             , mean_RT = mg_list_mean_RT[['Ca_TRUE']]$new_mean_RT
+                                             # Place Ca_TRUE as columns
+                                             , mg_list_RT[['Ca_TRUE']] %>%
+                                               t %>% 
+                                               as.data.frame %>% 
+                                               # Order them in descending order
+                                               # , regarding their total abundance
+                                               select(all_of(mg_list_area[['Ca_TRUE']] %>% 
+                                                               rowSums() %>% 
+                                                               sort(decreasing = T) %>%
+                                                               names()))) %>%
   as_tibble()
-Br_Ib_RT
+mg_list_RT[['Ca_TRUE']]
 
-Br_Ib_area <- cbind.data.frame(Peak = row.names(Br_Ib_mean_RT)
-                               , mean_RT = Br_Ib_mean_RT$new_mean_RT
-                               # Place Br_Ib as columns
-                               , Br_Ib_area %>%
-                                 t %>% 
-                                 as.data.frame %>% 
-                                 # Order them in descending order
-                                 # , regarding their total abundance
-                                 select(all_of(Br_Ib_area %>% 
-                                                 rowSums() %>% 
-                                                 sort(decreasing = T) %>%
-                                                 names()))) %>%
+mg_list_area[['Ca_TRUE']] <- cbind.data.frame(Peak = row.names(mg_list_mean_RT[['Ca_TRUE']])
+                                               , mean_RT = mg_list_mean_RT[['Ca_TRUE']]$new_mean_RT
+                                               # Place Ca_TRUE as columns
+                                               , mg_list_area[['Ca_TRUE']] %>%
+                                                 t %>% 
+                                                 as.data.frame %>% 
+                                                 # Order them in descending order
+                                                 # , regarding their total abundance
+                                                 select(all_of(mg_list_area[['Ca_TRUE']] %>% 
+                                                                 rowSums() %>% 
+                                                                 sort(decreasing = T) %>%
+                                                                 names()))) %>%
   as_tibble()
-Br_Ib_area
+mg_list_area[['Ca_TRUE']]
 
-### Wu_Ca
-Wu_Ca_RT <- cbind.data.frame(Peak = row.names(Wu_Ca_mean_RT)
-                             , mean_RT = Wu_Ca_mean_RT$new_mean_RT
-                             # Place Wu_Ca as columns
-                             , Wu_Ca_RT %>%
-                               t %>% 
-                               as.data.frame %>% 
-                               # Order them in descending order
-                               # , regarding their total abundance
-                               select(all_of(Wu_Ca_area %>% 
-                                               rowSums() %>% 
-                                               sort(decreasing = T) %>%
-                                               names()))) %>%
+### Ib_FALSE
+mg_list_RT[['Ib_FALSE']] <- cbind.data.frame(Peak = row.names(mg_list_mean_RT[['Ib_FALSE']])
+                                             , mean_RT = mg_list_mean_RT[['Ib_FALSE']]$new_mean_RT
+                                             # Place Ib_FALSE as columns
+                                             , mg_list_RT[['Ib_FALSE']] %>%
+                                               t %>% 
+                                               as.data.frame %>% 
+                                               # Order them in descending order
+                                               # , regarding their total abundance
+                                               select(all_of(mg_list_area[['Ib_FALSE']] %>% 
+                                                               rowSums() %>% 
+                                                               sort(decreasing = T) %>%
+                                                               names()))) %>%
   as_tibble()
-Wu_Ca_RT
+mg_list_RT[['Ib_FALSE']]
 
-Wu_Ca_area <- cbind.data.frame(Peak = row.names(Wu_Ca_mean_RT)
-                               , mean_RT = Wu_Ca_mean_RT$new_mean_RT
-                               # Place Wu_Ca as columns
-                               , Wu_Ca_area %>%
-                                 t %>% 
-                                 as.data.frame %>% 
-                                 # Order them in descending order
-                                 # , regarding their total abundance
-                                 select(all_of(Wu_Ca_area %>% 
-                                                 rowSums() %>% 
-                                                 sort(decreasing = T) %>%
-                                                 names()))) %>%
+mg_list_area[['Ib_FALSE']] <- cbind.data.frame(Peak = row.names(mg_list_mean_RT[['Ib_FALSE']])
+                                               , mean_RT = mg_list_mean_RT[['Ib_FALSE']]$new_mean_RT
+                                               # Place Ib_FALSE as columns
+                                               , mg_list_area[['Ib_FALSE']] %>%
+                                                 t %>% 
+                                                 as.data.frame %>% 
+                                                 # Order them in descending order
+                                                 # , regarding their total abundance
+                                                 select(all_of(mg_list_area[['Ib_FALSE']] %>% 
+                                                                 rowSums() %>% 
+                                                                 sort(decreasing = T) %>%
+                                                                 names()))) %>%
   as_tibble()
-Wu_Ca_area
+mg_list_area[['Ib_FALSE']]
 
-### Wu_Ib_0322
-Wu_Ib_0322_RT <- cbind.data.frame(Peak = row.names(Wu_Ib_0322_mean_RT)
-                             , mean_RT = Wu_Ib_0322_mean_RT$new_mean_RT
-                             # Place Wu_Ib_0322 as columns
-                             , Wu_Ib_0322_RT %>%
-                               t %>% 
-                               as.data.frame %>% 
-                               # Order them in descending order
-                               # , regarding their total abundance
-                               select(all_of(Wu_Ib_0322_area %>% 
-                                               rowSums() %>% 
-                                               sort(decreasing = T) %>%
-                                               names()))) %>%
+### Ib_TRUE
+mg_list_RT[['Ib_TRUE']] <- cbind.data.frame(Peak = row.names(mg_list_mean_RT[['Ib_TRUE']])
+                                            , mean_RT = mg_list_mean_RT[['Ib_TRUE']]$new_mean_RT
+                                            # Place Ib_TRUE as columns
+                                            , mg_list_RT[['Ib_TRUE']] %>%
+                                              t %>% 
+                                              as.data.frame %>% 
+                                              # Order them in descending order
+                                              # , regarding their total abundance
+                                              select(all_of(mg_list_area[['Ib_TRUE']] %>% 
+                                                              rowSums() %>% 
+                                                              sort(decreasing = T) %>%
+                                                              names()))) %>%
   as_tibble()
-Wu_Ib_0322_RT
+mg_list_RT[['Ib_TRUE']]
 
-Wu_Ib_0322_area <- cbind.data.frame(Peak = row.names(Wu_Ib_0322_mean_RT)
-                               , mean_RT = Wu_Ib_0322_mean_RT$new_mean_RT
-                               # Place Wu_Ib_0322 as columns
-                               , Wu_Ib_0322_area %>%
-                                 t %>% 
-                                 as.data.frame %>% 
-                                 # Order them in descending order
-                                 # , regarding their total abundance
-                                 select(all_of(Wu_Ib_0322_area %>% 
-                                                 rowSums() %>% 
-                                                 sort(decreasing = T) %>%
-                                                 names()))) %>%
+mg_list_area[['Ib_TRUE']] <- cbind.data.frame(Peak = row.names(mg_list_mean_RT[['Ib_TRUE']])
+                                              , mean_RT = mg_list_mean_RT[['Ib_TRUE']]$new_mean_RT
+                                              # Place Ib_TRUE as columns
+                                              , mg_list_area[['Ib_TRUE']] %>%
+                                                t %>% 
+                                                as.data.frame %>% 
+                                                # Order them in descending order
+                                                # , regarding their total abundance
+                                                select(all_of(mg_list_area[['Ib_TRUE']] %>% 
+                                                                rowSums() %>% 
+                                                                sort(decreasing = T) %>%
+                                                                names()))) %>%
   as_tibble()
-Wu_Ib_0322_area
+mg_list_area[['Ib_TRUE']]
 
-### Wu_Ib_0422
-Wu_Ib_0422_RT <- cbind.data.frame(Peak = row.names(Wu_Ib_0422_mean_RT)
-                             , mean_RT = Wu_Ib_0422_mean_RT$new_mean_RT
-                             # Place Wu_Ib_0422 as columns
-                             , Wu_Ib_0422_RT %>%
-                               t %>% 
-                               as.data.frame %>% 
-                               # Order them in descending order
-                               # , regarding their total abundance
-                               select(all_of(Wu_Ib_0422_area %>% 
-                                               rowSums() %>% 
-                                               sort(decreasing = T) %>%
-                                               names()))) %>%
-  as_tibble()
-Wu_Ib_0422_RT
-
-Wu_Ib_0422_area <- cbind.data.frame(Peak = row.names(Wu_Ib_0422_mean_RT)
-                               , mean_RT = Wu_Ib_0422_mean_RT$new_mean_RT
-                               # Place Wu_Ib_0422 as columns
-                               , Wu_Ib_0422_area %>%
-                                 t %>% 
-                                 as.data.frame %>% 
-                                 # Order them in descending order
-                                 # , regarding their total abundance
-                                 select(all_of(Wu_Ib_0422_area %>% 
-                                                 rowSums() %>% 
-                                                 sort(decreasing = T) %>%
-                                                 names()))) %>%
-  as_tibble()
-Wu_Ib_0422_area
-
-### STD_0422
-STD_0422_RT <- cbind.data.frame(Peak = row.names(STD_0422_mean_RT)
-                             , mean_RT = STD_0422_mean_RT$new_mean_RT
-                             # Place STD_0422 as columns
-                             , STD_0422_RT %>%
+### STD
+STD_RT <- cbind.data.frame(Peak = row.names(STD_mean_RT)
+                             , mean_RT = STD_mean_RT$new_mean_RT
+                             # Place STD as columns
+                             , STD_RT %>%
                                t %>% 
                                as.data.frame) %>% 
   as_tibble()
-STD_0422_RT
-
-
-### STD_0322
-STD_0322_RT <- cbind.data.frame(Peak = row.names(STD_0322_mean_RT)
-                             , mean_RT = STD_0322_mean_RT$new_mean_RT
-                             # Place STD_0322 as columns
-                             , STD_0322_RT %>%
-                               t %>% 
-                               as.data.frame) %>%
-  as_tibble()
-STD_0322_RT
+STD_RT
 
 
 
 ## Save the data frames 
-save(list = c("Br_Ca_area", "Br_Ca_RT", "Br_Ib_area", "Br_Ib_RT"
-            , "Wu_Ca_area", "Wu_Ca_RT", "Wu_Ib_0322_area", "Wu_Ib_0322_RT"
-            , "Wu_Ib_0422_area", "Wu_Ib_0422_RT"
-            , "STD_0422_RT", "STD_0322_RT")
+save(list = c("mg_list_area", "mg_list_RT"
+            , "STD_RT")
      , file = here("data"
-                   , "processed", "NM-recognition", "aligned_gcms-data.Rdata"))
+                   , "processed", analysis, "aligned_gcms-data.Rdata"))
 print("The aligned data frames were exported")
 
-openxlsx::write.xlsx(Br_Ca_RT
-                     , here("data", "raw", "NM-recognition"
-                            , "tmp", "Br_Ca_RT_table.xlsx"))
+DF_names <- names(mg_list_RT) 
+for(df in DF_names){
+  name_change <- str_replace(df, "_", "-")
+  openxlsx::write.xlsx(mg_list_RT[[df]]
+                       , here("data"
+                              , "raw"
+                              , analysis
+                              , "tmp"
+                              , paste0(name_change
+                                              ,"_RT_"
+                                              ,"table.xlsx")))
+}
 
-openxlsx::write.xlsx(Br_Ib_RT
-                     , here("data", "raw", "NM-recognition"
-                            , "tmp", "Br_Ib_RT_table.xlsx"))
-
-openxlsx::write.xlsx(Wu_Ca_RT
-                     , here("data", "raw", "NM-recognition"
-                            , "tmp", "Wu_Ca_RT_table.xlsx"))
-
-openxlsx::write.xlsx(Wu_Ib_0322_RT
-                     , here("data", "raw", "NM-recognition"
-                            , "tmp", "Wu_Ib_0322_RT_table.xlsx"))
-
-openxlsx::write.xlsx(Wu_Ib_0422_RT
-                     , here("data", "raw", "NM-recognition"
-                            , "tmp", "Wu_Ib_0422_RT_table.xlsx"))
-
-openxlsx::write.xlsx(STD_0422_RT
-                     , here("data", "raw", "NM-recognition"
-                            , "tmp", "STD_0422_RT_table.xlsx"))
-
-openxlsx::write.xlsx(STD_0322_RT
-                     , here("data", "raw", "NM-recognition"
-                            , "tmp", "STD_0322_RT_table.xlsx"))
-
+openxlsx::write.xlsx(STD_RT
+                     , here("data", "raw", analysis
+                            , "tmp", "STD_RT_table.xlsx"))
 
 print("The RT tables for CHC identification was exported")
 
 # End ----
 ## Report session information
 capture.output(sessionInfo()
-               , file = here("output", "NM-recognition", "SInf_Script03.txt"))
+               , file = here("output", analysis, "SInf_Script03.txt"))
 print("The sessionInfo report was exported. The script 03 finished running")
 
 # ## Detach/unload packages

@@ -1,0 +1,422 @@
+[Info]
+Runtime=64
+MaestroMethodVersion=1.46
+Cryo Timeout=15.00
+Cooldown Time=2.00
+GCRuntime=64
+RunStartTD=0
+_MethPath$+_MethFile$=D:\MassHunter\GCMS\1\methods\TH_DMDS_SSL_AUTO.m
+MinRuntime=64.00
+StartExternalDevice=
+MaestroVersion=1.4.47.7
+
+[CIS]
+Splitless Time=0.50
+Purge Time=1.00
+Initial Temp=60
+Initial Time=0.10
+Equilibration Time=1.00
+Rate 1=10.00
+End Temp 1=240
+Hold Time 1=1.00
+Rate 2=0.0
+End Temp 2=240
+Hold Time 2=1.00
+Cryo=0
+Split Mode=0
+Heater Mode=0
+CISG Valve Temp=50
+CISG Adsorption Flow=20.0
+CISG Adsorption Volume=0.50
+CISG Pressure Equilibration Time=0.50
+CISG Purge Time=0
+Enabled=0
+Pneu Split Ratio=20.0
+Pneu Split Flow=20.0
+Pneu Splitless Time=2.00
+Pneu Split Purge Flow=40.0
+Pneu Pre Purge Pressure=10.00
+Pneu Pre Purge Flow=50.0
+Pneu Pulse Pressure=150.00
+Pneu Pulse Time=1.00
+Pneu Gas Saver Flow=10.0
+Pneu Gas Saver Time=10.00
+Pneu Solvent Vent=0
+Pneu Transfer Mode=0
+Pneu Gas Saver=0
+Liner=400 | 013882-010-00 glass liner CIS4, baffled, non deactivated
+
+[MPSLiquid]
+Syr=10ul
+Inj. Volume=1.0
+Inj. Speed=50.00
+Fill Volume=1.0
+Fill Strokes=2
+Preclean Solv.1=1
+Postclean Solv.1=1
+Preclean Solv.2=1
+Postclean Solv.2=1
+Preclean Sample=1
+Fill Speed Solv.1=5.00
+Viscosity Delay Solv.1=0
+Eject Speed Solv.1=50.00
+Fill Speed Solv.2=5.00
+Viscosity Delay Solv.2=0
+Eject Speed Solv.2=50.00
+Fill Speed=5.00
+Visc./Pullup Delay=0
+Eject Speed=50.00
+Pre Inj. Delay=0
+Post Inj. Delay=0
+Inj. Penetration=40.00
+Vial Penetration=30.00
+Wash Station 1=Wash1
+Wash Station 2=Wash2
+Air Volume above=0.0
+Air Volume below=0.0
+Sandwich Mode=0
+Sample Tray=VT98
+Dilute Volume=0.0
+Dilutor Fill Speed=100.00
+Dilutor Viscosity Delay=0
+Dilutor Eject Speed=100.00
+MLI=0
+MLI Inj. Per Run=2
+MLI Delay Time=0.10
+ValvePreClean Solv.1=0
+ValvePreClean Solv.2=0
+ValvePostClean Solv.1=0
+ValvePostClean Solv.2=0
+Upper Solvent Plug Volume=0.0
+Lower Solvent Plug Volume=0.0
+Upper Sandwich Solvent=Wash1
+Lower Sandwich Solvent=Wash1
+Syringe Temp.=40
+Top Air Volume=0.0
+Washinfo 1=
+Washinfo 2=
+Loop Size=
+Air Gap Volume=3
+Front Volume=5
+Rear Volume=5
+Valve Clean Needle Gap=3
+Inj. Wash Time 1=3
+Inj. Wash Time 2=3
+Needle Wash Time 1=3
+Needle Wash Time 2=3
+Stator Wash Delay=2
+Stator Wash Time 1=5
+Stator Wash Time 2=5
+Dip Needle=Wash1
+DLW Wash Station 1=Wash1
+DLW Wash Station 2=Wash2
+
+[MPSSPME]
+Syr=Fiber
+Incubation Temp.=35
+Incubation Time=2.00
+Agitator Speed=250
+Agitator On Time=10
+Agitator Off Time=1
+Vial Penetration=43.00
+Extraction Time=1.00
+Inj. Penetration=54.00
+Desorption Time=60
+Pre Inj. Delay=10
+Bakeout Temp.=200
+Pre Bakeout Time=0.00
+Bakeout Time=0.00
+Bakeout Penetration=43.00
+Deriv. Time=1.00
+Deriv. Penetration=24.00
+Deriv. Mode=0
+Bakeout at=NONE
+Work from Tray=0
+ChemSensor=0
+Sample Tray=VT32-20
+Stir=0
+Agitator=Agitator
+
+[MPSHeadspace]
+Syr=2.5ml-HS
+Syringe Temp.=40
+Flush Time=60
+Incubation Temp.=35
+Incubation Time=5.00
+Agitator Speed=250
+Agitator On Time=10
+Agitator Off Time=1
+Inj. Volume=1000.0
+Fill Speed=200.00
+Visc./Pullup Delay=0
+Fill Volume=2500.0
+Fill Strokes=0
+Inj. Speed=200.00
+Pre Inj. Delay=0
+Post Inj. Delay=0
+Inj. Penetration=25.00
+Vial Penetration=22.00
+MHSE Inj. per Run=1
+Delay Time=1.00
+Pressurize=0
+ITEX=0
+Desorption Temp.=40
+Desorption Time=1.00
+Desorber Clean Temp.=40
+Work from Tray=0
+Sample Tray=VT32-20
+Stir=0
+Agitator=Agitator
+Wash Station 1=Wash1
+Postclean Solv.1=0
+Fill Speed Solv.1=100.00
+Viscosity Delay Solv.1=0
+Eject Speed Solv.1=100.00
+
+[MPS-HIT]
+TDU Temp=250
+TDU Transfer Temp=300
+TDU Standby Temp=50
+
+[TDU]
+Syr=TDU
+Initial Temp=50
+Initial Time=1.00
+Delay Time=1.00
+Rate 1=60.0
+End Temp 1=200
+Hold Time 1=10.00
+Rate 2=60.0
+End Temp 2=300
+Hold Time 2=10.00
+Transfer Temp=300
+Standby Temp=50
+Purge Time=1.00
+Liquid Vial=1
+Flow Mode=2
+Sample Mode=2
+Use Liquid Option=0
+Use fixed Liquid Vial=1
+Sample Tray=VT98t
+Liquid Sample Tray=Tray1,VT98
+Transfer Mode=0
+Derivatization=0
+Use Pyrolyzer=0
+Pyro Time=0.50
+Pyro Temp=500
+Pyro Lead Time=0.10
+Pyro Followup Time=1.00
+Pyro Rate 1=0.00
+Pyro Rate 2=0.00
+Pyro End Temp 1=500
+Pyro End Temp 2=500
+Pyro Hold Time 1=0.00
+Pyro Hold Time 2=0.00
+Pyro Heater Off=0
+Pneu Pre Purge Flow=80.0
+Pneu Desorption Flow=50.0
+Pneu Desorption Pressure=51.20
+Pneu Split Ratio=0.1
+Pneu Split Flow=2.5
+PyroMode=0
+Inject into Microvial=0
+Pneu Desorption Mode=1
+Pneu Gas Saver=0
+Pneu Gas Saver Time=10.00
+Pneu Gas Saver Flow=10.0
+
+[TDS]
+Initial Temp=50
+Initial Time=1.00
+Delay Time=1.00
+Rate 1=60.0
+End Temp 1=200
+Hold Time 1=10.00
+Rate 2=30.0
+End Temp 2=300
+Hold Time 2=10.00
+Transfer Temp=300
+Standby Temp=50
+Purge Time=1.00
+Pyro Time=1.00
+Pyro Temp=500
+Flow Mode=1
+Sample Mode=2
+Use Pyrolyzer=0
+Pyro Lead Time=2.00
+Pyro Followup Time=2.00
+Derivatization=0
+Last Sample=1
+TDSM Use Leaktest=1
+TDSM Desorption Flow=15
+TDSM Valve Temp=30
+TDSM Pressurization Time=2.00
+TDSM Leak Rate=5
+TDSM Pressure Equilibration Time=0.30
+TDSM Leaktest Time=1.00
+TDSG Valve Temp=300
+TDSG Adsorption Flow=50
+TDSG Adsorption Volume=0.10
+TDSG Pressure Equilibration Time=0.10
+TDSG Purge Time=0.00
+Pneu Pre Purge Flow=80.0
+Pneu Desorption Pressure=51.20
+Pneu Desorption Flow=50.0
+Pneu Split Ratio=0.1
+Pneu Split Flow=3.0
+Pneu Desorption Mode=1
+
+[Aux]
+Temp 1=200
+Temp 2=200
+Enabled=0
+
+[CTS1]
+Initial Temp=50
+Initial Time=0.10
+Rate 1=10.0
+End Temp 1=100
+Hold Time 1=1.00
+Rate 2=10.0
+End Temp 2=240
+Hold Time 2=1.00
+Transfer Temp=250
+Enabled=0
+
+[CTS2]
+Initial Temp=50
+Initial Time=0.10
+Rate 1=20.0
+End Temp 1=100
+Hold Time 1=1.00
+Rate 2=20.0
+End Temp 2=240
+Hold Time 2=1.00
+Enabled=0
+
+[MCS]
+CUTS=2
+Counter Current Flow=20.00
+Control Flow=1
+Carrier Gas=3
+CUT1=0.00,OFF,0.00,0.00,OFF,0.00,0.00
+CUT2=1.00,OFF,0.00,0.00,OFF,0.00,0.00
+Enabled=0
+
+[PFC]
+Transfer Temp=20
+Switch Temp=20
+Trap 1-3 Temp=20
+Trap 4-6 Temp=20
+Trap 0 Temp=20
+Enabled=0
+Control Transfer Temp=1
+Control Trap 0 Temp=1
+Control Trap 1-3 Temp=1
+Control Trap 4-6 Temp=1
+Trap Steps=3
+TrapStep0=0.00,0
+TrapStep1=1.00,1
+TrapStep2=2.00,2
+TrapStep3=3.00,3
+
+[LVICALC]
+Solvent=Acetone
+StopFlow=0
+Pressure Unit=0
+HeadPressure=100
+TotalFlow=123
+Factor=0.80
+GCTotalFlow=0.5
+GCHeadPressure=0.5
+
+[PT9k]
+PreHeaterOffset=0
+EquilibrationTime=0.1
+EffluentTemp=30
+Runtime=1.0
+Step1=0,0.20,0.00
+
+[MACH FastGC]
+Offline=1
+
+[DHS]
+Incubation Temp=30
+Incubation Time=5.00
+Agitator Speed=500
+Agitator On Time=10
+Agitator Off Time=1
+Trap Temp=25
+Purge Volume=200.0
+Purge Flow=20.0
+Gas Type=0
+Dry Volume=50.0
+Dry Flow=10.0
+Dry Temp=25
+Use Fixed Tube=0
+Tube=1
+Tube Tray=TDUTray1,VT98t
+Enabled=0
+Transfer Heater Temp=50
+Purge Post Time=0
+Trap Incubation Temp=30
+Pre Purge Tube=
+Pre Incubation Temp=30
+Pre Purge Trap Temp=20
+Pre Purge Volume=0.0
+Pre Purge Flow=20.0
+Pre Purge Tube Enabled=0
+Pre Purge Tube Tray=
+No TDU Desorption=0
+
+[PED]
+Microwave Power Ignite=100
+Microwave Power Start=60
+Microwave Power Operation=30
+Gas Flow Ignite=200
+Gas Flow Operation=80
+Filter Drive Offset=0.0
+Filter Drive Delta=10.0
+Transfer Temp.=40
+Sum Signal Zero=0.000
+Corr. Signal Zero=0.000
+Attenuation Sum Signal=2.000
+Attenuation Corr. Signal=2.000
+
+[ViciValco]
+ValvePos=Inactive
+
+[PES]
+PressureThreshold=500.00
+VacuumTime=2.00
+EquilibrationTime=2.00
+PressureRate=200
+PurgeTime=1.00
+PurgeCycles=1
+Use PES=1
+
+[EPC]
+Enabled=0
+Standby Pressure=51.20
+Standby Flow=15.0
+Outlet Pressure=0.00
+Outlet Type=0
+Column=30.0 x 0.25 x 0.25 | 400 | Default Capillary GC Column
+Control Mode=0
+Carrier Gas=0
+Use Leak Check=0
+Skip Sample=0
+PneumaticStep1=,1.0,51.20,35.5,1.41,15.00,15.00
+PneuSteps=1
+TemperatureStep1=,40,15.00,15.00
+TempSteps=1
+Desorption Purge Flow=50.0
+Purge Flow Time=0.00
+Desorption Flow=50.0
+Prerun Pressure=51.2
+CUT1_0=0.00,51.20,0.00,24.00,0.00
+CUT1_1=2.00,-1,0.00,44.00,0.00
+
+[Comment]
+Short=This is the DMDS method for autosampler and split/splitless injector.
+

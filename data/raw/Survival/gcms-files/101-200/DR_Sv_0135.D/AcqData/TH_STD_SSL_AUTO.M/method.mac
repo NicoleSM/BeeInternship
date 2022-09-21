@@ -1,0 +1,8 @@
+NAME METHINFO
+  EditMethPanel 1,1,1
+  MethInfoPanel 1,0,1,0,0,,,,,,
+  METHCOMMENT0$ = "This is the standard method for autosampler and split/splitless injector."
+  IF CHECK("Command", "LOADTOPMETHOD") = 1
+    LOADTOPMETHOD
+  ENDIF
+  REMOVE METHINFO

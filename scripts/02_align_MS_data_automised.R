@@ -128,7 +128,7 @@ write.csv(STD_RT
 
 
 ## dataframes as Rdata file ####
-save(list = c("mg_list_area", "mg_list_RT")
+save(list = c("mg_list_area", "mg_list_RT", "STD_RT")
      , file = here("data",  "raw"
                    , analysis
                    , "tmp"

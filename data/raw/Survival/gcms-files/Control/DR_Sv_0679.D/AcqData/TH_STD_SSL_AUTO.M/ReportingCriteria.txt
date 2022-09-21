@@ -1,0 +1,31 @@
+Reporting Criteria 
+
+  Method Path : D:\MassHunter\GCMS\1\methods\
+  Method File : TH_STD_SSL_AUTO.m                                   
+  Title     :  
+  Last Update  :  
+  Response Via : Initial Calibration
+
+Graphics for Chromatogram(s)
+   Number of Pages: 1
+   Y-Axis Scale,Sig1: 1e+008
+   Y-Axis Scale,Sig2: 0
+   Peak Labeling is On
+   Landscape orientation is Off
+   Global Minimum Detection Limit is 0
+
+Sample Multipliers
+   Internal Standards: Off
+   System Monitoring : On
+   Target Compounds  : On
+
+Summary Report Only
+   Include Multi-Comp Summary is Off
+
+Detailed Report Only
+   Omit Graphics for Internal Standards is On
+   Omit Graphics for System Monitoring  is On
+
+All Reports
+   Include Non-Target Peaks is Off
+   Omit Target Comounds that Are Missed is Off

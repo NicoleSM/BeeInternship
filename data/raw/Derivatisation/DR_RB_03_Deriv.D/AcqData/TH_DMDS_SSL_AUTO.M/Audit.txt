@@ -1,0 +1,178 @@
+﻿D:\MassHunter\GCMS\1\METHODS\DEFAULT.M\Audit.txt 
+Created Wed Jan 16 15:59:56 2019
+
+
+ Modified : Wed Jan 16 15:59:56 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\METHODS\DEFAULT.M
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Wed Jan 16 16:01:24 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\METHODS\DEFAULT.M
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Wed Jan 16 16:27:31 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\METHODS\DEFAULT.M
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Thu Jan 17 11:27:02 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\FID Checkout.M
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Thu Jan 17 16:15:42 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\default.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Fri Jan 18 10:08:46 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\default.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Fri Jan 18 11:13:29 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\default.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Fri Jan 18 11:15:51 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\default.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Fri Jan 18 15:43:55 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\default Back.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Fri Jan 18 15:44:23 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\default Back.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Fri Jan 18 15:46:59 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\default Back.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Fri Jan 18 15:47:29 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\default Back.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Fri Jan 18 15:52:34 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\default Back.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Fri Jan 18 16:11:58 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\default Back.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Thu Jan 24 11:39:35 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\TH_STD_SSL_AUTO.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Thu Jan 24 11:42:14 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\TH_STD_SSL_AUTO.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Thu Jan 24 13:53:56 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\TH_STD_SSL_AUTO.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Fri Oct 25 12:34:18 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\TH_STD_SSL_AUTO.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Fri Oct 25 13:13:47 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\TH_STD_SSL_AUTO.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Fri Oct 25 13:45:53 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\TH_STD_SSL_AUTO.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Thu Nov 21 11:38:06 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\TH_STD_SSL_AUTO.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Thu Dec 19 08:28:33 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\TH_STD_SSL_AUTO.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Thu Dec 19 10:00:08 2019
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\TH_STD_SSL_AUTO.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Thu Jan 23 09:31:27 2020
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\TH_STD_SSL_AUTO.m
+ Why      : Instrument Control method save
+ Severity : 1
+
+
+ Modified : Wed Oct 21 14:53:15 2020
+ Event    : Save Method
+ Message  : Save Method to D:\MassHunter\GCMS\1\methods\TH_DMDS_SSL_AUTO.m
+ Why      : Instrument Control method save
+ Severity : 1
+
