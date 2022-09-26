@@ -258,7 +258,7 @@ names(comps_id) <- str_split(path_comps_id
                                  , "/"
                                  , simplify = T) %>% 
   str_subset(".csv") %>% 
-  str_remove("ID_table.csv") 
+  str_remove("_RT_ID_table.csv") 
 summary(comps_id)
 comps_id
 
@@ -272,10 +272,10 @@ grouping_info
 # Shape the data frames ----
 ## Standards ####
 ### Extract standards information from comps_id
-std_info <- cbind(comps_id$std %>% 
+std_info <- cbind(comps_id$STD %>% 
                     select(Compound, mean_RT)
-                  , data.frame(row.names = rownames(comps_id$std)
-                               , t(as.data.frame(strsplit(comps_id$std$Compound
+                  , data.frame(row.names = rownames(comps_id$STD)
+                               , t(as.data.frame(strsplit(comps_id$STD$Compound
                                                           , "_"))))) %>% 
   as_tibble()
 
@@ -315,32 +315,32 @@ std_info$Chain.length <- std_info$Chain.length %>%
 std_info
 
 ## Compounds information ####
-### Ca-false ####
+### Ca_false ####
 ### Extract compounds information from comps_id
-Ca-false_comps_info <- cbind(comps_id$Ca-false 
-                  , data.frame(row.names = rownames(comps_id$Ca-false)
-                               , t(as.data.frame(strsplit(comps_id$Ca-false$Compound
+Ca_false_comps_info <- cbind(comps_id$Ca_false
+                  , data.frame(row.names = rownames(comps_id$Ca_false)
+                               , t(as.data.frame(strsplit(comps_id$Ca_false$Compound
                                                           , "_"))))) %>% 
   as_tibble()
 
 ### Define columns names
-colnames(Ca-false_comps_info) <- c(colnames(comps_id$Ca-false)
+colnames(Ca_false_comps_info) <- c(colnames(comps_id$Ca_false)
                           , "Chain.length", "Class", "Mod.position")
-Ca-false_comps_info
+Ca_false_comps_info
 
 ### Correct entries format
 #### Compound names
 # Store the compound names in a vector, where they will be altered into their final format
-comps_names <- Ca-false_comps_info$Compound
+comps_names <- Ca_false_comps_info$Compound
 
 # Set the first part of the identified CHC names (full name in the case of the alkanes)
-comps_names[!is.na(comps_names)] <- paste0(Ca-false_comps_info %>% 
+comps_names[!is.na(comps_names)] <- paste0(Ca_false_comps_info %>% 
                                              filter(!is.na(Compound)) %>% 
                                              pull(Mod.position)
-                                           , Ca-false_comps_info %>%
+                                           , Ca_false_comps_info %>%
                                              filter(!is.na(Compound)) %>% 
                                              pull(Class)
-                                           , Ca-false_comps_info %>%
+                                           , Ca_false_comps_info %>%
                                              filter(!is.na(Compound)) %>% 
                                              pull(Chain.length)) %>% 
   str_replace_all(paste(c("ane", "ene", "diene"), collapse = '|'), "NA") %>% 
@@ -348,7 +348,7 @@ comps_names[!is.na(comps_names)] <- paste0(Ca-false_comps_info %>%
 
 # Finish formatting the names of the identified CHC
 comps_names[!is.na(comps_names)] <- paste(comps_names[!is.na(comps_names)]
-                                          , Ca-false_comps_info %>% 
+                                          , Ca_false_comps_info %>% 
                                             filter(!is.na(Compound)) %>% 
                                             pull(Class) %>% 
                                             str_replace(paste(c("ane", "Me"
@@ -359,64 +359,66 @@ comps_names[!is.na(comps_names)] <- paste(comps_names[!is.na(comps_names)]
   str_remove(":NA")
 
 # Change the compound names in the comps_info data frame to the correct format names
-Ca-false_comps_info$Compound <- comps_names
-Ca-false_comps_info
-Ca-false_comps_info %>% filter(!is.na(Compound))
+Ca_false_comps_info$Compound <- comps_names
+Ca_false_comps_info
+Ca_false_comps_info %>% filter(!is.na(Compound))
 
 #### Chain length
-Ca-false_comps_info$Chain.length <- Ca-false_comps_info$Chain.length %>%
+Ca_false_comps_info$Chain.length <- Ca_false_comps_info$Chain.length %>%
   str_remove("C") %>%
   as.integer()
-Ca-false_comps_info
-Ca-false_comps_info %>% filter(!is.na(Compound))
+Ca_false_comps_info
+Ca_false_comps_info %>% filter(!is.na(Compound))
 
 #### Class
-Ca-false_comps_info['Class'][Ca-false_comps_info['Class'] == "ane"] <- "Alkane"
-Ca-false_comps_info['Class'][Ca-false_comps_info['Class'] == "ene"] <- "Alkene"
-Ca-false_comps_info['Class'][Ca-false_comps_info['Class'] == "diene"] <- "Alkadiene"
-Ca-false_comps_info['Class'][Ca-false_comps_info['Class'] == "Me"] <- "Methyl"
-Ca-false_comps_info['Class'][Ca-false_comps_info['Class'] == "Dime"] <- "Dimethyl"
-Ca-false_comps_info['Class'][Ca-false_comps_info['Class'] == "Trime"] <- "Trimethyl"
-Ca-false_comps_info['Class'][Ca-false_comps_info['Class'] == "Tetrame"] <- "Tetramethyl"
-Ca-false_comps_info
-Ca-false_comps_info %>% filter(!is.na(Compound))
+Ca_false_comps_info['Class'][Ca_false_comps_info['Class'] == "ane"] <- "Alkane"
+Ca_false_comps_info['Class'][Ca_false_comps_info['Class'] == "ene"] <- "Alkene"
+Ca_false_comps_info['Class'][Ca_false_comps_info['Class'] == "diene"] <- "Alkadiene"
+Ca_false_comps_info['Class'][Ca_false_comps_info['Class'] == "Me"] <- "Methyl"
+Ca_false_comps_info['Class'][Ca_false_comps_info['Class'] == "Dime"] <- "Dimethyl"
+Ca_false_comps_info['Class'][Ca_false_comps_info['Class'] == "Trime"] <- "Trimethyl"
+Ca_false_comps_info['Class'][Ca_false_comps_info['Class'] == "Tetrame"] <- "Tetramethyl"
+Ca_false_comps_info
+Ca_false_comps_info %>% filter(!is.na(Compound))
 
 #### Add mean_RT 
-Ca-false_comps_info <- my_merge(Ca-false_comps_info
-                       , Ca-false_RT %>% 
-                         select(Peak, mean_RT)
-                       , merge_by = "Peak") %>% 
-  arrange(mean_RT) %>% 
-  as_tibble()
-Ca-false_comps_info
-Ca-false_comps_info %>% filter(!is.na(Compound))
+# Ca_false_RT <- mg_list_RT[["Ca_FALSE"]]
+# 
+# Ca_false_comps_info <- my_merge(Ca_false_comps_info
+#                        , Ca_false_RT %>% 
+#                          select(Peak, mean_RT)
+#                        , merge_by = "Peak") %>% 
+#   arrange(mean_RT) %>% 
+#   as_tibble()
+# Ca_false_comps_info
+# Ca_false_comps_info %>% filter(!is.na(Compound))
 
-### Ca-true ####
+### Ca_true ####
 ### Extract compounds information from comps_id
-Ca-true_comps_info <- cbind(comps_id$Ca-true
-                       , data.frame(row.names = rownames(comps_id$Ca-true)
-                                    , t(as.data.frame(strsplit(comps_id$Ca-true$Compound
+Ca_true_comps_info <- cbind(comps_id$Ca_true
+                       , data.frame(row.names = rownames(comps_id$Ca_true)
+                                    , t(as.data.frame(strsplit(comps_id$Ca_true$Compound
                                                                , "_"))))) %>% 
   as_tibble()
 
 ### Define columns names
-colnames(Ca-true_comps_info) <- c(colnames(comps_id$Ca-true)
+colnames(Ca_true_comps_info) <- c(colnames(comps_id$Ca_true)
                              , "Chain.length", "Class", "Mod.position")
-Ca-true_comps_info
+Ca_true_comps_info
 
 ### Correct entries format
 #### Compound names
 # Store the compound names in a vector, where they will be altered into their final format
-comps_names <- Ca-true_comps_info$Compound
+comps_names <- Ca_true_comps_info$Compound
 
 # Set the first part of the identified CHC names (full name in the case of the alkanes)
-comps_names[!is.na(comps_names)] <- paste0(Ca-true_comps_info %>% 
+comps_names[!is.na(comps_names)] <- paste0(Ca_true_comps_info %>% 
                                              filter(!is.na(Compound)) %>% 
                                              pull(Mod.position)
-                                           , Ca-true_comps_info %>%
+                                           , Ca_true_comps_info %>%
                                              filter(!is.na(Compound)) %>% 
                                              pull(Class)
-                                           , Ca-true_comps_info %>%
+                                           , Ca_true_comps_info %>%
                                              filter(!is.na(Compound)) %>% 
                                              pull(Chain.length)) %>% 
   str_replace_all(paste(c("ane", "ene", "diene"), collapse = '|'), "NA") %>% 
@@ -424,7 +426,7 @@ comps_names[!is.na(comps_names)] <- paste0(Ca-true_comps_info %>%
 
 # Finish formatting the names of the identified CHC
 comps_names[!is.na(comps_names)] <- paste(comps_names[!is.na(comps_names)]
-                                          , Ca-true_comps_info %>% 
+                                          , Ca_true_comps_info %>% 
                                             filter(!is.na(Compound)) %>% 
                                             pull(Class) %>% 
                                             str_replace(paste(c("ane", "Me")
@@ -434,64 +436,64 @@ comps_names[!is.na(comps_names)] <- paste(comps_names[!is.na(comps_names)]
   str_remove(":NA")
 
 # Change the compound names in the comps_info data frame to the correct format names
-Ca-true_comps_info$Compound <- comps_names
-Ca-true_comps_info
-Ca-true_comps_info %>% filter(!is.na(Compound))
+Ca_true_comps_info$Compound <- comps_names
+Ca_true_comps_info
+Ca_true_comps_info %>% filter(!is.na(Compound))
 
 #### Chain length
-Ca-true_comps_info$Chain.length <- Ca-true_comps_info$Chain.length %>%
+Ca_true_comps_info$Chain.length <- Ca_true_comps_info$Chain.length %>%
   str_remove("C") %>%
   as.integer()
-Ca-true_comps_info
-Ca-true_comps_info %>% filter(!is.na(Compound))
+Ca_true_comps_info
+Ca_true_comps_info %>% filter(!is.na(Compound))
 
 #### Class
-Ca-true_comps_info['Class'][Ca-true_comps_info['Class'] == "ane"] <- "Alkane"
-Ca-true_comps_info['Class'][Ca-true_comps_info['Class'] == "ene"] <- "Alkene"
-Ca-true_comps_info['Class'][Ca-true_comps_info['Class'] == "diene"] <- "Alkadiene"
-Ca-true_comps_info['Class'][Ca-true_comps_info['Class'] == "Me"] <- "Methyl"
-Ca-true_comps_info['Class'][Ca-true_comps_info['Class'] == "Dime"] <- "Dimethyl"
-Ca-true_comps_info['Class'][Ca-true_comps_info['Class'] == "Trime"] <- "Trimethyl"
-Ca-true_comps_info['Class'][Ca-true_comps_info['Class'] == "Tetrame"] <- "Tetramethyl"
-Ca-true_comps_info
-Ca-true_comps_info %>% filter(!is.na(Compound))
+Ca_true_comps_info['Class'][Ca_true_comps_info['Class'] == "ane"] <- "Alkane"
+Ca_true_comps_info['Class'][Ca_true_comps_info['Class'] == "ene"] <- "Alkene"
+Ca_true_comps_info['Class'][Ca_true_comps_info['Class'] == "diene"] <- "Alkadiene"
+Ca_true_comps_info['Class'][Ca_true_comps_info['Class'] == "Me"] <- "Methyl"
+Ca_true_comps_info['Class'][Ca_true_comps_info['Class'] == "Dime"] <- "Dimethyl"
+Ca_true_comps_info['Class'][Ca_true_comps_info['Class'] == "Trime"] <- "Trimethyl"
+Ca_true_comps_info['Class'][Ca_true_comps_info['Class'] == "Tetrame"] <- "Tetramethyl"
+Ca_true_comps_info
+Ca_true_comps_info %>% filter(!is.na(Compound))
 
-#### Add mean_RT 
-Ca-true_comps_info <- my_merge(Ca-true_comps_info
-                          , Ca-true_RT %>% 
-                            select(Peak, mean_RT)
-                          , merge_by = "Peak") %>% 
-  arrange(mean_RT) %>% 
-  as_tibble()
-Ca-true_comps_info
-Ca-true_comps_info %>% filter(!is.na(Compound))
+# #### Add mean_RT 
+# Ca_true_comps_info <- my_merge(Ca_true_comps_info
+#                           , Ca_true_RT %>% 
+#                             select(Peak, mean_RT)
+#                           , merge_by = "Peak") %>% 
+#   arrange(mean_RT) %>% 
+#   as_tibble()
+# Ca_true_comps_info
+# Ca_true_comps_info %>% filter(!is.na(Compound))
 
-### Ib-false ####
+### Ib_false ####
 ### Extract compounds information from comps_id
-Ib-false_comps_info <- cbind(comps_id$Ib-false
-                            , data.frame(row.names = rownames(comps_id$Ib-false)
-                                         , t(as.data.frame(strsplit(comps_id$Ib-false$Compound
+Ib_false_comps_info <- cbind(comps_id$Ib_false
+                            , data.frame(row.names = rownames(comps_id$Ib_false)
+                                         , t(as.data.frame(strsplit(comps_id$Ib_false$Compound
                                                                     , "_"))))) %>% 
   as_tibble()
 
 ### Define columns names
-colnames(Ib-false_comps_info) <- c(colnames(comps_id$Ib-false)
+colnames(Ib_false_comps_info) <- c(colnames(comps_id$Ib_false)
                                   , "Chain.length", "Class", "Mod.position")
-Ib-false_comps_info
+Ib_false_comps_info
 
 ### Correct entries format
 #### Compound names
 # Store the compound names in a vector, where they will be altered into their final format
-comps_names <- Ib-false_comps_info$Compound
+comps_names <- Ib_false_comps_info$Compound
 
 # Set the first part of the identified CHC names (full name in the case of the alkanes)
-comps_names[!is.na(comps_names)] <- paste0(Ib-false_comps_info %>% 
+comps_names[!is.na(comps_names)] <- paste0(Ib_false_comps_info %>% 
                                              filter(!is.na(Compound)) %>% 
                                              pull(Mod.position)
-                                           , Ib-false_comps_info %>%
+                                           , Ib_false_comps_info %>%
                                              filter(!is.na(Compound)) %>% 
                                              pull(Class)
-                                           , Ib-false_comps_info %>%
+                                           , Ib_false_comps_info %>%
                                              filter(!is.na(Compound)) %>% 
                                              pull(Chain.length)) %>% 
   str_replace_all(paste(c("ane", "ene", "diene"), collapse = '|'), "NA") %>% 
@@ -499,7 +501,7 @@ comps_names[!is.na(comps_names)] <- paste0(Ib-false_comps_info %>%
 
 # Finish formatting the names of the identified CHC
 comps_names[!is.na(comps_names)] <- paste(comps_names[!is.na(comps_names)]
-                                          , Ib-false_comps_info %>% 
+                                          , Ib_false_comps_info %>% 
                                             filter(!is.na(Compound)) %>% 
                                             pull(Class) %>% 
                                             str_replace(paste(c("ane", "Me")
@@ -509,64 +511,64 @@ comps_names[!is.na(comps_names)] <- paste(comps_names[!is.na(comps_names)]
   str_remove(":NA")
 
 # Change the compound names in the comps_info data frame to the correct format names
-Ib-false_comps_info$Compound <- comps_names
-Ib-false_comps_info
-Ib-false_comps_info %>% filter(!is.na(Compound))
+Ib_false_comps_info$Compound <- comps_names
+Ib_false_comps_info
+Ib_false_comps_info %>% filter(!is.na(Compound))
 
 #### Chain length
-Ib-false_comps_info$Chain.length <- Ib-false_comps_info$Chain.length %>%
+Ib_false_comps_info$Chain.length <- Ib_false_comps_info$Chain.length %>%
   str_remove("C") %>%
   as.integer()
-Ib-false_comps_info
-Ib-false_comps_info %>% filter(!is.na(Compound))
+Ib_false_comps_info
+Ib_false_comps_info %>% filter(!is.na(Compound))
 
 #### Class
-Ib-false_comps_info['Class'][Ib-false_comps_info['Class'] == "ane"] <- "Alkane"
-Ib-false_comps_info['Class'][Ib-false_comps_info['Class'] == "ene"] <- "Alkene"
-Ib-false_comps_info['Class'][Ib-false_comps_info['Class'] == "diene"] <- "Alkadiene"
-Ib-false_comps_info['Class'][Ib-false_comps_info['Class'] == "Me"] <- "Methyl"
-Ib-false_comps_info['Class'][Ib-false_comps_info['Class'] == "Dime"] <- "Dimethyl"
-Ib-false_comps_info['Class'][Ib-false_comps_info['Class'] == "Trime"] <- "Trimethyl"
-Ib-false_comps_info['Class'][Ib-false_comps_info['Class'] == "Tetrame"] <- "Tetramethyl"
-Ib-false_comps_info
-Ib-false_comps_info %>% filter(!is.na(Compound))
+Ib_false_comps_info['Class'][Ib_false_comps_info['Class'] == "ane"] <- "Alkane"
+Ib_false_comps_info['Class'][Ib_false_comps_info['Class'] == "ene"] <- "Alkene"
+Ib_false_comps_info['Class'][Ib_false_comps_info['Class'] == "diene"] <- "Alkadiene"
+Ib_false_comps_info['Class'][Ib_false_comps_info['Class'] == "Me"] <- "Methyl"
+Ib_false_comps_info['Class'][Ib_false_comps_info['Class'] == "Dime"] <- "Dimethyl"
+Ib_false_comps_info['Class'][Ib_false_comps_info['Class'] == "Trime"] <- "Trimethyl"
+Ib_false_comps_info['Class'][Ib_false_comps_info['Class'] == "Tetrame"] <- "Tetramethyl"
+Ib_false_comps_info
+Ib_false_comps_info %>% filter(!is.na(Compound))
 
 #### Add mean_RT 
-Ib-false_comps_info <- my_merge(Ib-false_comps_info
-                               , Ib-false_RT %>% 
-                                 select(Peak, mean_RT)
-                               , merge_by = "Peak") %>% 
-  arrange(mean_RT) %>% 
-  as_tibble()
-Ib-false_comps_info
-Ib-false_comps_info %>% filter(!is.na(Compound))
+# Ib_false_comps_info <- my_merge(Ib_false_comps_info
+#                                , Ib_false_RT %>% 
+#                                  select(Peak, mean_RT)
+#                                , merge_by = "Peak") %>% 
+#   arrange(mean_RT) %>% 
+#   as_tibble()
+# Ib_false_comps_info
+# Ib_false_comps_info %>% filter(!is.na(Compound))
 
-### Ib-true ####
+### Ib_true ####
 ### Extract compounds information from comps_id
-Ib-true_comps_info <- cbind(comps_id$Ib-true
-                            , data.frame(row.names = rownames(comps_id$Ib-true)
-                                         , t(as.data.frame(strsplit(comps_id$Ib-true$Compound
+Ib_true_comps_info <- cbind(comps_id$Ib_true
+                            , data.frame(row.names = rownames(comps_id$Ib_true)
+                                         , t(as.data.frame(strsplit(comps_id$Ib_true$Compound
                                                                     , "_"))))) %>% 
   as_tibble()
 
 ### Define columns names
-colnames(Ib-true_comps_info) <- c(colnames(comps_id$Ib-true)
+colnames(Ib_true_comps_info) <- c(colnames(comps_id$Ib_true)
                                   , "Chain.length", "Class", "Mod.position")
-Ib-true_comps_info
+Ib_true_comps_info
 
 ### Correct entries format
 #### Compound names
 # Store the compound names in a vector, where they will be altered into their final format
-comps_names <- Ib-true_comps_info$Compound
+comps_names <- Ib_true_comps_info$Compound
 
 # Set the first part of the identified CHC names (full name in the case of the alkanes)
-comps_names[!is.na(comps_names)] <- paste0(Ib-true_comps_info %>% 
+comps_names[!is.na(comps_names)] <- paste0(Ib_true_comps_info %>% 
                                              filter(!is.na(Compound)) %>% 
                                              pull(Mod.position)
-                                           , Ib-true_comps_info %>%
+                                           , Ib_true_comps_info %>%
                                              filter(!is.na(Compound)) %>% 
                                              pull(Class)
-                                           , Ib-true_comps_info %>%
+                                           , Ib_true_comps_info %>%
                                              filter(!is.na(Compound)) %>% 
                                              pull(Chain.length)) %>% 
   str_replace_all(paste(c("ane", "ene", "diene"), collapse = '|'), "NA") %>% 
@@ -574,7 +576,7 @@ comps_names[!is.na(comps_names)] <- paste0(Ib-true_comps_info %>%
 
 # Finish formatting the names of the identified CHC
 comps_names[!is.na(comps_names)] <- paste(comps_names[!is.na(comps_names)]
-                                          , Ib-true_comps_info %>% 
+                                          , Ib_true_comps_info %>% 
                                             filter(!is.na(Compound)) %>% 
                                             pull(Class) %>% 
                                             str_replace(paste(c("ane", "Me")
@@ -584,110 +586,110 @@ comps_names[!is.na(comps_names)] <- paste(comps_names[!is.na(comps_names)]
   str_remove(":NA")
 
 # Change the compound names in the comps_info data frame to the correct format names
-Ib-true_comps_info$Compound <- comps_names
-Ib-true_comps_info
-Ib-true_comps_info %>% filter(!is.na(Compound))
+Ib_true_comps_info$Compound <- comps_names
+Ib_true_comps_info
+Ib_true_comps_info %>% filter(!is.na(Compound))
 
 #### Chain length
-Ib-true_comps_info$Chain.length <- Ib-true_comps_info$Chain.length %>%
+Ib_true_comps_info$Chain.length <- Ib_true_comps_info$Chain.length %>%
   str_remove("C") %>%
   as.integer()
-Ib-true_comps_info
-Ib-true_comps_info %>% filter(!is.na(Compound))
+Ib_true_comps_info
+Ib_true_comps_info %>% filter(!is.na(Compound))
 
 #### Class
-Ib-true_comps_info['Class'][Ib-true_comps_info['Class'] == "ane"] <- "Alkane"
-Ib-true_comps_info['Class'][Ib-true_comps_info['Class'] == "ene"] <- "Alkene"
-Ib-true_comps_info['Class'][Ib-true_comps_info['Class'] == "diene"] <- "Alkadiene"
-Ib-true_comps_info['Class'][Ib-true_comps_info['Class'] == "Me"] <- "Methyl"
-Ib-true_comps_info['Class'][Ib-true_comps_info['Class'] == "Dime"] <- "Dimethyl"
-Ib-true_comps_info['Class'][Ib-true_comps_info['Class'] == "Trime"] <- "Trimethyl"
-Ib-true_comps_info['Class'][Ib-true_comps_info['Class'] == "Tetrame"] <- "Tetramethyl"
-Ib-true_comps_info
-Ib-true_comps_info %>% filter(!is.na(Compound))
+Ib_true_comps_info['Class'][Ib_true_comps_info['Class'] == "ane"] <- "Alkane"
+Ib_true_comps_info['Class'][Ib_true_comps_info['Class'] == "ene"] <- "Alkene"
+Ib_true_comps_info['Class'][Ib_true_comps_info['Class'] == "diene"] <- "Alkadiene"
+Ib_true_comps_info['Class'][Ib_true_comps_info['Class'] == "Me"] <- "Methyl"
+Ib_true_comps_info['Class'][Ib_true_comps_info['Class'] == "Dime"] <- "Dimethyl"
+Ib_true_comps_info['Class'][Ib_true_comps_info['Class'] == "Trime"] <- "Trimethyl"
+Ib_true_comps_info['Class'][Ib_true_comps_info['Class'] == "Tetrame"] <- "Tetramethyl"
+Ib_true_comps_info
+Ib_true_comps_info %>% filter(!is.na(Compound))
 
-#### Add mean_RT 
-Ib-true_comps_info <- my_merge(Ib-true_comps_info
-                               , Ib-true_RT %>% 
-                                 select(Peak, mean_RT)
-                               , merge_by = "Peak") %>% 
-  arrange(mean_RT) %>% 
-  as_tibble()
-Ib-true_comps_info
-Ib-true_comps_info %>% filter(!is.na(Compound))
+# #### Add mean_RT 
+# Ib_true_comps_info <- my_merge(Ib_true_comps_info
+#                                , Ib_true_RT %>% 
+#                                  select(Peak, mean_RT)
+#                                , merge_by = "Peak") %>% 
+#   arrange(mean_RT) %>% 
+#   as_tibble()
+# Ib_true_comps_info
+# Ib_true_comps_info %>% filter(!is.na(Compound))
 
 ## Samples ####
-### Ca-false ####
+### Ca_false ####
 ### Add CHC identification to the aligned sample data frames
-Ca-false_RT <- my_merge(Ca-false_comps_info %>% 
+Ca_false_RT <- my_merge(Ca_false_comps_info %>% 
                     select(Peak, Compound)
-                  , Ca-false_RT %>% 
+                  , mg_list_RT[["Ca_FALSE"]] %>% 
                     select(!mean_RT)
                   , merge_by = "Peak") %>%
   as_tibble()
-Ca-false_RT
+Ca_false_RT
 
-Ca-false_area <- my_merge(Ca-false_comps_info %>% 
+Ca_false_area <- my_merge(Ca_false_comps_info %>% 
                       select(Peak, Compound)
-                    , Ca-false_area %>% 
+                    , mg_list_area[["Ca_FALSE"]] %>% 
                       select(!mean_RT)
                     , merge_by = "Peak") %>%
   as_tibble()
-Ca-false_area
+Ca_false_area
 
-### Ca-true ####
+### Ca_true ####
 ### Add CHC identification to the aligned sample data frames
-Ca-true_RT <- my_merge(Ca-true_comps_info %>% 
+Ca_true_RT <- my_merge(Ca_true_comps_info %>% 
                     select(Peak, Compound)
-                  , Ca-true_RT %>% 
+                  , mg_list_RT[["Ca_TRUE"]] %>% 
                     select(!mean_RT)
                   , merge_by = "Peak") %>%
   as_tibble()
-Ca-true_RT
+Ca_true_RT
 
-Ca-true_area <- my_merge(Ca-true_comps_info %>% 
+Ca_true_area <- my_merge(Ca_true_comps_info %>% 
                       select(Peak, Compound)
-                    , Ca-true_area %>% 
+                    , mg_list_area[["Ca_TRUE"]] %>% 
                       select(!mean_RT)
                     , merge_by = "Peak") %>%
   as_tibble()
-Ca-true_area
+Ca_true_area
 
-### Ib-false ####
+### Ib_false ####
 ### Add CHC identification to the aligned sample data frames
-Ib-false_RT <- my_merge(Ib-false_comps_info %>% 
+Ib_false_RT <- my_merge(Ib_false_comps_info %>% 
                          select(Peak, Compound)
-                       , Ib-false_RT %>% 
+                       , mg_list_RT[["Ib_FALSE"]] %>% 
                          select(!mean_RT)
                        , merge_by = "Peak") %>%
   as_tibble()
-Ib-false_RT
+Ib_false_RT
 
-Ib-false_area <- my_merge(Ib-false_comps_info %>% 
+Ib_false_area <- my_merge(Ib_false_comps_info %>% 
                            select(Peak, Compound)
-                         , Ib-false_area %>% 
+                         , mg_list_area[["Ib_FALSE"]] %>% 
                            select(!mean_RT)
                          , merge_by = "Peak") %>%
   as_tibble()
-Ib-false_area
+Ib_false_area
 
-### Ib-true ####
+### Ib_true ####
 ### Add CHC identification to the aligned sample data frames
-Ib-true_RT <- my_merge(Ib-true_comps_info %>% 
+Ib_true_RT <- my_merge(Ib_true_comps_info %>% 
                          select(Peak, Compound)
-                       , Ib-true_RT %>% 
+                       , mg_list_RT[["Ib_TRUE"]] %>% 
                          select(!mean_RT)
                        , merge_by = "Peak") %>%
   as_tibble()
-Ib-true_RT
+Ib_true_RT
 
-Ib-true_area <- my_merge(Ib-true_comps_info %>% 
+Ib_true_area <- my_merge(Ib_true_comps_info %>% 
                            select(Peak, Compound)
-                         , Ib-true_area %>% 
+                         , mg_list_area[["Ib_TRUE"]] %>% 
                            select(!mean_RT)
                          , merge_by = "Peak") %>%
   as_tibble()
-Ib-true_area
+Ib_true_area
 
 ### grouping_info ####
 ### Define grouping variables as factors
@@ -698,507 +700,503 @@ grouping_info
 # Clean the data ----
 ## Delete trace compounds ####
 ### Extract the abundance data into a data frame
-Ca-false_daten <- Ca-false_area %>% 
+Ca_false_daten <- Ca_false_area %>% 
   select(!Peak:Compound) %>%  
   as.data.frame()
 
-Ca-true_daten <- Ca-true_area %>% 
+Ca_true_daten <- Ca_true_area %>% 
   select(!Peak:Compound) %>%  
   as.data.frame()
 
-Ib-false_daten <- Ib-false_area %>% 
+Ib_false_daten <- Ib_false_area %>% 
   select(!Peak:Compound) %>%  
   as.data.frame()
 
-Ib-true_daten <- Ib-true_area %>% 
+Ib_true_daten <- Ib_true_area %>% 
   select(!Peak:Compound) %>%  
   as.data.frame()
 
 ### Use trace_comps function to delete compounds, from each sample, 
 ### with an abundance below a defined threshold
-Ca-false_daten <- trace_comps(Ca-false_daten, threshold = 0.01)
-Ca-true_daten <- trace_comps(Ca-true_daten, threshold = 0.01)
-Ib-false_daten <- trace_comps(Ib-false_daten, threshold = 0.01)
-Ib-true_daten <- trace_comps(Ib-true_daten, threshold = 0.01)
+Ca_false_daten <- trace_comps(Ca_false_daten, threshold = 0.01)
+Ca_true_daten <- trace_comps(Ca_true_daten, threshold = 0.01)
+Ib_false_daten <- trace_comps(Ib_false_daten, threshold = 0.01)
+Ib_true_daten <- trace_comps(Ib_true_daten, threshold = 0.01)
 
 ### Adjust the area data frame
-Ca-false_area <- cbind(Ca-false_area %>% 
+Ca_false_area <- cbind(Ca_false_area %>% 
                    select(Peak:Compound)
-                 , Ca-false_daten) %>% 
+                 , Ca_false_daten) %>% 
   as_tibble()
-Ca-false_area
+Ca_false_area
 
-Ca-true_area <- cbind(Ca-true_area %>% 
+Ca_true_area <- cbind(Ca_true_area %>% 
                    select(Peak:Compound)
-                 , Ca-true_daten) %>% 
+                 , Ca_true_daten) %>% 
   as_tibble()
-Ca-true_area
+Ca_true_area
 
-Ib-false_area <- cbind(Ib-false_area %>% 
+Ib_false_area <- cbind(Ib_false_area %>% 
                         select(Peak:Compound)
-                      , Ib-false_daten) %>% 
+                      , Ib_false_daten) %>% 
   as_tibble()
-Ib-false_area
+Ib_false_area
 
-Ib-true_area <- cbind(Ib-true_area %>% 
+Ib_true_area <- cbind(Ib_true_area %>% 
                         select(Peak:Compound)
-                      , Ib-true_daten) %>% 
+                      , Ib_true_daten) %>% 
   as_tibble()
-Ib-true_area
+Ib_true_area
 
 ### Adjust the RT data frame accordingly
-Ca-false_RT_daten <- Ca-false_RT %>% 
+Ca_false_RT_daten <- Ca_false_RT %>% 
   select(!Peak:Compound) %>%  
   as.data.frame()
 
-Ca-true_RT_daten <- Ca-true_RT %>% 
+Ca_true_RT_daten <- Ca_true_RT %>% 
   select(!Peak:Compound) %>%  
   as.data.frame()
 
-Ib-false_RT_daten <- Ib-false_RT %>% 
+Ib_false_RT_daten <- Ib_false_RT %>% 
   select(!Peak:Compound) %>%  
   as.data.frame()
 
-Ib-true_RT_daten <- Ib-true_RT %>% 
+Ib_true_RT_daten <- Ib_true_RT %>% 
   select(!Peak:Compound) %>%  
   as.data.frame()
 
-Ca-false_RT_daten[is.na(Ca-false_daten)] <- NA
-Ca-false_RT <- cbind(Ca-false_RT %>% 
+Ca_false_RT_daten[is.na(Ca_false_daten)] <- NA
+Ca_false_RT <- cbind(Ca_false_RT %>% 
                  select(Peak:Compound)
-               , Ca-false_RT_daten) %>% 
+               , Ca_false_RT_daten) %>% 
   as_tibble()
-Ca-false_RT
+Ca_false_RT
 
-Ca-true_RT_daten[is.na(Ca-true_daten)] <- NA
-Ca-true_RT <- cbind(Ca-true_RT %>% 
+Ca_true_RT_daten[is.na(Ca_true_daten)] <- NA
+Ca_true_RT <- cbind(Ca_true_RT %>% 
                  select(Peak:Compound)
-               , Ca-true_RT_daten) %>% 
+               , Ca_true_RT_daten) %>% 
   as_tibble()
-Ca-true_RT
+Ca_true_RT
 
-Ib-false_RT_daten[is.na(Ib-false_daten)] <- NA
-Ib-false_RT <- cbind(Ib-false_RT %>% 
+Ib_false_RT_daten[is.na(Ib_false_daten)] <- NA
+Ib_false_RT <- cbind(Ib_false_RT %>% 
                       select(Peak:Compound)
-                    , Ib-false_RT_daten) %>% 
+                    , Ib_false_RT_daten) %>% 
   as_tibble()
-Ib-false_RT
+Ib_false_RT
 
-Ib-true_RT_daten[is.na(Ib-true_daten)] <- NA
-Ib-true_RT <- cbind(Ib-true_RT %>% 
+Ib_true_RT_daten[is.na(Ib_true_daten)] <- NA
+Ib_true_RT <- cbind(Ib_true_RT %>% 
                       select(Peak:Compound)
-                    , Ib-true_RT_daten) %>% 
+                    , Ib_true_RT_daten) %>% 
   as_tibble()
-Ib-true_RT
+Ib_true_RT
 
 ## Delete non-CHC compounds ####
 ### Samples 
-Ca-false_area <- Ca-false_area %>% filter(!is.na(Compound))
-Ca-false_area
-Ca-false_RT <- Ca-false_RT %>% filter(!is.na(Compound))
-Ca-false_RT
+Ca_false_area <- Ca_false_area %>% filter(!is.na(Compound))
+Ca_false_area
+Ca_false_RT <- Ca_false_RT %>% filter(!is.na(Compound))
+Ca_false_RT
 
-Ca-true_area <- Ca-true_area %>% filter(!is.na(Compound))
-Ca-true_area
-Ca-true_RT <- Ca-true_RT %>% filter(!is.na(Compound))
-Ca-true_RT
+Ca_true_area <- Ca_true_area %>% filter(!is.na(Compound))
+Ca_true_area
+Ca_true_RT <- Ca_true_RT %>% filter(!is.na(Compound))
+Ca_true_RT
 
-Ib-false_RT_daten[is.na(Ib-false_daten)] <- NA
-Ib-false_RT <- cbind(Ib-false_RT %>% 
-                      select(Peak:Compound)
-                    , Ib-false_RT_daten) %>% 
-  as_tibble()
-Ib-false_RT
+Ib_false_area <- Ib_false_area %>% filter(!is.na(Compound))
+Ib_false_area
+Ib_false_RT <- Ib_false_RT %>% filter(!is.na(Compound))
+Ib_false_RT
 
-Ib-true_RT_daten[is.na(Ib-true_daten)] <- NA
-Ib-true_RT <- cbind(Ib-true_RT %>% 
-                      select(Peak:Compound)
-                    , Ib-true_RT_daten) %>% 
-  as_tibble()
-Ib-true_RT
+Ib_true_area <- Ib_true_area %>% filter(!is.na(Compound))
+Ib_true_area
+Ib_true_RT <- Ib_true_RT %>% filter(!is.na(Compound))
+Ib_true_RT
 
 ### Compounds information
-Ca-false_comps_info <- Ca-false_comps_info %>% filter(!is.na(Compound))
-Ca-false_comps_info
+Ca_false_comps_info <- Ca_false_comps_info %>% filter(!is.na(Compound))
+Ca_false_comps_info
 
-Ca-true_comps_info <- Ca-true_comps_info %>% filter(!is.na(Compound))
-Ca-true_comps_info
+Ca_true_comps_info <- Ca_true_comps_info %>% filter(!is.na(Compound))
+Ca_true_comps_info
 
-Ib-true_comps_info <- Ib-true_comps_info %>% filter(!is.na(Compound))
-Ib-true_comps_info
+Ib_true_comps_info <- Ib_true_comps_info %>% filter(!is.na(Compound))
+Ib_true_comps_info
 
-Ib-false_comps_info <- Ib-false_comps_info %>% filter(!is.na(Compound))
-Ib-false_comps_info
+Ib_false_comps_info <- Ib_false_comps_info %>% filter(!is.na(Compound))
+Ib_false_comps_info
 
 ### Standards
 std_info <- std_info %>% filter(!is.na(Compound))
 std_info
 
 ## Delete rare compounds - OPTIONAL ####
-### Ca-false ####
-Ca-false_area <- below_50(Ca-false_area
+### Ca_false ####
+Ca_false_area <- below_50(Ca_false_area
                     , grouping.info = grouping_info %>% 
                       filter(Task == "Non-flying Carnica pollen foragers"))
-Ca-false_area
+Ca_false_area
 
-Ca-false_RT <- Ca-false_RT %>% 
-  filter(Peak %in% Ca-false_area$Peak)
-Ca-false_RT
+Ca_false_RT <- Ca_false_RT %>% 
+  filter(Peak %in% Ca_false_area$Peak)
+Ca_false_RT
 
-Ca-false_comps_info <- Ca-false_comps_info %>% 
-  filter(Peak %in% Ca-false_area$Peak)
-Ca-false_comps_info
+Ca_false_comps_info <- Ca_false_comps_info %>% 
+  filter(Peak %in% Ca_false_area$Peak)
+Ca_false_comps_info
 
-### Ca-true ####
-Ca-true_area <- belCa-true_50(Ca-true_area
+### Ca_true ####
+Ca_true_area <- belCa_true_50(Ca_true_area
                     , grouping.info = grouping_info %>% 
                       filter(Task == "Flying Carnica pollen foragers"))
-Ca-true_area
+Ca_true_area
 
-Ca-true_RT <- Ca-true_RT %>% 
-  filter(Peak %in% Ca-true_area$Peak)
-Ca-true_RT
+Ca_true_RT <- Ca_true_RT %>% 
+  filter(Peak %in% Ca_true_area$Peak)
+Ca_true_RT
 
-Ca-true_comps_info <- Ca-true_comps_info %>% 
-  filter(Peak %in% Ca-true_area$Peak)
-Ca-true_comps_info
+Ca_true_comps_info <- Ca_true_comps_info %>% 
+  filter(Peak %in% Ca_true_area$Peak)
+Ca_true_comps_info
 
-### Ib-false ####
-Ib-false_area <- belIb-false_50(Ib-false_area
+### Ib_false ####
+Ib_false_area <- belIb_false_50(Ib_false_area
                               , grouping.info = grouping_info %>% 
                                 filter(Task == "Non-flying Iberiensis pollen foragers"))
-Ib-false_area
+Ib_false_area
 
-Ib-false_RT <- Ib-false_RT %>% 
-  filter(Peak %in% Ib-false_area$Peak)
-Ib-false_RT
+Ib_false_RT <- Ib_false_RT %>% 
+  filter(Peak %in% Ib_false_area$Peak)
+Ib_false_RT
 
-Ib-false_comps_info <- Ib-false_comps_info %>% 
-  filter(Peak %in% Ib-false_area$Peak)
-Ib-false_comps_info
+Ib_false_comps_info <- Ib_false_comps_info %>% 
+  filter(Peak %in% Ib_false_area$Peak)
+Ib_false_comps_info
 
-### Ib-true ####
-Ib-true_area <- belIb-true_50(Ib-true_area
+### Ib_true ####
+Ib_true_area <- belIb_true_50(Ib_true_area
                               , grouping.info = grouping_info %>% 
                                 filter(Task == "Flying Iberiensis pollen foragers"))
-Ib-true_area
+Ib_true_area
 
-Ib-true_RT <- Ib-true_RT %>% 
-  filter(Peak %in% Ib-true_area$Peak)
-Ib-true_RT
+Ib_true_RT <- Ib_true_RT %>% 
+  filter(Peak %in% Ib_true_area$Peak)
+Ib_true_RT
 
-Ib-true_comps_info <- Ib-true_comps_info %>% 
-  filter(Peak %in% Ib-true_area$Peak)
-Ib-true_comps_info
+Ib_true_comps_info <- Ib_true_comps_info %>% 
+  filter(Peak %in% Ib_true_area$Peak)
+Ib_true_comps_info
 
 # Kováts Retention index ----
 ## Recalculate mean_RT ####
 # It may have changed due to the fusion and deletion of peaks
 # across the data set  
-### Ca-false ####
-identical(Ca-false_RT %>%
+### Ca_false ####
+identical(Ca_false_RT %>%
             select(!Peak:Compound) %>%
             rowMeans(na.rm = T)
-          , Ca-false_comps_info$mean_RT)
+          , Ca_false_comps_info$mean_RT)
 
-Ca-false_comps_info$mean_RT <- Ca-false_RT %>%
+Ca_false_comps_info$mean_RT <- Ca_false_RT %>%
   select(!Peak:Compound) %>% 
   rowMeans(na.rm = T)
 
-identical(Ca-false_RT %>%
+identical(Ca_false_RT %>%
             select(!Peak:Compound) %>% 
             rowMeans(na.rm = T)
-          , Ca-false_comps_info$mean_RT)
-Ca-false_comps_info$mean_RT
-Ca-false_comps_info
+          , Ca_false_comps_info$mean_RT)
+Ca_false_comps_info$mean_RT
+Ca_false_comps_info
 
-### Ca-true ####
-identical(Ca-true_RT %>%
+### Ca_true ####
+identical(Ca_true_RT %>%
             select(!Peak:Compound) %>%
             rowMeans(na.rm = T)
-          , Ca-true_comps_info$mean_RT)
+          , Ca_true_comps_info$mean_RT)
 
-Ca-true_comps_info$mean_RT <- Ca-true_RT %>%
+Ca_true_comps_info$mean_RT <- Ca_true_RT %>%
   select(!Peak:Compound) %>% 
   rowMeans(na.rm = T)
 
-identical(Ca-true_RT %>%
+identical(Ca_true_RT %>%
             select(!Peak:Compound) %>% 
             rowMeans(na.rm = T)
-          , Ca-true_comps_info$mean_RT)
-Ca-true_comps_info$mean_RT
-Ca-true_comps_info
+          , Ca_true_comps_info$mean_RT)
+Ca_true_comps_info$mean_RT
+Ca_true_comps_info
 
-### Ib-false ####
-identical(Ib-false_RT %>%
+### Ib_false ####
+identical(Ib_false_RT %>%
             select(!Peak:Compound) %>%
             rowMeans(na.rm = T)
-          , Ib-false_comps_info$mean_RT)
+          , Ib_false_comps_info$mean_RT)
 
-Ib-false_comps_info$mean_RT <- Ib-false_RT %>%
+Ib_false_comps_info$mean_RT <- Ib_false_RT %>%
   select(!Peak:Compound) %>% 
   rowMeans(na.rm = T)
 
-identical(Ib-false_RT %>%
+identical(Ib_false_RT %>%
             select(!Peak:Compound) %>% 
             rowMeans(na.rm = T)
-          , Ib-false_comps_info$mean_RT)
-Ib-false_comps_info$mean_RT
-Ib-false_comps_info
+          , Ib_false_comps_info$mean_RT)
+Ib_false_comps_info$mean_RT
+Ib_false_comps_info
 
 
-### Ib-true ####
-identical(Ib-true_RT %>%
+### Ib_true ####
+identical(Ib_true_RT %>%
             select(!Peak:Compound) %>%
             rowMeans(na.rm = T)
-          , Ib-true_comps_info$mean_RT)
+          , Ib_true_comps_info$mean_RT)
 
-Ib-true_comps_info$mean_RT <- Ib-true_RT %>%
+Ib_true_comps_info$mean_RT <- Ib_true_RT %>%
   select(!Peak:Compound) %>% 
   rowMeans(na.rm = T)
 
-identical(Ib-true_RT %>%
+identical(Ib_true_RT %>%
             select(!Peak:Compound) %>% 
             rowMeans(na.rm = T)
-          , Ib-true_comps_info$mean_RT)
-Ib-true_comps_info$mean_RT
-Ib-true_comps_info
+          , Ib_true_comps_info$mean_RT)
+Ib_true_comps_info$mean_RT
+Ib_true_comps_info
 
 ## Delete unnecessary standards ####
-Ca-false_std_info <- std_info %>% 
-  filter(!Chain.length %in% (Ca-false_comps_info %>% 
+Ca_false_std_info <- std_info %>% 
+  filter(!Chain.length %in% (Ca_false_comps_info %>% 
            filter(Class == "Alkane") %>% 
            pull(Chain.length)))
-Ca-false_std_info
+Ca_false_std_info
 
-Ca-true_std_info <- std_info %>% 
-  filter(!Chain.length %in% (Ca-true_comps_info %>% 
+Ca_true_std_info <- std_info %>% 
+  filter(!Chain.length %in% (Ca_true_comps_info %>% 
                                filter(Class == "Alkane") %>% 
                                pull(Chain.length)))
-Ca-true_std_info
+Ca_true_std_info
 
-Ib-false_std_info <- std_info %>% 
-  filter(!Chain.length %in% (Ib-false_comps_info %>% 
+Ib_false_std_info <- std_info %>% 
+  filter(!Chain.length %in% (Ib_false_comps_info %>% 
                                filter(Class == "Alkane") %>% 
                                pull(Chain.length)))
-Ib-false_std_info
+Ib_false_std_info
 
-Ib-true_std_info <- std_info %>% 
-  filter(!Chain.length %in% (Ib-true_comps_info %>% 
+Ib_true_std_info <- std_info %>% 
+  filter(!Chain.length %in% (Ib_true_comps_info %>% 
                                filter(Class == "Alkane") %>% 
                                pull(Chain.length)))
-Ib-true_std_info
+Ib_true_std_info
 
 ## Calculate RI ####
 # Merge comps_info and std_info, so the mean_Rt of every alkane 
 # is in the same data frame
-Ca-false_comps_info <- merge(Ca-false_std_info
-                       , Ca-false_comps_info
+Ca_false_comps_info <- merge(Ca_false_std_info
+                       , Ca_false_comps_info
                        , all = T
                        , sort = F) %>%
   arrange(mean_RT) %>% 
   select(Peak
          , everything()) %>% 
   as_tibble()
-Ca-false_comps_info
+Ca_false_comps_info
 
-Ca-true_comps_info <- merge(Ca-true_std_info
-                       , Ca-true_comps_info
+Ca_true_comps_info <- merge(Ca_true_std_info
+                       , Ca_true_comps_info
                        , all = T
                        , sort = F) %>%
   arrange(mean_RT) %>% 
   select(Peak
          , everything()) %>% 
   as_tibble()
-Ca-true_comps_info
+Ca_true_comps_info
 
-Ib-false_comps_info <- merge(Ib-false_std_info
-                            , Ib-false_comps_info
+Ib_false_comps_info <- merge(Ib_false_std_info
+                            , Ib_false_comps_info
                             , all = T
                             , sort = F) %>%
   arrange(mean_RT) %>% 
   select(Peak
          , everything()) %>% 
   as_tibble()
-Ib-false_comps_info
+Ib_false_comps_info
 
-Ib-true_comps_info <- merge(Ib-true_std_info
-                            , Ib-true_comps_info
+Ib_true_comps_info <- merge(Ib_true_std_info
+                            , Ib_true_comps_info
                             , all = T
                             , sort = F) %>%
   arrange(mean_RT) %>% 
   select(Peak
          , everything()) %>% 
   as_tibble()
-Ib-true_comps_info
+Ib_true_comps_info
 
 # Use the k.ri() function to calculate the retention index
-Ca-false_comps_info <- k.ri(Ca-false_comps_info)
-Ca-true_comps_info <- k.ri(Ca-true_comps_info)
-Ib-false_comps_info <- k.ri(Ib-false_comps_info)
-Ib-true_comps_info <- k.ri(Ib-true_comps_info)
+Ca_false_comps_info <- k.ri(Ca_false_comps_info)
+Ca_true_comps_info <- k.ri(Ca_true_comps_info)
+Ib_false_comps_info <- k.ri(Ib_false_comps_info)
+Ib_true_comps_info <- k.ri(Ib_true_comps_info)
 
 # Relative abundance  (%) ----
 ## Extract the abundance data into a data frame
-Ca-false_daten <- Ca-false_area %>% 
+Ca_false_daten <- Ca_false_area %>% 
   select(!Peak:Compound) %>%  
   as.data.frame()
 
-Ca-true_daten <- Ca-true_area %>% 
+Ca_true_daten <- Ca_true_area %>% 
   select(!Peak:Compound) %>%  
   as.data.frame()
 
-Ib-false_daten <- Ib-false_area %>% 
+Ib_false_daten <- Ib_false_area %>% 
   select(!Peak:Compound) %>%  
   as.data.frame()
 
-Ib-true_daten <- Ib-true_area %>% 
+Ib_true_daten <- Ib_true_area %>% 
   select(!Peak:Compound) %>%  
   as.data.frame()
 
 ## Replace NAs with 0s
-Ca-false_daten[is.na(Ca-false_daten)] <- 0
-Ca-true_daten[is.na(Ca-true_daten)] <- 0
-Ib-false_daten[is.na(Ib-false_daten)] <- 0
-Ib-true_daten[is.na(Ib-true_daten)] <- 0
+Ca_false_daten[is.na(Ca_false_daten)] <- 0
+Ca_true_daten[is.na(Ca_true_daten)] <- 0
+Ib_false_daten[is.na(Ib_false_daten)] <- 0
+Ib_true_daten[is.na(Ib_true_daten)] <- 0
 
 ### Calculate the relative abundance (%) of each compound per sample 
-Ca-false_daten <- Ca-false_daten %>% t / rowSums(Ca-false_daten %>% t) * 100
-Ca-false_daten <- Ca-false_daten %>% 
+Ca_false_daten <- Ca_false_daten %>% t / rowSums(Ca_false_daten %>% t) * 100
+Ca_false_daten <- Ca_false_daten %>% 
   t %>% 
   as.data.frame() %>% 
   as_tibble()
 
-Ca-true_daten <- Ca-true_daten %>% t / rowSums(Ca-true_daten %>% t) * 100
-Ca-true_daten <- Ca-true_daten %>% 
+Ca_true_daten <- Ca_true_daten %>% t / rowSums(Ca_true_daten %>% t) * 100
+Ca_true_daten <- Ca_true_daten %>% 
   t %>% 
   as.data.frame() %>% 
   as_tibble()
 
-Ib-false_daten <- Ib-false_daten %>% t / rowSums(Ib-false_daten %>% t) * 100
-Ib-false_daten <- Ib-false_daten %>% 
+Ib_false_daten <- Ib_false_daten %>% t / rowSums(Ib_false_daten %>% t) * 100
+Ib_false_daten <- Ib_false_daten %>% 
   t %>% 
   as.data.frame() %>% 
   as_tibble()
 
-Ib-true_daten <- Ib-true_daten %>% t / rowSums(Ib-true_daten %>% t) * 100
-Ib-true_daten <- Ib-true_daten %>% 
+Ib_true_daten <- Ib_true_daten %>% t / rowSums(Ib_true_daten %>% t) * 100
+Ib_true_daten <- Ib_true_daten %>% 
   t %>% 
   as.data.frame() %>% 
   as_tibble()
 
 ### Verify that the sum of all relative abundances per sample is exactly 100
-Ca-false_daten %>% colSums()
-Ca-true_daten %>% colSums()
-Ib-false_daten %>% colSums()
-Ib-true_daten %>% colSums()
+Ca_false_daten %>% colSums()
+Ca_true_daten %>% colSums()
+Ib_false_daten %>% colSums()
+Ib_true_daten %>% colSums()
 
 # Export final data frames ----
 ## Sort individuals' data columns according to the order of the individuals
 ## in the grouping_info data frames
-Ca-false_daten <- Ca-false_daten %>% select(all_of(grouping_info %>% 
+Ca_false_daten <- Ca_false_daten %>% select(all_of(grouping_info %>% 
                                          filter(Task == "Non-flying Carnica pollen foragers") %>% 
                                          pull(Individual)))
 
-Ca-true_daten <- Ca-true_daten %>% select(all_of(grouping_info %>% 
+Ca_true_daten <- Ca_true_daten %>% select(all_of(grouping_info %>% 
                                          filter(Task == "Flying Carnica pollen foragers") %>% 
                                          pull(Individual)))
 
-Ib-false_daten <- Ib-false_daten %>% select(all_of(grouping_info %>% 
+Ib_false_daten <- Ib_false_daten %>% select(all_of(grouping_info %>% 
                                                    filter(Task == "Non-flying Iberiensis pollen foragers") %>% 
                                                    pull(Individual)))
 
-Ib-true_daten <- Ib-true_daten %>% select(all_of(grouping_info %>% 
+Ib_true_daten <- Ib_true_daten %>% select(all_of(grouping_info %>% 
                                                    filter(Task == "Flying Iberiensis pollen foragers") %>% 
                                                    pull(Individual)))
 
 ## Adjust the area data frame
-Ca-false_area <- cbind(Ca-false_area %>% 
+Ca_false_area <- cbind(Ca_false_area %>% 
                    select(Peak:Compound)
-                 , Ca-false_daten) %>% 
+                 , Ca_false_daten) %>% 
   as_tibble()
 
-Ca-true_area <- cbind(Ca-true_area %>% 
+Ca_true_area <- cbind(Ca_true_area %>% 
                    select(Peak:Compound)
-                 , Ca-true_daten) %>% 
+                 , Ca_true_daten) %>% 
   as_tibble()
 
-Ib-false_area <- cbind(Ib-false_area %>% 
+Ib_false_area <- cbind(Ib_false_area %>% 
                         select(Peak:Compound)
-                      , Ib-false_daten) %>% 
+                      , Ib_false_daten) %>% 
   as_tibble()
 
-Ib-true_area <- cbind(Ib-true_area %>% 
+Ib_true_area <- cbind(Ib_true_area %>% 
                         select(Peak:Compound)
-                      , Ib-true_daten) %>% 
+                      , Ib_true_daten) %>% 
   as_tibble()
 
 ## merge the area data frame and comps_info data frame to adjust peak numbering
-Ca-false_table <- my_merge(Ca-false_comps_info
-                  , Ca-false_area
+Ca_false_table <- my_merge(Ca_false_comps_info
+                  , Ca_false_area
                   , merge_by = c("Peak", "Compound")) %>% 
   as.data.frame()
-Ca-false_table
-str(Ca-false_table)
+Ca_false_table
+str(Ca_false_table)
 
-Ca-true_table <- my_merge(Ca-true_comps_info
-                  , Ca-true_area
+Ca_true_table <- my_merge(Ca_true_comps_info
+                  , Ca_true_area
                   , merge_by = c("Peak", "Compound")) %>% 
   as.data.frame()
-Ca-true_table
-str(Ca-true_table)
+Ca_true_table
+str(Ca_true_table)
 
-Ib-false_table <- my_merge(Ib-false_comps_info
-                          , Ib-false_area
+Ib_false_table <- my_merge(Ib_false_comps_info
+                          , Ib_false_area
                           , merge_by = c("Peak", "Compound")) %>% 
   as.data.frame()
-Ib-false_table
-str(Ib-false_table)
+Ib_false_table
+str(Ib_false_table)
 
-Ib-true_table <- my_merge(Ib-true_comps_info
-                          , Ib-true_area
+Ib_true_table <- my_merge(Ib_true_comps_info
+                          , Ib_true_area
                           , merge_by = c("Peak", "Compound")) %>% 
   as.data.frame()
-Ib-true_table
-str(Ib-true_table)
+Ib_true_table
+str(Ib_true_table)
 
 ## Adjust peak numbering
-Ca-false_table$Peak <- paste0("P", 1:length(Ca-false_table$Peak))
-head(Ca-false_table)
-str(Ca-false_table)
+Ca_false_table$Peak <- paste0("P", 1:length(Ca_false_table$Peak))
+head(Ca_false_table)
+str(Ca_false_table)
 
-Ca-true_table$Peak <- paste0("P", 1:length(Ca-true_table$Peak))
-head(Ca-true_table)
-str(Ca-true_table)
+Ca_true_table$Peak <- paste0("P", 1:length(Ca_true_table$Peak))
+head(Ca_true_table)
+str(Ca_true_table)
 
-Ib-false_table$Peak <- paste0("P", 1:length(Ib-false_table$Peak))
-head(Ib-false_table)
-str(Ib-false_table)
+Ib_false_table$Peak <- paste0("P", 1:length(Ib_false_table$Peak))
+head(Ib_false_table)
+str(Ib_false_table)
 
-Ib-true_table$Peak <- paste0("P", 1:length(Ib-true_table$Peak))
-head(Ib-true_table)
-str(Ib-true_table)
+Ib_true_table$Peak <- paste0("P", 1:length(Ib_true_table$Peak))
+head(Ib_true_table)
+str(Ib_true_table)
 
 ## Define peak numbers as row names
-rownames(Ca-false_table) <- Ca-false_table$Peak
-Ca-false_table <- Ca-false_table %>% select(-Peak)
-head(Ca-false_table)
-str(Ca-false_table)
+rownames(Ca_false_table) <- Ca_false_table$Peak
+Ca_false_table <- Ca_false_table %>% select(-Peak)
+head(Ca_false_table)
+str(Ca_false_table)
 
-rownames(Ca-true_table) <- Ca-true_table$Peak
-Ca-true_table <- Ca-true_table %>% select(-Peak)
-head(Ca-true_table)
-str(Ca-true_table)
+rownames(Ca_true_table) <- Ca_true_table$Peak
+Ca_true_table <- Ca_true_table %>% select(-Peak)
+head(Ca_true_table)
+str(Ca_true_table)
 
-rownames(Ib-false_table) <- Ib-false_table$Peak
-Ib-false_table <- Ib-false_table %>% select(-Peak)
-head(Ib-false_table)
-str(Ib-false_table)
+rownames(Ib_false_table) <- Ib_false_table$Peak
+Ib_false_table <- Ib_false_table %>% select(-Peak)
+head(Ib_false_table)
+str(Ib_false_table)
 
-rownames(Ib-true_table) <- Ib-true_table$Peak
-Ib-true_table <- Ib-true_table %>% select(-Peak)
-head(Ib-true_table)
-str(Ib-true_table)
+rownames(Ib_true_table) <- Ib_true_table$Peak
+Ib_true_table <- Ib_true_table %>% select(-Peak)
+head(Ib_true_table)
+str(Ib_true_table)
 
 # ## re-split composition data frame and comps_info
 # IW_daten <- IW_table %>% 
@@ -1220,10 +1218,10 @@ str(Ib-true_table)
 # str(OW_comps_info)
 
 ## Export the data frames
-save(list = c("Ca-false_table"
-              , "Ca-true_table"
-              , "Ib-false_table"
-              , "Ib-true_table"
+save(list = c("Ca_false_table"
+              , "Ca_true_table"
+              , "Ib_false_table"
+              , "Ib_true_table"
               , "grouping_info")
      , file = here("data"
                    , "processed"
