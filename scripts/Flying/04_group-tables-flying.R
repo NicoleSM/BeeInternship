@@ -52,7 +52,7 @@ below_50 <- function(df_area, grouping.info){
   require(dplyr)
   
   grouping.info <- grouping.info %>%
-    unite('group', !Individual, remove = F)
+    unite('group', !c("Bee_number", "Task", "Hive"), remove = F)
   
   print(paste("Total number of groups"
               , length(unique(grouping.info$group))
@@ -70,7 +70,7 @@ below_50 <- function(df_area, grouping.info){
     print(paste("Samples of the group:"
                 , grouping.info %>% 
                   filter(group == g) %>% 
-                  pull(Individual) %>% 
+                  pull(Bee_number) %>% 
                   as.character() %>% 
                   paste0(collapse = " ")
                 , sep = " "))
@@ -78,7 +78,7 @@ below_50 <- function(df_area, grouping.info){
     df_g <- df_area %>% 
       select(all_of(grouping.info %>% 
                       filter(group == g) %>% 
-                      pull(Individual)))
+                      pull(Bee_number)))
     df_g <- cbind(df_area %>% 
                     select(Peak:Compound)
                   , df_g) %>% 
@@ -158,6 +158,7 @@ k.ri <- function(Comps) {
               , sep = " "))
   
   # Standards are considered alkanes
+  levels(Comps2$Class) <- c(levels(Comps2$Class), "Alkane")
   Comps2["Class"][Comps2["Class"] == "STD"] <- "Alkane"
   
   # A data frame listign the alkanes
@@ -174,7 +175,6 @@ k.ri <- function(Comps) {
     # Data frame with the info of the compound
     # that is defined by current iteration
     n.comp <- Comps2 %>% filter(Comps2$Peak == n)
-    
     # Report lap number and compound
     cat('\n')
     print(paste("Compound", Lap, n.comp[, "Compound"], sep = " "))
@@ -234,7 +234,7 @@ k.ri <- function(Comps) {
   # Add RI columns with all the calculated RI to the Comps data frame
   # replacing the mean_RT column
   Comps2 <- cbind.data.frame(Comps2 %>% select(-mean_RT), "RI" = ri.list)
-  
+  print(Comps2)
   cat('\n')
   print("The RI calculation of all compounds has finished!") 
   cat('\n')
@@ -288,7 +288,8 @@ std_info
 #### The peaks/compounds within the standard runs, must be differentiated from
 #### the alkanes in the samples
 #### Class
-std_info['Class'][std_info['Class'] == "ane"] <- "STD"
+levels(std_info$Class) <- c(levels(std_info$Class), "STD")
+std_info$Class[std_info$Class == "ane"] <- "STD"
 std_info
 
 #### Compound names
@@ -371,6 +372,15 @@ Ca_false_comps_info
 Ca_false_comps_info %>% filter(!is.na(Compound))
 
 #### Class
+levels(Ca_false_comps_info$Class) <- c(levels(Ca_false_comps_info$Class)
+                                       , "Alkane"
+                                       , "Alkene"
+                                       , "Alkadiene"
+                                       , "Methyl"
+                                       , "Dimethyl"
+                                       , "Trimethyl"
+                                       , "Tetramethyl")
+
 Ca_false_comps_info['Class'][Ca_false_comps_info['Class'] == "ane"] <- "Alkane"
 Ca_false_comps_info['Class'][Ca_false_comps_info['Class'] == "ene"] <- "Alkene"
 Ca_false_comps_info['Class'][Ca_false_comps_info['Class'] == "diene"] <- "Alkadiene"
@@ -448,6 +458,15 @@ Ca_true_comps_info
 Ca_true_comps_info %>% filter(!is.na(Compound))
 
 #### Class
+levels(Ca_true_comps_info$Class) <- c(levels(Ca_true_comps_info$Class)
+                                       , "Alkane"
+                                       , "Alkene"
+                                       , "Alkadiene"
+                                       , "Methyl"
+                                       , "Dimethyl"
+                                       , "Trimethyl"
+                                       , "Tetramethyl")
+
 Ca_true_comps_info['Class'][Ca_true_comps_info['Class'] == "ane"] <- "Alkane"
 Ca_true_comps_info['Class'][Ca_true_comps_info['Class'] == "ene"] <- "Alkene"
 Ca_true_comps_info['Class'][Ca_true_comps_info['Class'] == "diene"] <- "Alkadiene"
@@ -523,6 +542,15 @@ Ib_false_comps_info
 Ib_false_comps_info %>% filter(!is.na(Compound))
 
 #### Class
+levels(Ib_false_comps_info$Class) <- c(levels(Ib_false_comps_info$Class)
+                                       , "Alkane"
+                                       , "Alkene"
+                                       , "Alkadiene"
+                                       , "Methyl"
+                                       , "Dimethyl"
+                                       , "Trimethyl"
+                                       , "Tetramethyl")
+
 Ib_false_comps_info['Class'][Ib_false_comps_info['Class'] == "ane"] <- "Alkane"
 Ib_false_comps_info['Class'][Ib_false_comps_info['Class'] == "ene"] <- "Alkene"
 Ib_false_comps_info['Class'][Ib_false_comps_info['Class'] == "diene"] <- "Alkadiene"
@@ -598,6 +626,15 @@ Ib_true_comps_info
 Ib_true_comps_info %>% filter(!is.na(Compound))
 
 #### Class
+levels(Ib_true_comps_info$Class) <- c(levels(Ca_true_comps_info$Class)
+                                       , "Alkane"
+                                       , "Alkene"
+                                       , "Alkadiene"
+                                       , "Methyl"
+                                       , "Dimethyl"
+                                       , "Trimethyl"
+                                       , "Tetramethyl")
+
 Ib_true_comps_info['Class'][Ib_true_comps_info['Class'] == "ane"] <- "Alkane"
 Ib_true_comps_info['Class'][Ib_true_comps_info['Class'] == "ene"] <- "Alkene"
 Ib_true_comps_info['Class'][Ib_true_comps_info['Class'] == "diene"] <- "Alkadiene"
@@ -836,7 +873,8 @@ std_info
 ### Ca_false ####
 Ca_false_area <- below_50(Ca_false_area
                     , grouping.info = grouping_info %>% 
-                      filter(Task == "Non-flying Carnica pollen foragers"))
+                      filter(Subspecies == "Ca" 
+                             & Flying == "FALSE"))
 Ca_false_area
 
 Ca_false_RT <- Ca_false_RT %>% 
@@ -848,9 +886,10 @@ Ca_false_comps_info <- Ca_false_comps_info %>%
 Ca_false_comps_info
 
 ### Ca_true ####
-Ca_true_area <- belCa_true_50(Ca_true_area
+Ca_true_area <- below_50(Ca_true_area
                     , grouping.info = grouping_info %>% 
-                      filter(Task == "Flying Carnica pollen foragers"))
+                      filter(Subspecies == "Ca" 
+                             & Flying == "TRUE"))
 Ca_true_area
 
 Ca_true_RT <- Ca_true_RT %>% 
@@ -862,9 +901,10 @@ Ca_true_comps_info <- Ca_true_comps_info %>%
 Ca_true_comps_info
 
 ### Ib_false ####
-Ib_false_area <- belIb_false_50(Ib_false_area
+Ib_false_area <- below_50(Ib_false_area
                               , grouping.info = grouping_info %>% 
-                                filter(Task == "Non-flying Iberiensis pollen foragers"))
+                                filter(Subspecies == "Ib" 
+                                       & Flying == "FALSE"))
 Ib_false_area
 
 Ib_false_RT <- Ib_false_RT %>% 
@@ -876,9 +916,10 @@ Ib_false_comps_info <- Ib_false_comps_info %>%
 Ib_false_comps_info
 
 ### Ib_true ####
-Ib_true_area <- belIb_true_50(Ib_true_area
+Ib_true_area <- below_50(Ib_true_area
                               , grouping.info = grouping_info %>% 
-                                filter(Task == "Flying Iberiensis pollen foragers"))
+                                filter(Subspecies == "Ib" 
+                                       & Flying == "TRUE"))
 Ib_true_area
 
 Ib_true_RT <- Ib_true_RT %>% 
@@ -971,8 +1012,8 @@ Ca_false_std_info
 
 Ca_true_std_info <- std_info %>% 
   filter(!Chain.length %in% (Ca_true_comps_info %>% 
-                               filter(Class == "Alkane") %>% 
-                               pull(Chain.length)))
+          filter(Class == "Alkane") %>% 
+          pull(Chain.length)))
 Ca_true_std_info
 
 Ib_false_std_info <- std_info %>% 
@@ -1095,20 +1136,24 @@ Ib_true_daten %>% colSums()
 ## Sort individuals' data columns according to the order of the individuals
 ## in the grouping_info data frames
 Ca_false_daten <- Ca_false_daten %>% select(all_of(grouping_info %>% 
-                                         filter(Task == "Non-flying Carnica pollen foragers") %>% 
-                                         pull(Individual)))
+                                         filter(Subspecies == "Ca" 
+                                                & Flying == "FALSE") %>% 
+                                         pull(Bee_number)))
 
 Ca_true_daten <- Ca_true_daten %>% select(all_of(grouping_info %>% 
-                                         filter(Task == "Flying Carnica pollen foragers") %>% 
-                                         pull(Individual)))
+                                         filter(Subspecies == "Ca" 
+                                                & Flying == "TRUE") %>% 
+                                         pull(Bee_number)))
 
 Ib_false_daten <- Ib_false_daten %>% select(all_of(grouping_info %>% 
-                                                   filter(Task == "Non-flying Iberiensis pollen foragers") %>% 
-                                                   pull(Individual)))
+                                                   filter(Subspecies == "Ib" 
+                                                          & Flying == "FALSE") %>% 
+                                                   pull(Bee_number)))
 
 Ib_true_daten <- Ib_true_daten %>% select(all_of(grouping_info %>% 
-                                                   filter(Task == "Flying Iberiensis pollen foragers") %>% 
-                                                   pull(Individual)))
+                                                   filter(Subspecies == "Ib" 
+                                                          & Flying == "TRUE") %>% 
+                                                   pull(Bee_number)))
 
 ## Adjust the area data frame
 Ca_false_area <- cbind(Ca_false_area %>% 
@@ -1233,7 +1278,7 @@ print("The data frames for analysis were exported")
 ## Report session information
 capture.output(sessionInfo()
                , file = here("output", "Flying", "SInf_Script04.txt"))
-print("The sessionInfo report was exported. The script 03 finished running")
+print("The sessionInfo report was exported. The script 04 finished running")
 
 # ## Detach/unload packages
 # lapply(NPacks, unloadNamespace)
