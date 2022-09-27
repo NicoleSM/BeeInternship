@@ -1,4 +1,4 @@
-library(EasyqpcR, lib.loc=.libPaths()[1])
+library(EasyqpcR)
 library(reshape2)
 library(dplyr)
 library(rstatix)
@@ -19,10 +19,10 @@ library(DHARMa)
 # read data ----
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-setwd("/home/thammi/UniSync/Projekte/Daniel_qPCR/Exp1/")
+setwd("C:\\Users\\Nicole\\Documents\\BeeInternship\\data\\raw\\Plasticity\\data-analysis")
 Standard <- read.csv("SK.csv", header=T, check.names = FALSE)
 run1_CT <- read.csv("run1.csv",header=T,check.names = FALSE)
-run2_CT <- run1_CT <- read.csv("run2.csv",header=T,check.names = FALSE)
+run2_CT <- read.csv("run2.csv",header=T,check.names = FALSE)
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # calculate relative expression ----
 ## calculate efficiencies ----
@@ -87,9 +87,7 @@ ggplot(data = run1_nrm_norm_m, aes(x=subspecies,
                                    y=expression,
                                    fill=role
                                    )) +
-  geom_boxjitter(jitter.shape = 21,
-                 errorbar.draw = FALSE,
-                 show.legend = TRUE) +
+  geom_boxplot(show.legend = TRUE) +
   facet_wrap(~gene,
              scales = "free"
              )+
@@ -150,9 +148,7 @@ ggplot(data = run2_nrm_norm_m, aes(x=subspecies,
                                    y=expression,
                                    fill=role
 )) +
-  geom_boxjitter(jitter.shape = 21,
-                 errorbar.draw = FALSE,
-                 show.legend = TRUE) +
+  geom_boxplot(show.legend = TRUE) +
   facet_wrap(~gene,
              scales = "free"
   )+
