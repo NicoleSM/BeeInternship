@@ -143,14 +143,39 @@ movements_Ca_TRUE10 <- data.frame(peaks_list = c(paste0("P"
 str(movements_Ca_TRUE10)
 
 movements_Ca_TRUE07<- data.frame(peaks_list = c(paste0("P"
-                                                      , c(131)))
-                                , movement_dirs = c('up'))
+                                                      , c(131, 86, 85, 106)))
+                                , movement_dirs = c('up', 'down', 'down', 'up'))
 str(movements_Ca_TRUE07)
+
+movements_Ca_TRUE13<- data.frame(peaks_list = c(paste0("P"
+                                                       , c(85)))
+                                 , movement_dirs = c('down'))
+str(movements_Ca_TRUE13)
+
+movements_Ca_TRUE14<- data.frame(peaks_list = c(paste0("P"
+                                                       , c(85)))
+                                 , movement_dirs = c('down'))
+str(movements_Ca_TRUE14)
+
+movements_Ca_TRUE15<- data.frame(peaks_list = c(paste0("P"
+                                                       , c(85)))
+                                 , movement_dirs = c('down'))
+str(movements_Ca_TRUE15)
+
+movements_Ca_TRUE03<- data.frame(peaks_list = c(paste0("P"
+                                                       , c(85)))
+                                 , movement_dirs = c('down'))
+str(movements_Ca_TRUE03)
+
+movements_Ca_TRUE12<- data.frame(peaks_list = c(paste0("P"
+                                                       , c(86, 85)))
+                                 , movement_dirs = c('down','down'))
+str(movements_Ca_TRUE12)
 
 #### Ib_FALSE ####
 movements_Ib_FALSE21 <- data.frame(peaks_list = c(paste0("P"
-                                                        , c(173, 187)))
-                                  , movement_dirs = c('down','up'))
+                                                        , c(173, 187, 164)))
+                                  , movement_dirs = c('down','up', 'up'))
 str(movements_Ib_FALSE21)
 
 movements_Ib_FALSE23<- data.frame(peaks_list = c(paste0("P"
@@ -159,18 +184,18 @@ movements_Ib_FALSE23<- data.frame(peaks_list = c(paste0("P"
 str(movements_Ib_FALSE23)
 
 movements_Ib_FALSE24<- data.frame(peaks_list = c(paste0("P"
-                                                        , c(173)))
-                                  , movement_dirs = c('down'))
+                                                        , c(173, 164)))
+                                  , movement_dirs = c('down', 'up'))
 str(movements_Ib_FALSE24)
 
 movements_Ib_FALSE25<- data.frame(peaks_list = c(paste0("P"
-                                                        , c(173, 187)))
-                                  , movement_dirs = c('down','up'))
+                                                        , c(173, 187, 164)))
+                                  , movement_dirs = c('down','up', 'up'))
 str(movements_Ib_FALSE25)
 
 movements_Ib_FALSE26<- data.frame(peaks_list = c(paste0("P"
-                                                        , c(173, 187)))
-                                  , movement_dirs = c('down','up'))
+                                                        , c(173, 187, 164)))
+                                  , movement_dirs = c('down','up', 'up'))
 str(movements_Ib_FALSE26)
 
 movements_Ib_FALSE31<- data.frame(peaks_list = c(paste0("P"
@@ -190,23 +215,23 @@ str(movements_Ib_FALSE32)
 
 #### Ib_TRUE ####
 movements_Ib_TRUE27 <- data.frame(peaks_list = c(paste0("P"
-                                                         , c(99)))
-                                   , movement_dirs = c('up'))
+                                                         , c(99, 164)))
+                                   , movement_dirs = c('up', 'down'))
 str(movements_Ib_TRUE27)
 
 movements_Ib_TRUE28 <- data.frame(peaks_list = c(paste0("P"
-                                                        , c(99, 209)))
-                                  , movement_dirs = c('up', 'up'))
+                                                        , c(99, 209, 164)))
+                                  , movement_dirs = c('up', 'up', 'down'))
 str(movements_Ib_TRUE28)
 
 movements_Ib_TRUE29 <- data.frame(peaks_list = c(paste0("P"
-                                                        , c(99)))
-                                  , movement_dirs = c('up'))
+                                                        , c(99, 164)))
+                                  , movement_dirs = c('up', 'down'))
 str(movements_Ib_TRUE29)
 
 movements_Ib_TRUE39 <- data.frame(peaks_list = c(paste0("P"
-                                                        , c(99, 138)))
-                                  , movement_dirs = c('up', 'up'))
+                                                        , c(99, 138, 164)))
+                                  , movement_dirs = c('up', 'up', 'down'))
 str(movements_Ib_TRUE39)
 
 movements_Ib_TRUE38 <- data.frame(peaks_list = c(paste0("P"
@@ -215,20 +240,29 @@ movements_Ib_TRUE38 <- data.frame(peaks_list = c(paste0("P"
 str(movements_Ib_TRUE38)
 
 movements_Ib_TRUE30 <- data.frame(peaks_list = c(paste0("P"
-                                                        , c(163, 138)))
-                                  , movement_dirs = c('down', 'up'))
+                                                        , c(163, 138, 164)))
+                                  , movement_dirs = c('down', 'up', 'down'))
 str(movements_Ib_TRUE30)
 
 movements_Ib_TRUE22 <- data.frame(peaks_list = c(paste0("P"
-                                                        , c(144)))
-                                  , movement_dirs = c('up'))
+                                                        , c(144, 126, 150, 206)))
+                                  , movement_dirs = c('up', 'up', 'down', 'down'))
 str(movements_Ib_TRUE22)
 
 movements_Ib_TRUE40 <- data.frame(peaks_list = c(paste0("P"
-                                                        , c(144, 209)))
-                                  , movement_dirs = c('up', 'down'))
+                                                        , c(144, 209, 163)))
+                                  , movement_dirs = c('up', 'down', 'down'))
 str(movements_Ib_TRUE40)
 
+movements_Ib_TRUE33 <- data.frame(peaks_list = c(paste0("P"
+                                                        , c(164)))
+                                  , movement_dirs = c('down'))
+str(movements_Ib_TRUE33)
+
+movements_Ib_TRUE37 <- data.frame(peaks_list = c(paste0("P"
+                                                        , c(164)))
+                                  , movement_dirs = c('down'))
+str(movements_Ib_TRUE37)
 
 
 
@@ -278,6 +312,71 @@ mg_list_area[["Ca_TRUE"]] <- move_peaks(mg_list_area[["Ca_TRUE"]]
                                         , peaks_list = movements_Ca_TRUE10 %>%
                                           pull(peaks_list)
                                         , movement_dirs = movements_Ca_TRUE10 %>%
+                                          pull(movement_dirs))
+# Sample 13
+mg_list_RT[["Ca_TRUE"]] <- move_peaks(mg_list_RT[["Ca_TRUE"]]
+                                      , Sample = 'Fly_013'
+                                      , peaks_list = movements_Ca_TRUE13 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ca_TRUE13 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ca_TRUE"]] <- move_peaks(mg_list_area[["Ca_TRUE"]]
+                                        , Sample = 'Fly_013'
+                                        , peaks_list = movements_Ca_TRUE13 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ca_TRUE13 %>%
+                                          pull(movement_dirs))
+# Sample 14
+mg_list_RT[["Ca_TRUE"]] <- move_peaks(mg_list_RT[["Ca_TRUE"]]
+                                      , Sample = 'Fly_014'
+                                      , peaks_list = movements_Ca_TRUE14 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ca_TRUE14 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ca_TRUE"]] <- move_peaks(mg_list_area[["Ca_TRUE"]]
+                                        , Sample = 'Fly_014'
+                                        , peaks_list = movements_Ca_TRUE14 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ca_TRUE14 %>%
+                                          pull(movement_dirs))
+# Sample 15
+mg_list_RT[["Ca_TRUE"]] <- move_peaks(mg_list_RT[["Ca_TRUE"]]
+                                      , Sample = 'Fly_015'
+                                      , peaks_list = movements_Ca_TRUE15 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ca_TRUE15 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ca_TRUE"]] <- move_peaks(mg_list_area[["Ca_TRUE"]]
+                                        , Sample = 'Fly_015'
+                                        , peaks_list = movements_Ca_TRUE15 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ca_TRUE15 %>%
+                                          pull(movement_dirs))
+# Sample 03
+mg_list_RT[["Ca_TRUE"]] <- move_peaks(mg_list_RT[["Ca_TRUE"]]
+                                      , Sample = 'Fly_003'
+                                      , peaks_list = movements_Ca_TRUE03 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ca_TRUE03 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ca_TRUE"]] <- move_peaks(mg_list_area[["Ca_TRUE"]]
+                                        , Sample = 'Fly_003'
+                                        , peaks_list = movements_Ca_TRUE03 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ca_TRUE03 %>%
+                                          pull(movement_dirs))
+# Sample 12
+mg_list_RT[["Ca_TRUE"]] <- move_peaks(mg_list_RT[["Ca_TRUE"]]
+                                      , Sample = 'Fly_012'
+                                      , peaks_list = movements_Ca_TRUE12 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ca_TRUE12 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ca_TRUE"]] <- move_peaks(mg_list_area[["Ca_TRUE"]]
+                                        , Sample = 'Fly_012'
+                                        , peaks_list = movements_Ca_TRUE12 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ca_TRUE12 %>%
                                           pull(movement_dirs))
 ### Ib_FALSE ####
 # Sample 21
@@ -494,6 +593,33 @@ mg_list_area[["Ib_TRUE"]] <- move_peaks(mg_list_area[["Ib_TRUE"]]
                                         , peaks_list = movements_Ib_TRUE40 %>%
                                           pull(peaks_list)
                                         , movement_dirs = movements_Ib_TRUE40 %>%
+                                          pull(movement_dirs))
+# Sample 33
+mg_list_RT[["Ib_TRUE"]] <- move_peaks(mg_list_RT[["Ib_TRUE"]]
+                                      , Sample = 'Fly_033'
+                                      , peaks_list = movements_Ib_TRUE33 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ib_TRUE33 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ib_TRUE"]] <- move_peaks(mg_list_area[["Ib_TRUE"]]
+                                        , Sample = 'Fly_033'
+                                        , peaks_list = movements_Ib_TRUE33 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ib_TRUE33 %>%
+                                          pull(movement_dirs))
+
+# Sample 37
+mg_list_RT[["Ib_TRUE"]] <- move_peaks(mg_list_RT[["Ib_TRUE"]]
+                                      , Sample = 'Fly_037'
+                                      , peaks_list = movements_Ib_TRUE37 %>%
+                                        pull(peaks_list)
+                                      , movement_dirs = movements_Ib_TRUE37 %>%
+                                        pull(movement_dirs))
+mg_list_area[["Ib_TRUE"]] <- move_peaks(mg_list_area[["Ib_TRUE"]]
+                                        , Sample = 'Fly_037'
+                                        , peaks_list = movements_Ib_TRUE37 %>%
+                                          pull(peaks_list)
+                                        , movement_dirs = movements_Ib_TRUE37 %>%
                                           pull(movement_dirs))
 
 print("Alignment was corrected. Check heat map to verify that it is correct.")
@@ -812,13 +938,13 @@ print("The aligned data frames were exported")
 
 DF_names <- names(mg_list_RT) 
 for(df in DF_names){
-  name_change <- str_replace(df, "_", "-")
+  name_export <- df
   openxlsx::write.xlsx(mg_list_RT[[df]]
                        , here("data"
                               , "raw"
                               , analysis
                               , "tmp"
-                              , paste0(name_change
+                              , paste0(name_export
                                               ,"_RT_"
                                               ,"table.xlsx")))
 }

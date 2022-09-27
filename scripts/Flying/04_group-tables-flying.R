@@ -626,7 +626,7 @@ Ib_true_comps_info
 Ib_true_comps_info %>% filter(!is.na(Compound))
 
 #### Class
-levels(Ib_true_comps_info$Class) <- c(levels(Ca_true_comps_info$Class)
+levels(Ib_true_comps_info$Class) <- c(levels(Ib_true_comps_info$Class)
                                        , "Alkane"
                                        , "Alkene"
                                        , "Alkadiene"
@@ -634,6 +634,7 @@ levels(Ib_true_comps_info$Class) <- c(levels(Ca_true_comps_info$Class)
                                        , "Dimethyl"
                                        , "Trimethyl"
                                        , "Tetramethyl")
+
 
 Ib_true_comps_info['Class'][Ib_true_comps_info['Class'] == "ane"] <- "Alkane"
 Ib_true_comps_info['Class'][Ib_true_comps_info['Class'] == "ene"] <- "Alkene"
@@ -1100,6 +1101,8 @@ Ca_false_daten[is.na(Ca_false_daten)] <- 0
 Ca_true_daten[is.na(Ca_true_daten)] <- 0
 Ib_false_daten[is.na(Ib_false_daten)] <- 0
 Ib_true_daten[is.na(Ib_true_daten)] <- 0
+
+
 
 ### Calculate the relative abundance (%) of each compound per sample 
 Ca_false_daten <- Ca_false_daten %>% t / rowSums(Ca_false_daten %>% t) * 100

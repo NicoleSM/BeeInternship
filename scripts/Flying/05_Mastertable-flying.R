@@ -163,84 +163,162 @@ fuse_all_peaks <- function(master.table, fusion.list){
 load(here("data", "processed", "Flying", "group_tables.Rdata"))
 
 # First MT ----
-comps_vars <- Ca-false_table %>% 
-  select(Compound:RI) %>% 
+comps_vars <- Ca_false_table %>% 
+  select(c("Compound", "Class", "Chain.length", "RI", "Mod.position")) %>% 
   colnames() # c("Compound", "Class", "Chain.length", "RI")
 comps_vars
 
-master.table <- my_merge(Ca-false_table
-         , Ca-true_table
-         , Ib-false_table
-         , Ib-true_table
+master.table <- my_merge(Ca_false_table
+         , Ca_true_table
          , merge_by = comps_vars) %>% arrange(RI)
 str(master.table)
 
+master.table2 <- my_merge(master.table
+                         , Ib_false_table
+                         , merge_by = comps_vars) %>% arrange(RI)
+str(master.table2)
+
+master.table3 <- my_merge(master.table2
+                         , Ib_true_table
+                         , merge_by = comps_vars) %>% arrange(RI)
+str(master.table3)
+
 # Export first master table
-write_csv(master.table, here("data"
+write_csv(master.table3, here("data"
                              , "raw"
                              , "Flying"
                              , "tmp"
                              , "master_table_first.csv"))
 
 ## RI  recalculation ####
-master.table <- mt_new_ri(master.table)
-str(master.table)
+dup_comps <- master.table3 %>% filter(duplicated(Compound)) %>%
+  select(RI, Compound)
+str(dup_comps)
+
+# Prepare to recalculate new RIs
+dup_comps2 <- master.table3 %>% distinct(Compound, .keep_all = T) %>%
+  filter(Compound %in% dup_comps$Compound) %>%
+  select(RI, Compound)
+dup_comps <- rbind.data.frame(dup_comps, dup_comps2) %>% arrange(RI)
+dup_comps <- dup_comps %>%
+  mutate(new.RIs = rep(NA, nrow(dup_comps))) %>%
+  as.data.frame()
+rm(dup_comps2)
+
+# Loop to recalculate RIs of repeated compounds allowing proper merge
+# It iterates on each unique compound name in dup_comps data frame
+Lap = 1
+for (i in unique(dup_comps$Compound)) {
+  # Report current lap compound
+  print(paste("Lap", Lap, ":", i, sep = " "))
+  # Store peaks with the compound in a new temporal data frame
+  peaks <- dup_comps %>% filter(Compound == i)
+  # Store the RIs in descending order in a new temporal data frame
+  desc_RIs <- peaks %>% arrange(desc(RI)) %>% select(RI)
+  # The desc_RIs data frame is transformed into a string
+  desc_RIs <- desc_RIs["RI"]
+  
+  # desc_RIs is used to determine the order of iterations
+  # for the recalculation of the RIs inside a for loop
+  for (n in desc_RIs[, "RI"]) {
+    # Report RI determining the current loop iteration
+    print(paste("RI:", n, sep = " "))
+    # Store peaks that do not differ in their RIs by more than 
+    # 2 in a new temporal data frame
+    same_peak <- peaks %>%
+      filter((n-peaks$RI) <= 2 & (n-peaks$RI) >= 0)
+    same_peak
+    # Calculate the new RI for the peak, if it has not been done
+    # in a previous iteration
+    if(is.na(same_peak$new.RIs[][same_peak$RI == n])){
+      # New RI is the average of the RIs of the peaks with the same
+      # compound name (curren iteration compound)
+      # , for which the alignment has to be corrected
+      new_RI <- same_peak$RI %>%  mean() %>%
+        round(digits = 0) %>%
+        rep(nrow(same_peak))
+      new_RI
+      peaks$new.RIs[][peaks$RI %in% same_peak$RI] <- new_RI
+      print(paste("New RI :"
+                  , min(new_RI)
+                  , sep = " "))
+    } else {
+      print(paste("New RI is the same as previous ("
+                  , min(new_RI), ")"))
+    }
+  }
+  dup_comps$new.RIs[][dup_comps$RI[] %in% peaks$RI] <- peaks$new.RIs
+  Lap = Lap + 1
+}
+
+# Replace the RIs with the new RIs
+master.table3$RI[][master.table3$RI[] %in% dup_comps$RI] <-
+  dup_comps$new.RIs[]
+print("All new RIs have been stored in the Master table")
+
+master.table4 <- mt_new_ri(master.table3)
+str(master.table4)
 
 # Export the master table with recalculated RIs
-write_csv(master.table, here("data"
+write_csv(master.table3, here("data"
                              , "raw"
                              , "Flying"
                              , "tmp"
                              , "master_table_new-RI.csv"))
 
 # New group tables ----
-Ca-false_table <- master.table %>% select(all_of(colnames(Ca-false_table)))
-Ca-false_table[is.na(Ca-false_table)] <- 0
+Ca_false_table <- master.table3 %>% select(all_of(colnames(Ca_false_table)))
+Ca_false_table[is.na(Ca_false_table)] <- 0
 
-Ca-true_table <- master.table %>% select(all_of(colnames(Ca-true_table)))
-Ca-true_table[is.na(Ca-true_table)] <- 0
+Ca_true_table <- master.table3 %>% select(all_of(colnames(Ca_true_table)))
+Ca_true_table[is.na(Ca_true_table)] <- 0
 
-Ib-false_table <- master.table %>% select(all_of(colnames(Ib-false_table)))
-Ib-false_table[is.na(Ib-false_table)] <- 0
+Ib_false_table <- master.table3 %>% select(all_of(colnames(Ib_false_table)))
+Ib_false_table[is.na(Ib_false_table)] <- 0
 
-Ib-true_table <- master.table %>% select(all_of(colnames(Ib-true_table)))
-Ib-true_table[is.na(Ib-true_table)] <- 0
+Ib_true_table <- master.table3 %>% select(all_of(colnames(Ib_true_table)))
+Ib_true_table[is.na(Ib_true_table)] <- 0
 
-Ca-false_table <- Ca-false_table %>% 
-  filter(Ca-false_table %>% 
+Ca_false_table <- Ca_false_table %>% 
+  filter(Ca_false_table %>% 
            select(-all_of(comps_vars)) %>% 
            rowSums() > 0.0)
-str(Ca-false_table)
+str(Ca_false_table)
 
-Ca-true_table <- Ca-true_table %>% 
-  filter(Ca-true_table %>% 
+Ca_true_table <- Ca_true_table %>% 
+  filter(Ca_true_table %>% 
            select(-all_of(comps_vars)) %>% 
            rowSums() > 0.0)
-str(Ca-true_table)
+str(Ca_true_table)
 
-Ib-false_table <- Ib-false_table %>% 
-  filter(Ib-false_table %>% 
+Ib_false_table <- Ib_false_table %>% 
+  filter(Ib_false_table %>% 
            select(-all_of(comps_vars)) %>% 
            rowSums() > 0.0)
-str(Ib-false_table)
+str(Ib_false_table)
 
-Ib-true_table <- Ib-true_table %>% 
-  filter(Ib-true_table %>% 
+Ib_true_table <- Ib_true_table %>% 
+  filter(Ib_true_table %>% 
            select(-all_of(comps_vars)) %>% 
            rowSums() > 0.0)
-str(Ib-true_table)
+str(Ib_true_table)
 
 # Second MT ----
 # Merge the data frames to build the master table
-master.table <- my_merge(Ca-false_table
-                         , Ca-true_table
-                         , Ib-false_table
-                         , Ib-true_table
-                         , merge_by = comps_vars) %>% 
-  arrange(RI) 
+master.table4 <- my_merge(Ca_false_table
+                         , Ca_true_table
+                         , merge_by = comps_vars) %>% arrange(RI) 
 
-master.table <- master.table %>% 
-  mutate(Peak = paste0("P", 1:nrow(master.table))) %>% 
+master.table5 <- my_merge(master.table4
+                          , Ib_false_table
+                          , merge_by = comps_vars) %>% arrange(RI) 
+
+master.table6 <- my_merge(master.table5
+                          , Ib_true_table
+                          , merge_by = comps_vars) %>% arrange(RI) 
+
+master.table6 <- master.table6 %>% 
+  mutate(Peak = paste0("P", 1:nrow(master.table6))) %>% 
   select(Peak, all_of(comps_vars), everything())
 str(master.table)
 

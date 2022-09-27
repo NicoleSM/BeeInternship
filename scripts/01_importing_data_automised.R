@@ -95,7 +95,7 @@ mg_list <- list()
 for(i in unique(sample_info$group_label)){
   tmp <- sample_info %>% 
     filter(group_label == i) %>% 
-    pull(`Bee number`)
+    pull(`Bee_number`)
   tmp <- purrr::keep(gcms_integration_data_list
                      , gcms_integration_data_list %>% 
                        names() %in% tmp) %>% 
