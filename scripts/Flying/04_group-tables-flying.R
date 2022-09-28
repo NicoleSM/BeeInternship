@@ -15,6 +15,12 @@ my_merge <- function(x, y, merge_by) {
         , sort = F)
 }
 
+## Modified read CSV function for comps_id
+read_csv_comps_id <- function(file.path) {
+  read_csv(file = file.path, col_select = c("Peak", "Compound", "mean_RT"))
+  
+}
+
 ## Function to remove trace compounds from each sample
 trace_comps <- function(group_daten, threshold) {
   cat('\n')
@@ -251,7 +257,7 @@ load(here("data", "processed", "Flying", "aligned_gcms-data.Rdata"))
 path_comps_id <- list.files(path = here("data", "raw", "Flying", "tmp")
                             , pattern = "ID_table.csv"
                             , full.names = T)
-comps_id <- lapply(path_comps_id, read_csv)
+comps_id <- lapply(path_comps_id, read_csv_comps_id)
 summary(comps_id)
 
 names(comps_id) <- str_split(path_comps_id

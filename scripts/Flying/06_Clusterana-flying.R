@@ -15,13 +15,20 @@ pacman::p_load(char=NPacks)
 load(here("data", "processed", "Flying", "data-frames.Rdata"))
 
 
-master.datenclust <- cbind.data.frame(group = as.factor(grouping_info$Task)
+# master.datenclust <- cbind.data.frame(group = as.factor(grouping_info$Subspecies)
+#                                       , master.daten
+#                                       , row.names = paste(grouping_info$Subspecies
+#                                                           , grouping_info$Bee_number))
+
+master.datenclust <- cbind.data.frame(grouping_info
                                       , master.daten
-                                      , row.names = paste(grouping_info$Task
-                                                          , grouping_info$Individual))
+                                      , row.names = paste(grouping_info$Subspecies
+                                                          , grouping_info$Flying
+                                                          , grouping_info$Bee_number))
+
 str(master.datenclust)
 
-ddata <- vegan::vegdist(master.datenclust %>% select(-group)
+ddata <- vegan::vegdist(master.datenclust %>% select(-all_of(grouping_info %>% colnames()))
                         , method = "bray") %>% 
   hclust(method  = "ward.D2") %>% 
   as.dendrogram %>% 
@@ -29,12 +36,27 @@ ddata <- vegan::vegdist(master.datenclust %>% select(-group)
 
 dlabs <- label(ddata)
 row.names(dlabs) <- dlabs$label
-dlabs <-  merge(dlabs, master.datenclust[1], by = "row.names", all = T)
+dlabs <-  merge(dlabs, master.datenclust %>% 
+                select(all_of(grouping_info %>% colnames()))
+                , by = "row.names", all = T)
 
 cluster_p <- ggplot(segment(ddata)) + 
   geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) + 
-  geom_text(data = dlabs, aes(label = label, x = x, y = y-0.01, color = group
+  geom_text(data = dlabs, aes(label = label, x = x, y = y-0.09
+                              # , color = Subspecies
                               , hjust = "left"), size = 3.1) +
+  geom_point(data = dlabs, aes(shape = Flying
+                                , x = x
+                                , y = y - 0.03
+                                #, color = Location
+                                , fill = Subspecies)
+              , color = "grey20"
+              , stroke = 0.6
+              , size = 1.8) +
+               scale_fill_viridis_d() +
+               scale_shape_manual(values = c("TRUE" = 21
+                                             , "FALSE" = 24)
+                                  , name = "Flying") +
   scale_color_viridis_d()+
   coord_cartesian(ylim = c(-0.5, 1.5), xlim = c(0, 28))  +
   coord_flip(clip = "off") + 

@@ -85,7 +85,7 @@ mt_new_ri <- function(master.table) {
   #   dup_comps$new.RIs[]            
   
   ### If different compounds have the same RI
-  master.table3$RI[][master.table3$Compound[] %in% dup_comps$Compound[]] <-
+  master.table$RI[][master.table$Compound[] %in% dup_comps$Compound[]] <-
     dup_comps$new.RIs[]
   print("All new RIs have been stored in the Master table")
   master.table
@@ -95,10 +95,9 @@ mt_new_ri <- function(master.table) {
 ### Function to fuse the indicated peaks
 fuse_peaks <- function(master.table, peaks_to_fuse){
   require(dplyr)
-  
   peaks_sum <- master.table %>% 
     filter(Peak %in% peaks_to_fuse) %>% 
-    select(!Peak:RI) %>% 
+    select(!Peak:Mod.position) %>% 
     colSums(na.rm = T) %>% 
     t() %>% 
     as.data.frame()
@@ -124,8 +123,11 @@ fuse_peaks <- function(master.table, peaks_to_fuse){
   
   peaks_sum <- cbind(master.table %>% 
                        filter(Peak %in% peaks_to_fuse) %>% 
-                       select(Peak:Mod.position)
+                       select(Peak:Chain.length)
                      , new_RI
+                     , master.table %>% 
+                       filter(Peak %in% peaks_to_fuse) %>% 
+                       select(Mod.position)
                      , peaks_sum) %>% 
     as_tibble()
   
@@ -142,6 +144,7 @@ fuse_peaks <- function(master.table, peaks_to_fuse){
 fuse_all_peaks <- function(master.table, fusion.list){
   f_count <- 1
   for(i in fusion.list){
+    i <- unlist(i)
     cat('\n')
     print(paste("Fusion No.", f_count, sep = " "))
     print(paste(length(i)
@@ -178,44 +181,44 @@ master.table <- my_merge(Ca_false_table
          , merge_by = comps_vars) %>% arrange(RI)
 str(master.table)
 
-master.table2 <- my_merge(master.table
+master.table <- my_merge(master.table
                          , Ib_false_table
                          , merge_by = comps_vars) %>% arrange(RI)
-str(master.table2)
+str(master.table)
 
-master.table3 <- my_merge(master.table2
+master.table <- my_merge(master.table
                          , Ib_true_table
                          , merge_by = comps_vars) %>% arrange(RI)
-str(master.table3)
+str(master.table)
 
 # Export first master table
-write_csv(master.table3, here("data"
+write_csv(master.table, here("data"
                              , "raw"
                              , "Flying"
                              , "tmp"
                              , "master_table_first.csv"))
 
-master.table4 <- mt_new_ri(master.table3)
-str(master.table4)
+master.table <- mt_new_ri(master.table)
+str(master.table)
 
 # Export the master table with recalculated RIs
-write_csv(master.table4, here("data"
+write_csv(master.table, here("data"
                              , "raw"
                              , "Flying"
                              , "tmp"
                              , "master_table_new-RI.csv"))
 
 # New group tables ----
-Ca_false_table <- master.table4 %>% select(all_of(colnames(Ca_false_table)))
+Ca_false_table <- master.table %>% select(all_of(colnames(Ca_false_table)))
 Ca_false_table[is.na(Ca_false_table)] <- 0
 
-Ca_true_table <- master.table4 %>% select(all_of(colnames(Ca_true_table)))
+Ca_true_table <- master.table %>% select(all_of(colnames(Ca_true_table)))
 Ca_true_table[is.na(Ca_true_table)] <- 0
 
-Ib_false_table <- master.table4 %>% select(all_of(colnames(Ib_false_table)))
+Ib_false_table <- master.table %>% select(all_of(colnames(Ib_false_table)))
 Ib_false_table[is.na(Ib_false_table)] <- 0
 
-Ib_true_table <- master.table4 %>% select(all_of(colnames(Ib_true_table)))
+Ib_true_table <- master.table %>% select(all_of(colnames(Ib_true_table)))
 Ib_true_table[is.na(Ib_true_table)] <- 0
 
 Ca_false_table <- Ca_false_table %>% 
@@ -244,45 +247,38 @@ str(Ib_true_table)
 
 # Second MT ----
 # Merge the data frames to build the master table
-master.table5 <- my_merge(Ca_false_table
+master.table <- my_merge(Ca_false_table
                          , Ca_true_table
                          , merge_by = comps_vars) %>% arrange(RI) 
 
-master.table6 <- my_merge(master.table4
+master.table <- my_merge(master.table
                           , Ib_false_table
                           , merge_by = comps_vars) %>% arrange(RI) 
 
-master.table7 <- my_merge(master.table5
+master.table <- my_merge(master.table
                           , Ib_true_table
                           , merge_by = comps_vars) %>% arrange(RI) 
 
-master.table7 <- master.table7 %>% 
-  mutate(Peak = paste0("P", 1:nrow(master.table6))) %>% 
+master.table <- master.table %>% 
+  mutate(Peak = paste0("P", 1:nrow(master.table))) %>% 
   select(Peak, all_of(comps_vars), everything())
-str(master.table7)
+str(master.table)
+
 
 # Fuse peaks ----
 ## Create a list of fusion operations to be performed
 ## Each entry of the list corresponds to the names of two or more peaks that
 ## have to be fused together across the data set.
 fusion_list <- list(c(paste0("P"
-                             , c(1, 2)))
+                             , c(25, 26)))
                     , c(paste0("P"
-                               , c(22, 23, 24)))
+                               , c(29, 30)))                   
                     , c(paste0("P"
-                               , c(27, 28)))
+                               , c(37, 38)))                    
                     , c(paste0("P"
-                               , c(30, 31)))
+                               , c(40, 41, 42)))
                     , c(paste0("P"
-                               , c(44, 45)))
-                    , c(paste0("P"
-                               , c(48, 49, 50, 51)))
-                    , c(paste0("P"
-                               , c(52, 53)))
-                    , c(paste0("P"
-                               , c(57, 58)))
-                    , c(paste0("P"
-                               , c(59, 60))))
+                               , c(47, 48))))
 fusion_list
 
 ## Fuse the corresponding peaks using the fuse_all_areas/RTs functions
@@ -299,7 +295,7 @@ write_csv(master.table, here("data"
 ## Drop empty rows
 master.table <- master.table %>% 
   filter(master.table %>% 
-           select(!Peak:RI) %>% 
+           select(!Peak:Mod.position) %>% 
            rowSums(na.rm = T) > 0)
 
 # Export data frames ----
