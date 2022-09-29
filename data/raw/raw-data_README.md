@@ -15,6 +15,7 @@ sample was run, cleaned, then derivatised
   
 **Flying** refers to the flying or not flying experiment
 - ODS file for the flying or not flying sample list
+- GCMS files
 - GCMS integration files
   - CSV files for the integration results from Qualitative Navigator
 - tmp (temporary)

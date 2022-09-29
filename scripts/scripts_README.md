@@ -1,8 +1,8 @@
 # README for scripts folder
 This folder stores the scripts used for the data analysis
 
-## Scripts list and description
-Here is a descriptive list of the different scripts
+## Script folders
+Here is a descriptive list of the different script folders
 
 **Flying** stores scripts for gcms-processing and statistical tests
 
@@ -14,6 +14,10 @@ describing the EasyqPCR package which requires R version 3.6
 **Queenless** stores scripts for gcms-processing
 
 **Survival** stores scripts for processing survival data
+
+
+## Scripts
+Here is a descriptive list of the different scripts
 
 GCMS automised processing scripts:
 - 01_importing_data_automised
