@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructor for base container</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gwindow {gWidgets}"><tr><td>gwindow {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Constructor for base container</h2>
+
+<h3>Description</h3>
+
+<p>Widgets are packed inside containers which may in turn be packed
+inside other containers. The base container is known as a window. Only
+one container may be packed inside a window.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gwindow(title = "Window", visible = TRUE, name=title,
+  width = NULL, height= NULL, parent=NULL,
+  handler = NULL, action = NULL,
+  ..., toolkit = guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>title</code></td>
+<td>
+<p>Title of window</p>
+</td></tr>
+<tr valign="top"><td><code>visible</code></td>
+<td>
+<p>If <code>TRUE</code> window is drawn when
+constructed. Otherwise, window can be drawn latter using <code>visible&lt;-</code>. This value can default to <code>FALSE</code> by
+setting the option: <code>options("gWidgets:gwindow-default-visible-is-false"=TRUE)</code>. There are advantages: windows can draw slowly when adding item by item; <code>ggraphics</code> like to be added to an undrawn widget as this avoids a sizing issue.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>Name for registry of windows</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>Default width for window at creation</p>
+</td></tr>
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>Default height for window at creation</p>
+</td></tr>
+<tr valign="top"><td><code>parent</code></td>
+<td>
+<p>If non-NULL, can be used to suggest default location of
+window. The argument name was changed from location to parent. This can be a coordinate pair (x,y) with (0,0) the upper left
+corner, or a gwindow instance. In the latter case the location is
+suggested by the location of the current window. This is useful for
+placing dialogs near the parent window.</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Handler for destroy event.</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p>Passed to handler</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>  
+</table>
+
+
+<h3>Details</h3>
+
+<p>A base window can also be created using the argument
+<code>container=TRUE</code> when constructing a widget.
+</p>
+<p>The <code>svalue</code> method returns the window title. Use
+<code>svalue&lt;-</code> to change the title.
+</p>
+<p>The <code>add</code> method is used to add a widget or container to the
+base window. For top-level windows, some toolkits only support adding
+one widget, so in gWidgets only one widget should be added to a
+window, so usually it would be another container.
+</p>
+<p>Additionally the menubar, toolbar and statusbar widgets should now
+be added and deleted from the top-level window. Outside of RGtk2,
+the other toolkits expect these items to be properties of a
+top-level window.
+</p>
+<p>The <code>dispose</code> method destroys the window.
+</p>
+<p>The <code>size</code> method sets the minimum size. Use the <code>width</code>
+and <code>height</code> arguments to set the default size when the window
+is constructed.
+</p>
+<p>A window is destroyed  in response to a destroy event. However, when
+the window managager tries to close a window first a &quot;delete-event&quot;
+is issued. If this has the right value then the &quot;destroy&quot; event is
+fired. The <code>addHandlerUnrealize</code> handler can be called to
+intercept the closing of the window. Its handler should return a
+logical: <code>TRUE</code> to prevent the closing, <code>FALSE</code> to proceed. This may not work on all toolkits
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  ## window with handler
+  win &lt;- gwindow("Window example",
+    handler=function(h,...) {
+     print("See ya")
+  })
+  gbutton("cancel", container=win,
+    handler = function(h,...) dispose(win))
+
+  ## block closing of window
+  win &lt;- gwindow("Window example")
+  addHandlerUnrealize(win, handler = function(h,...) {
+    val &lt;- gconfirm("Really close window", parent=h$obj)
+    if(as.logical(val))
+      return(FALSE)		# destroy
+    else
+      return(TRUE)		# don't destroy
+  })
+
+  
+
+  ## transient dialog (gWidgetsRGtk2)
+  pwin &lt;- gwindow("Parent window")
+  cwin &lt;- gwindow("Child window", parent = pwin)
+  ## clicking button close parent causing child to close too
+  gbutton("close both", container=cwin,
+    handler = function(h,...) dispose(pwin))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

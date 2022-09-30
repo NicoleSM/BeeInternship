@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructor for a toolkit specific plot device and a notebook...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ggraphics {gWidgets}"><tr><td>ggraphics {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Constructor for a toolkit specific plot device and a
+notebook to wrap plots in</h2>
+
+<h3>Description</h3>
+
+<p>If a toolkit provides a graphics device, such as the
+cairoDevice package does for GTK+ or qtutils for Qt, this constructor makes
+devices that can then be embedded in other widgets. The
+notebook interface is one such example.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ggraphics(width = dpi * 6, height = dpi * 6, dpi = 75, ps = 12, container =
+NULL, ..., toolkit = guiToolkit())
+
+ggraphicsnotebook(width=dpi*6, height=dpi*6,dpi=75, 
+container = NULL,..., toolkit = guiToolkit()) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>width in pixels of device</p>
+</td></tr>
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>height in pixels of device</p>
+</td></tr>
+<tr valign="top"><td><code>dpi</code></td>
+<td>
+<p>scale factor for default width and height</p>
+</td></tr>
+<tr valign="top"><td><code>ps</code></td>
+<td>
+<p>pointsize</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Passed to add method of container. </p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>When multiple graphics devices are present, clicking in the window of
+one will make that the current device.
+</p>
+<p>The <code>visible&lt;-</code> method makes the object the current device.
+</p>
+<p>The <code>svalue(obj, ..., value)</code> method will save the visible window
+to the file in <code>value</code>. In gWidgetsRGtk2, if the window has
+another window clipping part of it, this clipping will be shown. This
+&quot;hack&quot; is needed, as <code>dev.copy</code> does not currently work for the
+&quot;cairo&quot; graphic device. (In future versions, there will be support for
+pdf files within cairo.)
+</p>
+<p>The <code>addhandlerclicked(obj, handler, action, ...)</code> method where handler has
+first argument <code>h</code> has the additional values <code>h\$x</code> and
+<code>h\$y</code> where these are values
+are returned using &quot;usr&quot; coordinates (see <code>help("par")</code>). (This was
+in NDC coordinates)
+</p>
+<p>For <span class="pkg">gWidgetsRGtk2</span> and <span class="pkg">gWidgetsQt</span> there is also rubber-band
+selection implemented. The <code>addHandlerChanged</code> method can be used
+to call a handler when the selection is completed. The <code>x</code> and
+<code>y</code> components of <code>h</code> record the lower left and upper right
+points of the rectange. See the example for how this can do something
+similar to &quot;brushing&quot;.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+win &lt;- gwindow("Graphics example")
+ggraphics(ps=6, container=win)
+hist(rnorm(100))
+
+## This is for gWidgetsRGtk2  (along with cairoDevice) or qtutils
+library(gWidgets)
+options(guiToolkit="RGtk2") ## "Qt"
+
+w &lt;- gwindow("brush example", visible=FALSE)
+g &lt;- ggroup(container=w)
+tbl &lt;- gtable(mtcars, container=g, filter.FUN="manual")
+size(tbl) &lt;- c(300, 500)
+gg &lt;- ggraphics(container=g)
+visible(w) &lt;- TRUE
+
+makePlot &lt;- function(ind) {
+  plot(mpg ~ wt, mtcars)
+  if(!missing(ind) &amp;&amp; any(ind)) 
+    points(mpg ~ wt, mtcars[ind,], cex=2, pch=16, col="red")
+}
+
+ID &lt;- addHandlerChanged(gg, handler=function(h,...) {
+  x &lt;- h$x; y &lt;- h$y
+
+  ind &lt;- (mtcars$wt &gt;= x[1]) &amp; (mtcars$wt &lt;= x[2]) &amp;
+         (mtcars$mpg &gt;= y[1]) &amp; (mtcars$mpg &lt;= y[2])
+
+  ## udpate graphic and data frame
+  makePlot(ind) 
+  if(any(ind))
+    visible(tbl) &lt;- ind
+})
+
+## Example using a notebook. The device is raised on tab change
+library(gWidgets)
+options(guiToolkit="RGtk2")
+
+w &lt;- gwindow("notebook example")
+nb &lt;- gnotebook(container=w)
+
+devs &lt;- lapply(1:5, function(i) ggraphics(container=nb, label=as.character(i)))
+
+addHandlerChanged(nb, handler=function(h,...) {
+  ## Tricky part is svalue(h$obj) is not the new page number -- but old
+  ## so we use the pageno component here
+  gg &lt;- h$obj[h$pageno]
+  visible(gg) &lt;- TRUE
+})
+
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

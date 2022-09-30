@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Button constructors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gbutton {gWidgets}"><tr><td>gbutton {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Button constructors</h2>
+
+<h3>Description</h3>
+
+<p>A button widget is used to present a widget that a user can
+press to initiate some action.
+</p>
+<p>Buttons show text and/or images in a clickable object whose
+shading indicates that the button is to clicked on.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gbutton(text = "", border=TRUE, handler = NULL, action = NULL, container = NULL, 
+    ..., toolkit = guiToolkit()) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>Text to show in the button. For buttons, if
+this text matches a stock icon name, an icon is shown as well. </p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>If <code>TRUE</code> a border is drawn to make a button look like a
+button. If <code>FALSE</code>, the no border so the button looks like a label.</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Handler called on a click event</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p>Either a <code>gaction</code> instance in which case, the
+<code>text</code> and <code>handler</code> arguments are not used, or is an R
+object to be passed to the specified handler.
+</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to.</p>
+</td></tr>
+</table>
+
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>add</code> method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>As buttons are intended to show the user how to initiate some action,
+they are often labeled as commands. Additionally, if the action is not
+currently possible given the state of the GUI, a button is typically
+disabled. This can be done through the <code>enabled</code> method.
+</p>
+<p>The <code>svalue()</code> method returns the value of the
+widget. For a button, this is the text as a single string
+(which may not include a &quot;\n&quot; for newlines if not supported by
+the toolkit). 
+</p>
+<p>The <code>svalue&lt;-</code> method can be used to set the text of
+the widget. For buttons, values with length greater
+than one are pasted together collapsed with &quot;\n&quot;.
+</p>
+<p>The <code>addHandlerChanged</code> method is aliased to the
+<code>addHandlerClicked</code> method which can be used to set a
+handler to respond to click events.
+</p>
+<p>When the <code>action</code> argument is a <code>gaction</code> instance, then
+the button label and handler will be derived from the <code>gaction</code>
+instance. The <code>enabled&lt;-</code> method of the <code>gaction</code> instance
+should be used to set the sensitivity to user input, not the
+<code>enabled&lt;-</code> method of the <code>gbutton</code> instance.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  ## button group example
+  w &lt;- gwindow("Button examples")
+  g &lt;- ggroup(container = w)
+  addSpring(g)   ## push to right of widget
+  gbutton("help", container = g)
+  addSpace(g, 20) ## some breathing room
+  gbutton("cancel", container = g)
+  gbutton("ok", container = g, handler = function(h, ...) cat("do it\n"))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

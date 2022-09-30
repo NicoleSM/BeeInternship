@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Basic dialog constructors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gWidgets-dialogs {gWidgets}"><tr><td>gWidgets-dialogs {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Basic dialog constructors</h2>
+
+<h3>Description</h3>
+
+<p>A dialog is a widget that draws its own window. These dialogs are used
+for simple things &ndash; confirming a choice, gathering a single line of
+input, etc. Dialogs are always modal, meaning they must be closed
+before R can be interacted with again.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gmessage(message, title="message",
+icon = c("info", "warning", "error", "question"),
+        parent = NULL,
+     handler = NULL, 
+    action = NULL, ..., toolkit=guiToolkit()) 
+
+ginput(message, text="", title="Input", icon = c("info", "warning",
+ "error", "question"), parent=NULL, 
+ handler = NULL, action = NULL,..., toolkit=guiToolkit())
+
+gconfirm(message, title="Confirm", icon = c("info", "warning", "error",
+ "question"), parent=NULL,
+ handler = NULL, action = NULL, ..., toolkit=guiToolkit())
+
+gbasicdialog(title = "Dialog", widget, parent=NULL, do.buttons=TRUE, 
+handler = NULL, action=NULL,  ..., toolkit=guiToolkit())
+
+galert(message, title = "message", delay=3, parent=NULL, ..., toolkit=guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>message</code></td>
+<td>
+<p>Message shown for widget</p>
+</td></tr>
+<tr valign="top"><td><code>title</code></td>
+<td>
+<p>Title of window</p>
+</td></tr>
+<tr valign="top"><td><code>icon</code></td>
+<td>
+<p>Which icon to show</p>
+</td></tr>
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>default value for ginput text</p>
+</td></tr>
+<tr valign="top"><td><code>widget</code></td>
+<td>
+<p>Widget to place in basic dialog. If missing, dialog returns a container.</p>
+</td></tr>
+<tr valign="top"><td><code>parent</code></td>
+<td>
+<p>A gwindow() instance. If specified, dialog will be
+located in relation to this</p>
+</td></tr>
+<tr valign="top"><td><code>do.buttons</code></td>
+<td>
+<p>For <code>gbasicdialog</code> &ndash; when no <code>widget</code>
+argument is passed in &ndash; this can be used to suppress the addition of
+Ok and Cancel buttons. If suppressed, the dialog can be closed by the
+window manager or programattically through the <code>dispose</code> method.</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Handler called on OK selection.</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p>Value passed to handler</p>
+</td></tr>
+<tr valign="top"><td><code>delay</code></td>
+<td>
+<p>For galert, how long the transient message will appear</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Ignored</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Toolkit to use for GUI</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These basic dialogs do slightly different things.
+</p>
+<p>The <code>gmessage</code> dialog shows a message with an icon and a dismiss
+button. This dialog returns <code>TRUE</code> or <code>FALSE</code> as
+appropriate. 
+</p>
+<p>The <code>gconfirm</code> dialog shows a message with an icon and an OK
+button and a dismiss button. A handler may be attached to the OK
+button selection. This dialog returns <code>TRUE</code> or <code>FALSE</code> as
+appropriate. 
+</p>
+<p>The <code>ginput</code> dialog adds an edit box for gathering user
+information. The <code>text</code> argument sets the default value. This is
+then passed to the handler via the component <code>input</code> of the first
+argument of the handler. This dialog returns the value of the string
+if OK is clicked, otherwise <code>NA</code>.
+</p>
+<p>The <code>gbasicdialog</code> widget wraps a dialog (with buttons) around
+a widget. For <span class="pkg">gWidgetsRGtk2</span> and <span class="pkg">gWidgetsQt</span> the widget may be specified throuh the
+<code>widget</code> argument of the constructor. The constructor produces
+a modal dialog, hence no methods are defined. The return value is a
+logical indicating which button was clicked.
+</p>
+<p>More portably (hence encouraged), if the <code>widget</code> argument is NULL, then the
+constructor produces a container. This container becomes modal after a
+call to <code>visible(..., set=TRUE)</code> (not the assignment version
+though). Again the return value is a logical.  This too creates a
+modal dialog. The handler specified to the constructor is called when
+OK is clicked and <code>TRUE</code> is returned. The value of <code>FALSE</code>
+is returned on cancel, and <code>NA</code> otherwise.
+</p>
+<p>The buttons may be suppressed by setting the argument
+<code>do.buttons=FALSE</code>. The
+dialog then may be closed by calling the <code>dispose</code> method
+within a callback.
+</p>
+<p>These dialogs are modal. This means that the R session freezes until
+the dialog is dismissed. This may be confusing to users if the window
+should appear below a currently drawn window.
+</p>
+<p>The <code>galert</code> dialog is non-modal and does not grab the
+focus. Like <code>gmessage</code> it shows a message but unlike it, only
+for a short period of time and is unobtrusive.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+   gmessage("Hi there")
+   gconfirm("Are we having fun?", handler = function(h,...)
+   print("Yes"))
+
+   ginput("Enter your name", icon="question", handler = function(h,...) cat("Hi",h$input,"\n"))
+
+   ## gbasicdialog
+   w &lt;- gbasicdialog(title="Select a state", handler = function(h,...) 
+      print(svalue(tbl)))
+   tbl &lt;- gtable(data.frame(states = rownames(state.x77)), expand=TRUE, container = w)
+   visible(w, set=TRUE) ## show dialog
+
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

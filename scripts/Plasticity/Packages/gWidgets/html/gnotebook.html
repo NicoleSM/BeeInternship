@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: constructor for notebook widget</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gnotebook {gWidgets}"><tr><td>gnotebook {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>constructor for notebook widget</h2>
+
+<h3>Description</h3>
+
+<p>A notebook widget organizes different pages using tabs,
+allowing only one page to be shown at once. Clicking on
+the tab raises the associated page.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gnotebook(tab.pos = 3, closebuttons = FALSE, 
+dontCloseThese = NULL, container = NULL, ..., 
+toolkit = guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>tab.pos</code></td>
+<td>
+<p>Where to place tabs (1 bottom, 2 left side, 3 top, 4
+right side</p>
+</td></tr>
+<tr valign="top"><td><code>closebuttons</code></td>
+<td>
+<p>Is there a close button in the tab?</p>
+</td></tr>
+<tr valign="top"><td><code>dontCloseThese</code></td>
+<td>
+<p>If <code>closebuttons=TRUE</code> this will make it
+impossible to remove these tabs. Specified by tab number</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional parent container to attach notebook widget to </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>passed to <code>add</code> method of parent container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>  
+</table>
+
+
+<h3>Details</h3>
+
+<p>In what follows, it is useful to think of a notebook as a vector with
+named entries, each entry being a widget, the name being the tab label.
+</p>
+<p>Notebooks have the following methods:
+</p>
+<p>New pages are added with the <code>add</code> method, which most likely is
+called by the widget constructor. The extra argument <code>label</code> is
+used to specify the tab label. This may be a string, or in
+gWidgetsRGtk2 a <code>glabel</code> instance. The extra argument
+<code>index</code> can be used to specify which page to add to. By
+default, a new page is created at the end of the notebook. In
+gWidgetsRGtk2, the extra argument <code>override.closebutton</code> can be
+used to add or not add a close button in the tab label.
+</p>
+<p>The <code>svalue</code> method returns the current page number. The
+<code>svalue&lt;-</code> method is used to set the page number.
+</p>
+<p>The <code>dispose</code> method will remove the currently selected page
+unless it is overridden by the value of <code>dontCloseThese</code>.
+</p>
+<p>The <code>delete(obj, widget,...)</code> method will delete the widget on a
+given page. For some toolkits, the unparented widget can be reparented with the <code>add</code> method or <code>[&lt;-</code>.
+</p>
+<p>The <code>length</code> method returns the number of pages.
+</p>
+<p>The <code>names</code> method returns the tab labels.
+</p>
+<p>The <code>names&lt;-</code> method may be used to replace the tab
+labels. Something like <code>names(obj)[1]&lt;-"new label"</code> should work.
+</p>
+<p>The <code>"["</code> method refers to the widgets in the notebook. It
+returns a single widget or list of widgets.
+</p>
+<p>For some toolkits, the <code>"[&lt;-"</code> method may be used to replace a widget on a notebook page.
+</p>
+<p>The <code>addHandlerChanged</code> method passes the component
+<code>pageno</code> when the page index returned by <code>svalue</code> within
+the handler refers to the tab before it was changed. The following
+could be used to get the right one in a portable way:
+<code>if(is.null(h$pageno)) svalue(h$obj) else h$pageno</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code><a href="gwindow.html">gwindow</a></code> for top-level containers, 
+<code><a href="ggroup.html">ggroup</a></code>, <code><a href="ggroup.html">gframe</a></code> and <code><a href="ggroup.html">gexpandgroup</a></code> for box containers</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  w &lt;- gwindow("gnotebook example")
+  nb &lt;- gnotebook(container=w)
+  ## "add" called by constructor
+  glabel("Widget 1", container=nb, label="page 1")  
+  ## label argument passed by constructor to add method
+  glabel("Widget 2", container=nb, label="page 2")   
+
+  length(nb)
+  names(nb)
+  names(nb)[1] &lt;- "Page 1"
+
+  svalue(nb) &lt;- 2
+  dispose(nb) ## dispose current tab
+  length(nb) 
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

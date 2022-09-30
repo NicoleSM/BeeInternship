@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A constructor for laying out groups of widgets from a...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gformlayout {gWidgets}"><tr><td>gformlayout {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A constructor for laying out groups of widgets from a template defined by a list</h2>
+
+<h3>Description</h3>
+
+<p>This constructor takes a list that defines the layout of widgets
+and pieces them together to create a form or dialog. It is
+similar to <code>ggenericwidget</code> but offers more flexibility
+with the layout, but does not offer the automatic creation of
+the widget using a functions <code>formals</code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gformlayout(lst,  container = NULL, ..., toolkit = guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>lst</code></td>
+<td>
+<p>A list that defines the layout of the containers. See the
+details section.</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional parent container for the widget</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>add</code> method of parent container when given</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The list defining the layout has the following key named components:
+</p>
+
+<dl>
+<dt>type</dt><dd><p>The type is the name of a gWidgets constructor or
+&quot;fieldset&quot;. The latter specifies that the children should be
+layed out using a table. The type can specify either a container
+constructor or component contstructor</p>
+</dd>
+<dt>children</dt><dd><p>For containers, this specifies the children
+using a
+list. Each child is a given as a component of this
+list. Children can be containers and hence contain other
+children, to match the heirarchical layout common in GUIs.</p>
+</dd>
+<dt>name</dt><dd><p>If a name is specified, then this widget will be
+stored in a list that can be accessed by the methods
+<code>svalue</code> or <code>\[</code></p>
+</dd>
+<dt>depends.on</dt><dd><p>The name of a widget previously specified
+through the <code>name</code> argument. If given, then a handler is
+added to the widget that controls whether this new
+widget/container should be enabled.</p>
+</dd>
+<dt>depends.FUN</dt><dd><p>When <code>depends.on</code> is specified, this
+function is consulted to see if the widget should be
+enabled. This function has argument <code>value</code> which is
+the return value of <code>svalue</code> on the named widget this
+new one depends on. It should return a logical value
+indicating if the new widget is to be enabled.</p>
+</dd>
+<dt>depends.signal</dt><dd><p>By default, the signal the handler
+specified through <code>depends.FUN</code> is given by
+<code>addHandlerChanged</code>, this allows on to specify a
+different <code>addHandler</code> method. See the example.</p>
+</dd>
+</dl>
+
+<p>If the type is  <code>gnotebook</code>, then each child should have a
+<code>label</code> component.
+</p>
+<p>The new constructor <code>fieldset</code> allows the organization of
+its children in a table. These children should not be other
+containers. If the component <code>label</code> is non-null, the table is
+packed into a <code>gframe</code> container. The default number of
+columns is just 1, but specifying <code>columns</code> in the list can
+increase this. Children are packed in row by row when more than
+one column is given.
+</p>
+<p>The labels can be adjusted. The component <code>label.pos</code> can
+be &quot;left&quot; (the default) for a label to the left of the widget,
+or &quot;top&quot; to have the label on top of the widget. When the
+position if &quot;left&quot;, then the <code>label.just</code> component is
+consulted for justification of the label. This can have a value
+of &quot;right&quot; (the default), &quot;center&quot; or &quot;left&quot;
+</p>
+<p>If a component <code>label.font</code> is given, then this will be
+applied to each label through the <code>font</code> method of the
+label.
+</p>
+<p>The children are specified as a list. Each child should have a
+<code>type</code> component, a <code>label</code> component and a
+<code>name</code> component. Other components are passed to the
+specified constructor in type through <code>do.call</code>.
+</p>
+<p>The return object has a few methods defined for it.
+</p>
+<p>The <code>\[</code> method returns a list with named components storing
+the objects created by the constructors. Subsetting is
+allowed. No <code>\[\[</code> method is given, instead the
+<code>drop=TRUE</code> argument can be used with a single index is
+given to return the component and not the list containing the component.
+</p>
+<p>The <code>svalue</code> method is a convenience method that applies
+the <code>svalue</code> method to each component of the list returned
+by <code>\[</code>.
+</p>
+<p>The <code>names</code> method is a convenience method that gives the
+names of the widgets store in the list returned by <code>\[</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The design of this borrows from the FormPanel and FormLayout
+constructors in the 
+<a href="extjs.com">extjs.com</a> library for javascript programming.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ggenericwidget.html">ggenericwidget</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+
+## layout a collection of widgets to generate a t.test
+tTest &lt;- list(type = "ggroup",
+              horizontal = FALSE,
+              children = list(
+                list(type="fieldset",
+                     columns = 2,
+                     label = "Variable(s)",
+                     label.pos = "top",
+                     label.font = c(weight="bold"),
+                     children = list(
+                       list(name = "x",
+                            label = "x",
+                            type = "gedit",
+                            text = ""),
+                       list(name = "y",
+                            label = "y",
+                            type = "gedit",
+                            text = "",
+                            depends.on = "x",
+                            depends.FUN = function(value) nchar(value) &gt; 0,
+                            depends.signal = "addHandlerBlur"
+                            )
+                       )
+                     ),
+                list(type = "fieldset",
+                     label = "Hypotheses",
+                     columns = 2, 
+                     children = list(
+                       list(name = "mu",
+                            type = "gedit",                            
+                            label = "Ho: mu=",
+                            text = "0",
+                            coerce.with = as.numeric),
+                       list(name = "alternative",
+                            type="gcombobox",
+                            label = "HA: ",
+                            items = c("two.sided","less","greater")
+                            )
+                       )
+                     ),
+                list(type = "fieldset",
+                     label = "two sample test",
+                     columns = 2,
+                     depends.on = "y",
+                     depends.FUN = function(value) nchar(value) &gt; 0,
+                     depends.signal = "addHandlerBlur",                     
+                     children = list(
+                       list(name = "paired",
+                            label = "paired samples",
+                            type = "gcombobox",
+                            items = c(FALSE, TRUE)
+                            ),
+                       list(name = "var.equal",
+                            label = "assume equal var",
+                            type = "gcombobox",
+                            items = c(FALSE, TRUE)
+                            )
+                       )
+                     ),
+                list(type = "fieldset",
+                     columns = 1,
+                     children = list(
+                       list(name = "conf.level",
+                            label = "confidence level",
+                            type = "gedit",
+                            text = "0.95",
+                            coerce.with = as.numeric)
+                       )
+                     )
+                )
+              )
+
+w &lt;- gwindow("t.test")
+g &lt;- ggroup(horizontal = FALSE, container = w)
+fl &lt;- gformlayout(tTest, container = g, expand=TRUE)
+bg &lt;- ggroup(container = g)
+addSpring(bg)
+b &lt;- gbutton("run t.test", container = bg)
+addHandlerChanged(b, function(h,...) {
+  out &lt;- svalue(fl)
+  out$x &lt;- svalue(out$x) # turn text string into numbers via get()
+  if(out$y == "") {
+    out$y &lt;- out$paired &lt;- NULL 
+  } else {
+   out$y &lt;- svalue(out$y)
+  }
+  print(do.call("t.test",out))
+})
+
+## End(Not run)		
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

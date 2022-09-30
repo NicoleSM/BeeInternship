@@ -1,0 +1,28 @@
+Package: EasyqpcR
+Type: Package
+Title: EasyqpcR for low-throughput real-time quantitative PCR data
+        analysis
+Version: 1.28.0
+Date: 2013-11-23
+Author: Le Pape Sylvain
+Maintainer: Le Pape Sylvain <sylvain.le.pape@univ-poitiers.fr>
+Description: This package is based on the qBase algorithms published by
+ Hellemans et al. in 2007. The EasyqpcR package allows you to import easily qPCR
+ data files as described in the vignette. Thereafter, you can calculate
+ amplification efficiencies, relative quantities and their standard errors,
+ normalization factors based on the best reference genes choosen (using the
+ SLqPCR package), and then the normalized relative quantities, the NRQs scaled
+ to your control and their standard errors. This package has been created for
+ low-throughput qPCR data analysis.
+Imports: plyr, matrixStats, plotrix, gWidgetsRGtk2
+Suggests: SLqPCR, qpcrNorm, qpcR, knitr
+biocViews: qPCR, GeneExpression
+License: GPL (>=2)
+Packaged: 2019-10-30 02:08:58 UTC; biocbuild
+git_url: https://git.bioconductor.org/packages/EasyqpcR
+git_branch: RELEASE_3_10
+git_last_commit: 25c4bdb
+git_last_commit_date: 2019-10-29
+Date/Publication: 2019-10-29
+NeedsCompilation: no
+Built: R 3.6.1; ; 2019-10-30 13:08:30 UTC; windows

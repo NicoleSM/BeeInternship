@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to select the GUI toolkit used by gWidgets</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for guiToolkit {gWidgets}"><tr><td>guiToolkit {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function to select the GUI toolkit used by gWidgets</h2>
+
+<h3>Description</h3>
+
+<p>A GUI toolkit is a separate package that implements the
+gWidgets API. This function allows one to select the toolkit
+to be used by default.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+guiToolkit(name = NULL)
+
+gtoolkit()
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>The name matches the package name without the initial
+gWidgets. For instance, &quot;RGtk2&quot; refers to the implementation
+provided by gWidgetsRGtk2.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Toolkits are named gWidgetsXXX. This function is used to get the toolkit class, or have the user select one. The <code>gtoolkit</code> function returns a string form of the toolkit. One way to set a toolkit is to use the <code>guiToolkit</code> option, as in <code>options(guiToolkit="RGtk2")</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The <code>guiToolkit</code> function returns a subclass of guiWidgetsToolkit that is
+used for dispatching purposes by gWidgets. For example, the
+method svalue dispatches on its first argument and the value
+of the toolkit class stored in the toolkit slot of the object.
+</p>
+<p>The <code>gtoolkit</code> function returns a character string for the toolkit.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+	guiToolkit("RGtk2")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

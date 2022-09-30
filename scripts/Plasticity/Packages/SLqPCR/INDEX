@@ -1,0 +1,11 @@
+SLqPCR-package          Functions for analysis of real-time
+                        quantitative PCR data at SIRS-Lab GmbH
+SLqPCRdata              SIRS-Lab inhouse qPCR data
+geneStabM               Gene expression stability value M
+geomMean                Geometric Mean
+normPCR                 Normalization of real-time quantitative RT-PCR
+                        data
+relQuantPCR             Compute relative expression values for realtime
+                        quantitative RT-PCR data
+selectHKgenes           Selection of reference/housekeeping genes
+vandesompele            Data set of Vandesompele et al (2002)

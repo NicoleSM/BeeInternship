@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;guiWidget&quot; ~~~</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for guiWidget-class {gWidgets}"><tr><td>guiWidget-class {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;guiWidget&quot; ~~~ </h2>
+
+<h3>Description</h3>
+
+<p>Base class for gWidget objects</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>new("guiWidget", ...)</code>.
+</p>
+<p>These objects have two slots: a widget provided by a
+guiToolkit and a toolkit. Method dispatch is done on both values.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>toolkit</code>:</dt><dd><p>Object of class
+<code>"guiWidgetsToolkit"</code>. A specification of which GUI toolkit
+the widget uses.</p>
+</dd>
+<dt><code>widget</code>:</dt><dd><p>Object of class <code>"ANY"</code>. A widget
+returned by the corresponding toolkit function. </p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>.add</dt><dd><p><code>signature(obj = "guiWidget", toolkit = "guiWidgetsToolkitRGtk2", value = "ANY")</code>: ... </p>
+</dd>
+<dt>.add</dt><dd><p><code>signature(obj = "guiWidget", toolkit = "guiWidgetsToolkitRGtk2", value = "guiWidgetORgWidgetRGtkORRGtkObject")</code>: ... </p>
+</dd>
+<dt>.add</dt><dd><p><code>signature(obj = "gContainerRGtk", toolkit = "guiWidgetsToolkitRGtk2", value = "guiWidget")</code>: ... </p>
+</dd>
+<dt>.add</dt><dd><p><code>signature(obj = "gMenuRGtk", toolkit = "guiWidgetsToolkitRGtk2", value = "guiWidget")</code>: ... </p>
+</dd>
+<dt>.add</dt><dd><p><code>signature(obj = "gNotebookRGtk", toolkit = "guiWidgetsToolkitRGtk2", value = "guiWidget")</code>: ... </p>
+</dd>
+<dt>.add</dt><dd><p><code>signature(obj = "gTextRGtk", toolkit = "guiWidgetsToolkitRGtk2", value = "guiWidget")</code>: ... </p>
+</dd>
+<dt>.delete</dt><dd><p><code>signature(obj = "gContainerRGtk", toolkit = "guiWidgetsToolkitRGtk2", widget = "guiWidget")</code>: ... </p>
+</dd>
+<dt>.delete</dt><dd><p><code>signature(obj = "RGtkObject", toolkit = "guiWidgetsToolkitRGtk2", widget = "guiWidget")</code>: ... </p>
+</dd>
+<dt>.delete</dt><dd><p><code>signature(obj = "gMenuRGtk", toolkit = "guiWidgetsToolkitRGtk2", widget = "guiWidget")</code>: ... </p>
+</dd>
+<dt>.svalue&lt;-</dt><dd><p><code>signature(obj = "gMenuRGtk", toolkit = "guiWidgetsToolkitRGtk2", value = "guiWidget")</code>: ... </p>
+</dd>
+<dt>.tag</dt><dd><p><code>signature(obj = "guiWidget", toolkit = "guiWidgetsToolkitRGtk2")</code>: ... </p>
+</dd>
+<dt>.tag&lt;-</dt><dd><p><code>signature(obj = "guiWidget", toolkit = "guiWidgetsToolkitRGtk2")</code>: ... </p>
+</dd>
+<dt>[</dt><dd><p><code>signature(x = "guiWidget")</code>: ... </p>
+</dd>
+<dt>[&lt;-</dt><dd><p><code>signature(x = "guiWidget")</code>: ... </p>
+</dd>
+<dt>add3rdmousepopupmenu</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>add</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>addSpace</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>addSpring</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>adddropmotion</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>adddropsource</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>adddroptarget</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>addhandlerchanged</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>addhandlerclicked</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>addhandlerdestroy</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>addhandlerdoubleclick</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>addhandlerexpose</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>addhandleridle</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>addhandlerkeystroke</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>addhandlerrightclick</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>addhandlerunrealize</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>addpopupmenu</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>defaultWidget</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>defaultWidget&lt;-</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>delete</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>dim</dt><dd><p><code>signature(x = "guiWidget")</code>: ... </p>
+</dd>
+<dt>dimnames</dt><dd><p><code>signature(x = "guiWidget")</code>: ... </p>
+</dd>
+<dt>dimnames&lt;-</dt><dd><p><code>signature(x = "guiWidget")</code>: ... </p>
+</dd>
+<dt>dispose</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>editable</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>editable&lt;-</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>enabled</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>enabled&lt;-</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>focus</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>focus&lt;-</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>tooltip&lt;-</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>font</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>font&lt;-</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>id</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>id&lt;-</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>length</dt><dd><p><code>signature(x = "guiWidget")</code>: ... </p>
+</dd>
+<dt>names</dt><dd><p><code>signature(x = "guiWidget")</code>: ... </p>
+</dd>
+<dt>names&lt;-</dt><dd><p><code>signature(x = "guiWidget")</code>: ... </p>
+</dd>
+<dt>removehandler</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>size</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>size&lt;-</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>svalue</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>svalue&lt;-</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>tag</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>tag&lt;-</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>update</dt><dd><p><code>signature(object = "guiWidget")</code>: ... </p>
+</dd>
+<dt>visible</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>visible&lt;-</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+<dt>isExtant</dt><dd><p><code>signature(obj = "guiWidget")</code>: ... </p>
+</dd>
+</dl>
+
+
+
+<h3>Note</h3>
+
+<p>Within gWidgets there are three main subclasses guiContainers,
+guiComponents and guiDialogs. The distinctions are more clear
+at the toolkit level.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>John Verzani</p>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

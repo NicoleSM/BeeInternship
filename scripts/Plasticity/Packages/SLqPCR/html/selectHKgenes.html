@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Selection of reference/housekeeping genes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for selectHKgenes {SLqPCR}"><tr><td>selectHKgenes {SLqPCR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Selection of reference/housekeeping genes </h2>
+
+<h3>Description</h3>
+
+<p>This function can be used to determine a set of reference/housekeeping (HK) 
+genes for gene expression experiments. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+selectHKgenes(relData, method = "Vandesompele", minNrHK = 2, geneSymbol, 
+	      trace = TRUE, na.rm = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>relData</code></td>
+<td>
+<p> matrix or data.frame containing relative expression values </p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p> method to compute most stable genes </p>
+</td></tr>
+<tr valign="top"><td><code>minNrHK</code></td>
+<td>
+<p> minimum number of HK genes that should be considered </p>
+</td></tr>
+<tr valign="top"><td><code>geneSymbol</code></td>
+<td>
+<p> gene symbols </p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p> logical, print additional information </p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p> a logical value indicating whether <code>NA</code> values should be
+stripped before the computation proceeds.  </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function can be used to determine a set of reference/housekeeping (HK) genes
+for gene expression experiments. The default method <code>"Vandesompele"</code>
+was proposed by Vandesompele et al. (2002).
+</p>
+<p>Currently, only the method by Vandesompele et al. (2002) is implemented.
+</p>
+<p>Vandesompele et al. (2002) propose a cut-off value of 0.15 for the 
+pairwise variation. Below this value the inclusion of an additional
+housekeeping gene is not required. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>method = "Vandesompele"</code> a list with the following components is
+returnd
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>ranking </code></td>
+<td>
+<p> ranking of genes from best to worst where the two most
+stable genes cannot be ranked </p>
+</td></tr>
+<tr valign="top"><td><code>variation </code></td>
+<td>
+<p> pairwise variation during stepwise selection </p>
+</td></tr>
+<tr valign="top"><td><code>meanM </code></td>
+<td>
+<p> average expression stability M </p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p> Dr. Matthias Kohl (SIRS-Lab GmbH) <a href="mailto:kohl@sirs-lab.com">kohl@sirs-lab.com</a></p>
+
+
+<h3>References</h3>
+
+ 
+<p>Jo Vandesompele, Katleen De Preter, Filip Pattyn et al. (2002). Accurate 
+normalization of real-time quantitative RT-PCR data by geometric averaging 
+of multiple internal control genes. 
+Genome Biology 2002. 3(7):research0034.1-0034.11.
+<a href="http://genomebiology.com/2002/3/7/research/0034/">http://genomebiology.com/2002/3/7/research/0034/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(vandesompele)
+res.BM &lt;- selectHKgenes(vandesompele[1:9,], method = "Vandesompele", geneSymbol = names(vandesompele), minNrHK = 2, trace = TRUE, na.rm = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>SLqPCR</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

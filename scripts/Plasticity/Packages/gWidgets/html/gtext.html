@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructor for widget for multi-line editable text input</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gtext {gWidgets}"><tr><td>gtext {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Constructor for widget for multi-line editable text input</h2>
+
+<h3>Description</h3>
+
+<p>The
+<code>gtext</code> widget creates a text buffer for handling multiple lines
+of text. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gtext (text = NULL, width = NULL, height = 300, font.attr = NULL, 
+    wrap = TRUE, handler = NULL, action = NULL, container = NULL, 
+    ..., toolkit = guiToolkit()) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>Initial text in widget</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>Width of widget in pixels</p>
+</td></tr>
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>Height of gtext widget in pixels</p>
+</td></tr>
+<tr valign="top"><td><code>font.attr</code></td>
+<td>
+<p>Optional specification of font attributes</p>
+</td></tr>
+<tr valign="top"><td><code>wrap</code></td>
+<td>
+<p>For gtext, are long lines wrapped?</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Handler called when text is changed.</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p> Passed to handler</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to add method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>gtext</code> widget has the following methods.
+</p>
+<p>The <code>svalue</code> method returns the text held in the
+buffer. If <code>drop=TRUE</code>, then only the text in the
+currently selection is returned.
+</p>
+<p>The <code>svalue&lt;-</code> method replaces the text in the buffer
+with the new text.
+</p>
+<p>New text is added with the <code>insert</code> method. The basic
+usage is <code>insert(obj,text)</code> where &quot;text&quot; could be a
+single line or a vector of text, or &ndash;for gWidgetsRGtk2 &ndash; a
+gwidget (although some, like gedit, are kind of flaky). Extra
+arguments include <code>do.newline</code> a logical indicating if a
+new line after the last line should be added (default is
+<code>TRUE</code>); <code>font.attr</code> to specify any font attributes;
+<code>where</code> indicating where to add the text (either
+<code>end</code> or <code>beginning</code>). The <code>insert</code> generic
+replaces the overused <code>add</code> for <code>gtext</code>, but
+<code>add</code> will still work.
+</p>
+<p>The font can be changed. The <code>font.attr</code> argument to the
+constructor is used to specify font properties for the
+buffer. When specifed to the <code>add</code> method, the font
+specification applies to the new text. Both uses use a named
+character vector to specify the font properties. For instance
+<code>c(style="normal", weights="bold",sizes="medium")</code>.  The
+command <code>obj[['tags']]</code> will produce a list containing
+all the available attributes.
+</p>
+<p>The <code>font&lt;-</code> method is used to change the font of the
+currently selected text. It too takes a named character vector
+specifying the font attributes. If there is no currently selected text, the 
+entire buffer will have the new font attribute.
+</p>
+<p>The <code>dispose</code> method clears the text in the buffer.
+</p>
+<p>The <code>addHandlerKeystroke</code> method for <code>gedit</code>and
+<code>gtext</code> is called for 
+each keystroke. In <code>gtext</code> or <code>RGtk2</code> the component
+<code>key</code> of the <code>h</code> argument contains the keystroke.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+        ## gtext example
+        obj &lt;- gtext("First line", container=gwindow())
+	insert(obj,"second line", font.attr=c(family="monospace"))
+        insert(obj,"third line", font.attr=c(foreground.colors="red"))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

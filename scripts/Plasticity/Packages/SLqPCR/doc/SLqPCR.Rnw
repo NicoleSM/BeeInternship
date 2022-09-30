@@ -1,0 +1,133 @@
+%\VignetteIndexEntry{SLqPCR}
+%\VignetteDepends{stats,RColorBrewer}
+%\VignetteKeywords{real-time, quantitative, PCR}
+%\VignettePackage{SLqPCR}
+%
+\documentclass[11pt]{article}
+\usepackage{geometry}\usepackage{color}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.75}
+\usepackage[%
+baseurl={http://www.sirs-lab.com},%
+pdftitle={SLqPCR: Functions for analysis of real-time quantitative PCR data at SIRS-Lab GmbH},%
+pdfauthor={Matthias Kohl},%
+pdfsubject={SLqPCR},%
+pdfkeywords={real-time, quantitative, PCR},%
+pagebackref,bookmarks,colorlinks,linkcolor=darkblue,citecolor=darkblue,%
+pagecolor=darkblue,raiselinks,plainpages,pdftex]{hyperref}
+%
+\markboth{\sl Package ``{\tt SLqPCR}''}{\sl Package ``{\tt SLqPCR}''}
+%
+% -------------------------------------------------------------------------------
+\newcommand{\code}[1]{{\tt #1}}
+\newcommand{\pkg}[1]{{\tt "#1"}}
+% -------------------------------------------------------------------------------
+%
+% -------------------------------------------------------------------------------
+\begin{document}
+%-------------------------------------------------------------------------------
+\title{SLqPCR: Functions for analysis of real-time quantitative PCR data at SIRS-Lab GmbH}
+%-------------------------------------------------------------------------------
+\author{Dr. Matthias Kohl\\ 
+SIRS-Lab GmbH (Jena, Germany)\medskip\\
+\includegraphics[width = 3cm]{SLlogo.png}
+}
+\maketitle
+\tableofcontents
+%-------------------------------------------------------------------------------
+\section{Introduction}
+%-------------------------------------------------------------------------------
+The package \pkg{SLqPCR} was designed for the analysis of real-time
+quantitative RT-PCR data. In this short vignette we describe and demonstrate the
+available functions.
+%-------------------------------------------------------------------------------
+\section{Selection of most stable reference/housekeeping genes} 
+%-------------------------------------------------------------------------------
+We describe the selection of the best (most stable) reference/housekeeping genes using method and data set of Vandesompele et al (2002)~\cite{geNorm} 
+(in the sequel: Vand02). We load library and data
+<<SLqPCR, eval = TRUE>>=
+library(SLqPCR)
+data(vandesompele)
+str(vandesompele)
+@
+We start by ranking the selected reference/housekeeping genes. The function 
+\code{selectHKgenes} proceeds stepwise; confer Section ``Materials and methods'' 
+in Vand02. That is, the gene stability measure~M of all candidate genes is
+computed and the gene with the highest M value is excluded. Then, the gene
+stability measure~M for the remaining gene is calculated and so on. This procedure 
+is repeated until two respectively \code{minNrHK} is reached.
+<<fig2, eval = TRUE>>=
+tissue <- as.factor(c(rep("BM", 9), rep("POOL", 9), rep("FIB", 20), rep("LEU", 13), rep("NB", 34)))
+res.BM <- selectHKgenes(vandesompele[tissue == "BM",], method = "Vandesompele", geneSymbol = names(vandesompele), minNrHK = 2, trace = TRUE, na.rm = TRUE)
+res.POOL <- selectHKgenes(vandesompele[tissue == "POOL",], method = "Vandesompele", geneSymbol = names(vandesompele), minNrHK = 2, trace = FALSE, na.rm = TRUE)
+res.FIB <- selectHKgenes(vandesompele[tissue == "FIB",], method = "Vandesompele", geneSymbol = names(vandesompele), minNrHK = 2, trace = FALSE, na.rm = TRUE)
+res.LEU <- selectHKgenes(vandesompele[tissue == "LEU",], method = "Vandesompele", geneSymbol = names(vandesompele), minNrHK = 2, trace = FALSE, na.rm = TRUE)
+res.NB <- selectHKgenes(vandesompele[tissue == "NB",], method = "Vandesompele", geneSymbol = names(vandesompele), minNrHK = 2, trace = FALSE, na.rm = TRUE)
+@
+We obtain the following ranking of genes (cf. Table~3 in Vand02)
+<<table3, eval = TRUE>>=
+ranks <- data.frame(c(1, 1:9), res.BM$ranking, res.POOL$ranking, res.FIB$ranking, res.LEU$ranking, res.NB$ranking)
+names(ranks) <- c("rank", "BM", "POOL", "FIB", "LEU", "NB")
+ranks
+@
+{\bf Remark 1:}
+\begin{enumerate}
+\item[(a)] Since the computation is based on gene ratios, the two most stable
+control genes in each cell type cannot be ranked.
+\item[(b)] In praxis the selection of reference/housekeeping genes may require an additional step which is the computation of relative quantities via 
+\code{relQuantPCR}; e.g.
+<<relQuant, eval = TRUE>>=
+exa1 <- apply(vandesompele[tissue == "BM",], 2, relQuantPCR, E = 2)
+@
+\end{enumerate}
+We plot the average expression stability M for each cell type (cf. Figure~2 in Vand02).
+<<fig2, eval = TRUE, fig = TRUE>>=
+library(RColorBrewer)
+mypalette <- brewer.pal(5, "Set1")
+matplot(cbind(res.BM$meanM, res.POOL$meanM, res.FIB$meanM, res.LEU$meanM, res.NB$meanM), type = "b", ylab = "Average expression stability M", xlab = "Number of remaining control genes", axes = FALSE, pch = 19, col = mypalette, ylim = c(0.2, 1.22), lty = 1, lwd = 2, main = "Gene stability measure")
+axis(1, at = 1:9, labels = as.character(10:2))
+axis(2, at = seq(0.2, 1.2, by = 0.2), labels = as.character(seq(0.2, 1.2, by = 0.2)))
+box()
+abline(h = seq(0.2, 1.2, by = 0.2), lty = 2, lwd = 1, col = "grey")
+legend("topright", legend = c("BM", "POOL", "FIB", "LEU", "NB"), fill = mypalette)
+@
+\par
+Second, we plot the pairwise variation for each cell type (cf. Figure~3~(a) in Vand02)
+<<fig3a, eval = TRUE, fig = TRUE>>=
+mypalette <- brewer.pal(8, "YlGnBu")
+barplot(cbind(res.BM$variation, res.POOL$variation, res.FIB$variation, res.LEU$variation, res.NB$variation), beside = TRUE, col = mypalette, space = c(0, 2), names.arg = c("BM", "POOL", "FIB", "LEU", "NB"))
+legend("topright", legend = c("V9/10", "V8/9", "V7/8", "V6/7", "V5/6", "V4/5", "V3/4", "V2/3"), fill = mypalette, ncol = 2)
+abline(h = seq(0.05, 0.25, by = 0.05), lty = 2, col = "grey")
+abline(h = 0.15, lty = 1, col = "black")
+@
+\par\noindent
+{\bf Remark 2:}\\
+Vand02 recommend a cut-off value of 0.15 for the pairwise variation. Below this
+bound the inclusion of an additional housekeeping gene is not required. 
+%-------------------------------------------------------------------------------
+\section{Normalization by geometric averaging} 
+%-------------------------------------------------------------------------------
+To normalize your data by geometric averaging of multiple reference/housekeeping
+genes you can proceed as follows
+<<norm, eval = TRUE>>=
+data(SLqPCRdata)
+SLqPCRdata
+(relData <- apply(SLqPCRdata, 2, relQuantPCR, E = 2))
+geneStabM(relData[,c(3,4)])
+(exprData <- normPCR(SLqPCRdata, c(3,4)))
+@
+%-------------------------------------------------------------------------------
+\begin{thebibliography}{1}
+
+\bibitem{geNorm}
+Jo Vandesompele, Katleen De Preter, Filip Pattyn, Bruce Poppe, Nadine Van Roy, 
+Anne De Paepe and Frank Speleman (2002).
+\newblock Accurate normalization of real-time quantitative RT-PCR data by geometric
+averiging of multiple internal control genes.
+\newblock Genome Biology 2002, 3(7):research0034.1-0034.11
+\newblock http://genomebiology.com/2002/3/7/research/0034/
+
+\end{thebibliography}
+%-------------------------------------------------------------------------------
+\end{document}
+
+

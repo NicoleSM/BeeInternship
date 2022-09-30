@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods to add event handlers to objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gWidgets-handlers {gWidgets}"><tr><td>gWidgets-handlers {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods to add  event handlers to objects</h2>
+
+<h3>Description</h3>
+
+<p>In the gWidgets API handlers are called in reponse to certain
+events such as keystrokes or clicks. This set of methods makes
+a consistent interface to some typical events. Not all
+handlers are defined for each widget. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+addHandlerChanged(obj, handler = NULL, action = NULL, ...) 
+
+addHandlerKeystroke(obj, handler = NULL, action = NULL, ...) 
+
+addHandlerClicked(obj, handler = NULL, action = NULL, ...) 
+
+addHandlerDoubleclick(obj, handler = NULL, action = NULL, ...) 
+
+addHandlerRightclick(obj, handler = NULL, action = NULL, ...) 
+
+addHandlerFocus(obj, handler = NULL, action = NULL, ...) 
+
+addHandlerBlur(obj, handler = NULL, action = NULL, ...) 
+
+addHandlerMouseMotion(obj, handler = NULL, action = NULL, ...)
+
+addHandlerExpose(obj, handler = NULL, action = NULL, ...) 
+
+addHandlerUnrealize(obj, handler = NULL, action = NULL, ...) 
+
+addHandlerDestroy(obj, handler = NULL, action = NULL, ...) 
+
+addHandlerIdle (obj, handler = NULL, action = NULL, interval = 1000,   ...) 
+
+addPopupmenu(obj, menulist, action=NULL, ...)
+
+add3rdMousePopupmenu(obj, menulist, action=NULL, ...)
+
+
+
+removeHandler(obj, ID=NULL, ...)
+
+blockHandler(obj, ID=NULL, ...)
+
+unblockHandler(obj, ID=NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+<p>The object to assign handler to</p>
+</td></tr>
+</table>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>A function to call if the given event occurs.
+The function's first argument is a list with some specific
+components. The component <code>obj</code> contains the object that
+the handler was assigned to. The <code>action</code> component
+contains the value given to the argument <code>action</code>. This can be used
+with <code>do.call</code> to make simple handlers. Or, this can be
+used to pass in other widgets, etc. 
+</p>
+<p>Sometimes there are other components. For drag and drop
+handlers the component <code>dropdata</code> refers to the dropped
+data. For <code>ggraphics</code> the <code>addHandlerclicked</code>
+contains components <code>x</code> and <code>y</code> indicating where the
+click occurred.
+</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p>Used to pass extra information into handlers </p>
+</td></tr>
+<tr valign="top"><td><code>interval</code></td>
+<td>
+<p>For <code>addHandleridle</code> this specifies the
+time in milliseconds between calls to the handler.</p>
+</td></tr>
+<tr valign="top"><td><code>menulist</code></td>
+<td>
+<p>For <code>addpopupmenu</code> and
+<code>add3rdmousepopupmenu</code> this specifies a menubar using a
+list which is in turn passed to <code>gmenu</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ID</code></td>
+<td>
+<p>When a handler is assigned, an id is returned. This
+id can be used to remove or block a handler from an object.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not documented, currently has no role.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>At first these handlers were all lowercase. These functions are still
+availabe, although the mixed case usage is encouraged
+</p>
+<p>In GTK, and other toolkits, an event causes a signal to
+be triggered and these handlers are called in response to that
+signal. 
+</p>
+<p>These signals have various names known to the GTK
+programmer. say. These functions attempt to shield the
+gWidgets user from needing to learn these signals. For
+gWidgetsRGtk, if these handlers prove insufficient then the
+non-exported <code>addHandler</code> function has an additional
+<code>signal</code> argument: <code>(obj,signal,handler,
+	action,...)</code> for specifying a GTK signal. By avoiding this, we
+can make the gWidgets API non-toolkit specific.
+</p>
+<p>The signals are defined to match the event
+described by the method name, e.g., &quot;doubleclick.&quot; 
+</p>
+<p>The handlers all have signature <code>(h,...)</code> where the first
+argument is a list with components <code>obj</code> containing the
+widget the handler is added to and <code>action</code> containing
+the values passed along to the <code>action</code> argument. This
+can be used to pass in other widget's names, when they can not
+be found from a function closure, say.
+</p>
+<p>The handlers do not have lazy evaluation. The value of
+<code>action</code> is the one at the time of creation of the
+widget. (See the example). In GTK, a means to cheat this is to pass in
+a gWidget instance, as the underlying GTK objects are stored
+as pointers, not copies, so that when queried, their current
+state is used.
+</p>
+
+<dl>
+<dt><code>addHandlerChanged</code>:</dt><dd><p> This handler is called when a widget
+is &quot;changed.&quot;  This is interpreted differently by the various
+widgets. For <code>gedit</code> change refers to a changed value,
+not a keystroke change (when ENTER is pressed). For notebooks,
+this is called when a page is changed.
+</p>
+</dd>
+<dt><code>addHandlerKeystroke</code>:</dt><dd><p> This handler is called when keys are
+pressed in the text widgets. The extra argument <code>key</code> is
+used to pass back the key code of the pressed key.
+</p>
+</dd>	
+<dt><code>addHandlerClicked</code>:</dt><dd><p>This handler is called when a widget,
+such as a button or label, is clicked.
+</p>
+</dd>	
+<dt><code>addHandlerDoubleclick</code>:</dt><dd><p>This handler is called when a
+widget is doubleclicked, like in the tree widget. Not all
+widgets receive a double click signal. Only when a single
+mouse click is needed for selection is this implemented.</p>
+</dd>
+<dt><code>addHandlerRightclick</code>:</dt><dd><p>This handler is called
+when a widget is clicked with the right mouse button</p>
+</dd>
+<dt><code>addHandlerFocus</code>:</dt><dd><p>This handler is called when a widget gains focus</p>
+</dd>
+<dt><code>addHandlerBlur</code>:</dt><dd><p>This handler is called when a widget loses focus</p>
+</dd>
+<dt><code>addHandlerMouseMotion</code>:</dt><dd><p>This handler is called when a
+the mouse moves over a widget. In some toolkits it is called
+just once per visit to the widget, for others maybe multiple
+times. This is like a mouseover for web pages. The drag motion
+handler is similar, only it is called when a drag event is
+dragged over a widget.</p>
+</dd>
+<dt> <code>addHandlerExpose</code>:</dt><dd><p> handler is called when a widget is
+exposed. For instance when a page in a notebook is exposed.</p>
+</dd>
+<dt> <code>addHandlerUnrealize</code>:</dt><dd><p> handler is called when a widget
+is being unrealized.</p>
+</dd>
+<dt> <code>addHandlerDestroy</code>:</dt><dd><p> handler is called when a widget
+is being destroyed. For top level windows, this usually allows
+one to intercept the window destroy event for purposes of saving
+work etc.</p>
+</dd>
+<dt> <code>addHandlerIdle</code>:</dt><dd><p> handler is called every so often,
+and can be used to update a widget's content. This method has
+an extra argument 
+<code>interval</code> specifying the interval in milliseconds with a
+default of 1000 or 1 second. </p>
+</dd>
+</dl>
+
+<p>Although not handlers, the <code>addPopupMenu</code> method adds a
+popup menu to a mouse click. The popup menu is specified using
+a list that is passed to <code>gmenu</code>.
+</p>
+<p>A refinement of this is the <code>add3rdMousePopupmenu</code> method
+which puts the popupmenu on the right mouse click.
+</p>
+<p>The method <code>removeHandler</code> is used to remove a handler from an object. If an ID is specified, just that handler is removed, otherwise all handlers will be. To temporarily disable a handler, use <code>blockHandler</code> then <code>unblockHandler</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gWidgets-methods.html">gWidgets-methods</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+	## a default handler, useful for when action is enough to
+	## specify desired results
+
+	handler.default = function(h,...) do.call(h$action,list(svalue(h$obj)))
+	group = ggroup(horizontal=FALSE, container=gwindow("Click
+		button"))
+        button = gbutton("Click me", container=group)
+	addhandlerclicked(button, handler=handler.default, action="print")
+
+
+	## use two widgets, one to update the other
+	group = ggroup(horizontal=FALSE, container=gwindow("two widgets"))
+	button = gbutton("click me", container=group)
+	label = glabel("Button has not been clicked", container=group)
+	addhandlerclicked(button, handler = function(h,...) {
+	svalue(h$obj) &lt;-"click me again"
+	svalue(h$action) &lt;- "Button has been clicked"
+	}, action = label)
+
+
+	## lazy evaluation is not used here
+	obj = 4
+	gbutton("click",container=TRUE, handler=function(h,...)
+	print(h$action), action=obj)
+	obj = 2
+	## now click button and value of 4 will be printed, not 2
+
+	## Whereas, if one uses a gWidget we get the same as lazy
+       ## loading
+       obj = gedit("4")		 
+	gbutton("click",container=TRUE, handler=function(h,...)
+		print(svalue(h$action)), action=obj)
+	svalue(obj) &lt;- "2"
+	## Now click and "2" is printed.
+
+      ## remove handler, block handler, unblockhandler (latter two may not be implemented)
+      b &lt;- gbutton("click", container=gwindow())
+      id &lt;- addHandlerClicked(b, handler=function(h,...) print("ouch"))
+      ## click --&gt; "ouch"
+      blockHandler(b, id) ## now click -- nothing
+      unblockHandler(b, id) ## now click -- "ouch"
+      removeHandler(b, id)  ## all gone now
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

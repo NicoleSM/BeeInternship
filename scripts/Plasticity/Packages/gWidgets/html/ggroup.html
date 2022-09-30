@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Box containers for packing in subsequent widgets</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ggroup {gWidgets}"><tr><td>ggroup {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Box containers for packing in subsequent widgets</h2>
+
+<h3>Description</h3>
+
+<p>Various box containers useful for laying out GUI controls. These
+containers pack in child widgets from left to right or top to
+bottom. A few arguments can be used to adjust the sizing and positioning.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ggroup(horizontal = TRUE, spacing = 5,  use.scrollwindow = FALSE, 
+container = NULL, ..., toolkit = guiToolkit())
+
+gframe(text = "", markup = FALSE, pos = 0, horizontal=TRUE, container = NULL, 
+    ..., toolkit = guiToolkit()) 
+gexpandgroup(text = "", markup = FALSE, horizontal=TRUE, handler = NULL, 
+action = NULL, 
+    container = NULL, ..., toolkit = guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+<p>Specifies if widgets are packed in left to right
+or top to bottom (<code>FALSE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>spacing</code></td>
+<td>
+<p>Space in pixels around each widget. Can be changed
+with <code>svalue</code></p>
+</td></tr>
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>Text for label</p>
+</td></tr>
+<tr valign="top"><td><code>markup</code></td>
+<td>
+<p>Optional markup. (See <code><a href="glabel.html">glabel</a></code> for details.)</p>
+</td></tr>
+<tr valign="top"><td><code>pos</code></td>
+<td>
+<p>Where to place label: 0 is to left, 1 to right,
+interpolates.</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Called when expand arrow is clicked</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p>Passed to handler</p>
+</td></tr>
+<tr valign="top"><td><code>use.scrollwindow</code></td>
+<td>
+<p>If <code>TRUE</code> then group is placed in a
+scrollwindow allowing panning with mouse.</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to. Not optional
+for gWidgetstcltk, or gWidgetsRwxwidgets</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to the <code>add</code> method of the container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A <code>ggroup</code> is the primary container for packing in
+subsequent widgets, either from left to right or top to
+bottom. Widgets are packed in using the <code>add</code> method and
+can be removed with the <code>delete</code> method.
+</p>
+<p>The <code>gframe</code> container adds a decorative border and
+optional label to the box container.
+</p>
+<p>The <code>gexpandgroup</code> containers has an optional label and a
+trigger to click  on which toggles the display of the the child widgets.
+By default, the child widgets are not shown. Using the <code>visible&lt;-</code> method to adjust.
+</p>
+<p>The containers pack in child widgets from either left to right
+(when <code>horizontal=TRUE</code>) or from top to bottom (when
+<code>horizontal=FALSE</code>).
+</p>
+<p>Child widgets are added to box containers through their
+<code>add</code> method or through the containers use as the parent
+container when a widget is constructed. This is done by using
+the <code>container</code> argument of the widget.  The
+<code>container</code> argument is not optional for
+<span class="pkg">gWidgetstcltk</span>.  It is suggested that it always be included
+for portability. When it is not included, widgets are added to
+the new group object through its <code>add</code> method. Otherwise, when a
+widget is created, the group is specified as the container and
+the add method is then called implicitly, with the constructor's
+<code>...</code> argument used to pass arguments to <code>add</code>.
+</p>
+<p>When the parent allocates space to a child widget it
+be possible to allocate more space than is requested by the
+child widget. The child may then be
+positioned in the available space by specifying the
+<code>anchor=c(a,b)</code> argument to <code>add</code> where <code>a</code>
+and <code>b</code> are values in -1,0,1 and specify the position using
+Cartesian coordinates.
+</p>
+<p>If the argument <code>expand=TRUE</code> to <code>add</code> is given, then the space
+available to the child expands.  The child widget can be
+instructed to grow to fill the space. The <code>add</code> method's argument <code>fill</code>,
+with values <code>"both"</code>, <code>"x"</code>, <code>"y"</code> or <code>""</code>,
+instructs the child as to which direction to grow in. (The
+<code>""</code> value says none.)
+</p>
+<p>The implementation of <code>expand</code>, <code>anchor</code>, <code>fill</code>
+varies with the underlying toolkit. The basic language comes
+from <span class="pkg">tcltk</span> and an attempt &ndash; not entirely successful &ndash; is
+made to implement it in the <span class="pkg">gWidgetsRGtk2</span> and
+<span class="pkg">gWidgetsQt</span> packages.
+</p>
+<p>A child component may be deleted using <code>delete(parent,
+	child)</code>. TYpically the child may be replaced in the GUI, using <code>add</code>.
+</p>
+<p>The <code>spacing</code> argument determines the number of pixels of
+padding between each widget when packed in. This can be set when
+the group is constructed, or later using <code>svalue&lt;-</code>.
+</p>
+<p>The argument <code>use.scrollwindow = TRUE</code>
+will add scrollbars around the box container. When the child
+components require more size than is given to the container, the
+scroll bars allow one to position the viewable area over the
+child of interest. Again, not all toolkits do this equally well.
+</p>
+<p>To put space between two adjoining widgets, the
+<code>addSpace(obj, value, ...)</code>  method may be used where
+<code>value</code> is the number of pixels of padding between the just
+packed widget, and the next one to be packed.
+</p>
+<p>The <code>addSpring(obj,...)</code> method will push the just packed
+widget and the next-to-be packed widget as far apart as possible.
+</p>
+<p>For <code>ggroup</code>, in <code>gWidgetsRGtk2</code> a few arguments add
+to the container.  The argument <code>raise.on.dragmotion =
+	TRUE</code> will cause the group to jump to the foreground when a drag
+action crosses it.
+For <code>gframe</code> and <code>gexpandgroup</code> the label name can be
+retrieved or adjusted with the <code>names</code> method.
+</p>
+<p>For <code>gframe</code> and <code>gexpandgroup</code> the label can be
+adjusted through the <code>names&lt;-</code> method.
+</p>
+<p>For <code>gexpandgroup</code> the <code>visible</code> method can be used
+to toggle the display programmatically.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For top-level containers <code><a href="gwindow.html">gwindow</a></code>, for containers
+to display more than one child widget see <code><a href="gpanedgroup.html">gpanedgroup</a></code>,
+<code><a href="gnotebook.html">gnotebook</a></code>, <code><a href="glayout.html">glayout</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  ## basic group 
+  group &lt;- ggroup(horizontal=FALSE, container=gwindow())
+  l &lt;- glabel("widget 1")  ## not in gWidgetstcltk -- needs a container
+  add(group, l)
+  glabel("widget 2", container = group) ## style for all toolkits
+
+  ## nested groups
+  group &lt;- ggroup(horizontal=FALSE, container=gwindow())
+  innergroup &lt;- ggroup(container = group)
+  gtext("Text area", container=group)
+  gbutton("button 1", container = innergroup)
+  gbutton("button 2", container = innergroup)
+
+  ## expand argument
+  group &lt;- ggroup(horizontal=FALSE, container=gwindow())
+  gbutton("no expand", container=group)
+  gbutton("expand=TRUE", container=group, expand=TRUE)
+
+  ## anchor argument
+  w &lt;- gwindow("Anchor")
+  size(w) &lt;- c(500,500)
+  group &lt;- ggroup(container=w)
+  glabel("upper left", container=group, anchor=c(-1,1))
+  glabel("lower right", container=group, anchor=c(1,-1))
+
+  ## add spring
+  group &lt;- ggroup(container=gwindow("menubar-like example"))
+  gbutton("File",handler=function(h,...) print("file"), container=group)
+  gbutton("Edit",handler=function(h,...) print("edit"), container=group)
+  addSpring(group)				   
+  gbutton("Help",handler=function(h,...) print("help"), container=group)
+
+
+  ## delete and add
+  w &lt;- gwindow("Delete and add", visible=FALSE)
+  g &lt;- ggroup(container=w)
+  b &lt;- gcheckbox("hide", checked=FALSE, container=g)
+  l &lt;- gedit("click checkbox to hide me", container=g)
+  addHandlerClicked(b, handler=function(h,...) {
+     if(svalue(b))
+       delete(g, l)
+     else
+       add(g, l)
+  })
+  visible(w) &lt;- TRUE
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

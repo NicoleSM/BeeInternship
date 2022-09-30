@@ -1,0 +1,20 @@
+EasyqpcR-package        Functions to analyse real-time quantitative PCR
+                        data at IRTOMIT-INSERM U1082
+Efficiency_calculation
+                        Raw data for primer amplification efficiency
+                        calculation.
+Gene_maximisation       A data frame containing all the data from four
+                        different qPCR runs.
+Gene_maximisation_cor   A data frame containing all the data from four
+                        different qPCR runs.
+badCt                   Evaluation of the qPCR technical replicates
+calData                 Calculation of calibration factors
+nrmData                 Determination of the NF, RQ, NRQ, NRQ scaled to
+                        control and their SE and SD.
+qPCR_run1               Raw data from the first qPCR run.
+qPCR_run2               Raw data from the second qPCR run.
+qPCR_run3               Raw data from the third qPCR run.
+slope                   Function to calculate the amplification
+                        efficiency
+totData                 Aggregation of qPCR biological replicates and
+                        data transformation

@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructor for widget to handle single-line text input</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gedit {gWidgets}"><tr><td>gedit {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Constructor for widget to handle single-line text input</h2>
+
+<h3>Description</h3>
+
+<p>The <code>gedit</code> widget is used to enter single lines of text. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gedit(text = "", width = 25, coerce.with = NULL, initial.msg="", 
+handler = NULL, action = NULL, container = NULL, ..., toolkit = guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>Initial text in widget</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>Width of widget. For gedit, this means the number of
+characters.</p>
+</td></tr>
+<tr valign="top"><td><code>coerce.with</code></td>
+<td>
+<p>For gedit, when the value is retrieved this
+function is applied to the result. (The stored value is always a
+character, this can be used to make it numerc, to quote it, ...</p>
+</td></tr>
+<tr valign="top"><td><code>initial.msg</code></td>
+<td>
+<p>If <code>text</code> is empty, this initial message is displayed to give the user some indication of what to do</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Handler called when text is changed. For gedit, this
+means the enter key is pressed.</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p> Passed to handler</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to add method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>gedit</code> widget has the following methods:
+</p>
+<p>The <code>svalue</code> method retrieves the value. If a function is
+given to the argument <code>coerce.with</code> it is applied before
+the value is returned. This can be used to coerce the text
+value (always of class character) to a numeric, or to a date,
+or to be quoted, ...
+</p>
+<p>The <code>svalue&lt;-</code> method is used to set the value.
+</p>
+<p>The <code>"["</code> and <code>"[&lt;-"</code> methods refer to the widgets
+&quot;type-ahead&quot; values. A familiar usage is when a url is typed
+into a web browser, matches appear from a users history that
+could possibly complete the typed url.
+</p>
+<p>The <code>visible&lt;-</code> method is used to toggle whether
+characters are visible, or are replaced with a &quot;*&quot;, such as is
+done with password entry.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+	gedit("type here", container=gwindow())
+	
+	## change handler
+	obj &lt;- gedit(container=gwindow())
+	addhandlerchanged(obj, handler=function(h,...) 
+	  cat("You typed", svalue(h$obj),"\n"))
+
+	 ## coerce to numeric
+	 obj &lt;- gedit("7", container=gwindow(), coerce.with=as.numeric)
+	 svalue(obj)
+
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

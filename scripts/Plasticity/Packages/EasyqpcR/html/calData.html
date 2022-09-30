@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculation of calibration factors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for calData {EasyqpcR}"><tr><td>calData {EasyqpcR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Calculation of calibration factors
+</h2>
+
+<h3>Description</h3>
+
+<p>This function determines the calibration factors (CF) using the method described
+in Hellemans et al. (2007).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calData(data)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>data.frame containing the NRQs of your calibrator(s) for each gene obtained by
+the nrmData function of this package.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is necessary for comparing different quantitative real-time PCR
+runs to reduce the inter-run variability (Hellemans et al. (2007)). Then, the
+results obtained have to be included in an R object and then be inputed in the
+nrmData function (see the vignette for more informations).
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function returns the calibration factor associated to each gene for the
+whole runs.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sylvain Le Pape (IRTOMIT-INSERM U1082) &lt;sylvain.le.pape@univ-poitiers.fr&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Jan Hellemans, Geert Mortier, Anne De Paepe, Frank Speleman and Jo Vandesompele.
+qBase relative quantification framework and software for management and
+automated analysis of real-time quantitative PCR data. Genome Biology 2007,
+8:R19 (doi:10.1186/gb-2007-8-2-r19). &lt;url:http://genomebiology.com/2007/8/2/R19&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(qPCR_run1,qPCR_run2,qPCR_run3)
+
+nrmData(data = qPCR_run1 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)
+
+nrmData(data = qPCR_run2 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)
+
+nrmData(data = qPCR_run3 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)
+
+
+## Isolate the calibrator NRQ values of the first biological replicate
+
+a &lt;- nrmData(data = qPCR_run1 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)[[3]] 
+
+## Isolate the calibrator NRQ values of the first biological replicate
+
+b &lt;- nrmData(data = qPCR_run2 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)[[3]]
+ 
+## Isolate the calibrator NRQ values of the first biological replicate
+
+c &lt;- nrmData(data = qPCR_run3 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)[[3]]
+
+## Regrouping the calibrator NRQ values of all the biological replicates
+
+d &lt;- rbind(a, b, c) 
+
+## Calibration factor calculation
+
+e &lt;- calData(d) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>EasyqpcR</em> version 1.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,12 @@
+citHeader("To cite package SLqPCR in publications use:")
+
+citEntry(entry="Manual",
+         title = "SLqPCR: Functions for analysis of real-time quantitative PCR data at SIRS-Lab GmbH",
+         author = personList(as.person("M. Kohl")),
+         language = "English",
+         year = 2007,
+         organization = "SIRS-Lab GmbH",
+         type = "R package",
+         address = "Jena",
+         url = "www.sirs-lab.com",
+textVersion = paste("Kohl, M., (2007).", "SLqPCR: Functions for analysis of real-time quantitative PCR data at SIRS-Lab GmbH.", "R package,", "SIRS-Lab GmbH.", "Jena."))

@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for gWidgets instances</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gWidgets-methods {gWidgets}"><tr><td>gWidgets-methods {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods for gWidgets instances</h2>
+
+<h3>Description</h3>
+
+<p>Methods introduced by the gWidgets API.
+</p>
+
+
+<h3>Details</h3>
+
+	
+<p>The base class for this gWidgets implentation are
+<code>gWidget</code> and its subclass  <code>gComponent</code> and
+<code>gContainer</code>. However, it is expected that the toolkit
+implementations have several classes of their own. The following
+methods defined in gWidgets simply dispatch to a similarly named
+widget in the toolkit. For instance, the method svalue is defined
+like
+</p>
+<p><code>svalue(obj,...) &lt;- .svalue(obj@widget, obj@toolkit, ...)</code> where
+<code>.svalue()</code> and  <code>obj@widget</code> are in toolkit, and
+<code>obj@toolkit</code> is used for dispatching in the appropriate toolkit.
+</p>
+<p>The gComponent methods are:
+</p>
+  
+<dl>
+<dt><code>svalue(obj, index=NULL, drop=NULL, ...)</code>:
+</dt><dd>
+<p>This method returns the &quot;selected&quot; value in a widget. Selection
+varies from widget to widget, but should generally is what can be
+added to the widget by mouse click or typing. For some
+widgets, the extra argument <code>index=TRUE</code> will return the
+index of the selected value, not the value. For some widget, the
+argument <code>drop</code> is given to either prevent or encourage
+dropping of information. 
+</p>
+</dd>
+<dt>  <code>svalue&lt;-(obj, index=NULL,  ... ,value)</code>:
+</dt><dd>
+<p>This method is used to set the selected value in a widget
+programaticaly. The <code>index</code> argument is used when the value
+is set by index.
+</p>
+</dd>
+<dt> <code>[(x,i,j,...,drop=TRUE)]</code>:</dt><dd> 
+<p>For widgets where selection is a choice from a collection of items,
+the <code>svalue</code> method refers to the choice and the square bracket
+notation refers to the items.  For instance, in a radio button
+(<code>gradio</code>) the svalue method returns the selected value, the
+<code>"["</code> method refers to the vector of possible values. Whereas in
+a notebook (<code>gnotebook</code>), the <code>svalue</code> method refers to
+the currently opened page and the <code>"["</code> refers to all the pages.
+</p>
+</dd>
+<dt>  <code>"[&lt;-"(x, i, j, ..., value) </code>:</dt><dd>
+<p>In those cases where it makes sense assignment to pieces of
+the widget can be made with the square bracket notation. For
+instance, for the radio widget, this can be used to change
+the labels. 
+</p>
+</dd>   
+<dt>  <code>size(obj, ...)</code> or
+<code>size&lt;-(obj, ..., value)</code>:
+</dt><dd>
+<p>Returns or sets the size of the object.  For setting
+the size, the value is given in terms of width and
+height of widget in pixels.
+</p>
+</dd>
+<dt>
+<code>visible(obj ...)</code> or
+<code>visible&lt;-(obj,..., value)</code>:
+</dt><dd>
+<p>Used to check if widget is visible or not. When setting the
+visibility, <code>value</code> should be a logical. &quot;Visibility&quot;
+differs from widget to widget. For <code>gwindow</code>, like most other widgets, it refers
+to whether the base container is shown or not. For the
+dataframe-like widgets <code>gdf</code> and <code>gtable</code>
+visibility refers to which rows are shown. For <code>gexpandgroup</code> it sets whether the container displays its children or not.
+</p>
+</dd>
+<dt>
+<code>isExtant(obj ...)</code>
+</dt><dd>
+<p>Used to check if a gwindow object is extant (not been destroyed). An R
+object can point to a window that can no longer be shown, as it may
+have been closed by the window manager.
+</p>
+</dd>
+<dt>
+<code>enabled(obj,...)</code> or
+<code>enabled&lt;-(obj,..., value)</code>
+</dt><dd>
+<p>When a widget is disabled, the toolkit makes it unresponsive
+to user input and changes the color of it, usually by
+graying it out, to indicate it is disabled. This method is
+used to change the state.
+</p>
+</dd>
+<dt>
+<code>editable(obj,...)</code> or
+<code>editable&lt;-(obj,..., value)</code>
+</dt><dd>
+<p>For some widgets, e.g. <code>gedit</code> one may wish to query or change whether the area could be edited.
+</p>
+</dd>
+<dt> <code>focus(obj,...)</code> or <code>focus&lt;-(obj,...,value)</code>:
+</dt><dd>
+<p>method to check if a widget has focus (for keyboard input), or to force focus on a widget.
+</p>
+</dd>
+<dt><code>tooltip&lt;-(obj,value)</code>
+</dt><dd>
+<p>Add a tooltip to the widget. Tooltips are toolkit, OS, and event loop dependent.
+</p>
+</dd>
+<dt><code>defaultWidget(obj,...)</code> or <code>defaultWidget&lt;-(obj,...,value)</code>
+</dt><dd>
+<p>Sets the widget to be activated when the parent window has focus and
+the enter key is pressed. 
+</p>
+</dd>
+<dt><code>font(obj, ...)</code> or <code>font&lt;-(obj,...,value)</code>:
+</dt><dd>
+<p>Can be used to check or set font attributes in
+a widget. In gWidgetsRGtk, the font attributes
+are given as a named vector. The available names are 
+</p>
+<p><code>family</code>
+with a value of &quot;normal&quot;,&quot;sans&quot;,&quot;serif&quot;,or &quot;monospace&quot;;
+<code>style</code> with a value of &quot;normal&quot;,&quot;oblique&quot;, or &quot;italic&quot;;
+</p>
+<p><code>weight</code> with a value of
+&quot;ultra-light&quot;,&quot;light&quot;,&quot;normal&quot;,&quot;bold&quot;,&quot;ultra-bold&quot;, or &quot;heavy&quot;;
+</p>
+<p><code>size</code> with a value of &quot;xx-small&quot;, &quot;x-small&quot;, &quot;small&quot;, &quot;medium&quot;, &quot;large&quot;,&quot;x-large&quot;, and &quot;xx-large&quot;. In some tollkits this can also be an integer, as in 16 for 16point font.
+</p>
+<p>and
+<code>color</code> which for gWidgetsRGtk is any of the values returned by
+<code>colors</code>. 
+[Prior to version 0.0-22 the weight and style were switched. Old code needs to be changed.]
+</p>
+<p>For <span class="pkg">gWidgetstcltk</span> the above should work as well.
+</p>
+</dd>
+<dt><code>undo(obj, ...)</code> or <code>redo(obj,...</code>:
+</dt><dd>
+<p>For toolkits that support undo/redo operations. (Qt and the <code>gtext</code> and <code>gedit</code> widgets.)
+</p>
+</dd>
+<dt>  <code>tag(obj,i, drop=TRUE, ...)</code> or
+<code>tag&lt;-(obj,i, replace=TRUE, ...,value)</code>:
+</dt><dd>
+<p>These functions work like the <code>attr</code> function &ndash; they
+set values within an object. In RGtk, these are carried with
+the pointer which is passed into functions &ndash; not a
+copy. This allows values to be set without worrying about the
+scope of the assignment.
+</p>
+<p>When setting a tag, the argument <code>replace</code> can be
+set to <code>FALSE</code> so that the value appends.
+</p>
+<p>The tags are stored internally in a list. Calling
+<code>tag(obj)</code> will return this list.
+</p>
+</dd>
+<dt>  <code>id(obj,...)</code> or
+<code>id&lt;-(obj,..., value)</code>:
+</dt><dd>
+<p>An id is a name for a widget. This is primarily used internally with  the
+spread-sheet like widgets so that columns can have values &ndash; the
+data in the column, and an id &ndash; the column name. 
+Objects can be given an id like a name. For non-widget items, the
+id is an attribute.
+</p>
+</dd>
+<dt>  <code>update(object,...)</code>:
+</dt><dd>
+<p>Some classes use this method to update the state of the widget
+</p>
+</dd>   
+<dt>  <code> add(obj, value,  ...)</code>:
+</dt><dd>
+<p>This widget is used to add something to a widget. What
+&quot;adding&quot; means varies from widget to widget.
+</p>
+<p><em>  For this method, there are several different arguments that can be
+passed in via the <code>"..."</code> argument. When the API is cleaned up
+this should change.</em>
+</p>
+<p>For the containers (<code>gwindow</code>, <code>ggroup</code>, ...) adding
+adds a widget to be packed in. For the parent container
+produced by <code>gwindow</code> only one item can be added. For
+groups, this is not the case. 
+</p>
+<p>For <code>ggroup</code>, <code>gframe</code> and <code>gexpandgroup</code> the
+extra argument <code>expand=TRUE</code> will cause the widget to take
+up all possible space within the container. The widget can grow
+to fill the space. The argument <code>fill</code>, with values
+<code>"x"</code>, <code>"y"</code>, or <code>"both"</code> indicate which
+direction the widget should grow. The argument <code>anchor</code>
+takes a value with x-y coordinates in -1,0,1 by -1,0,1)
+indicating where to anchor the widget if it does not grow in
+both directions.
+</p>
+<p>For the components, <code>add</code> has different meanings. For
+notebooks (<code>gnotebook</code>, ...) <code>add</code> is used to add
+pages. In this case the extra arguments are:
+</p>
+
+<dl>
+<dt><code>label</code></dt><dd><p> to  assign the label.  This may be a text
+string or a gWidget</p>
+</dd>
+<dt><code>override.closebutton</code></dt><dd><p>To override the placing of a
+close button</p>
+</dd>
+</dl>
+   
+<p>For the text buffer widget (<code>gtext</code>) <code>insert</code> (origally
+called <code>add</code> which still works but is deprecated) is used to
+insert text into the buffer. In this case, extra arguments are
+available:
+</p>
+
+<dl>
+<dt> <code>font.attr</code></dt><dd>
+<p>can be used to specify font attributes for the text
+</p>
+</dd>
+<dt>do.newline</dt><dd>
+<p>a logical indicating if a newline should be  added after the
+text
+</p>
+</dd>
+<dt>where</dt><dd>
+<p>An indicator of where to place the text: &quot;beginning&quot;,
+&quot;ending&quot;, or &quot;at.cursor&quot;, although the latter may not be
+implemented.
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>delete(obj, widget,...)</code>:
+</dt><dd>
+<p>For gContainers this
+method is used to delete a widget that has been added with
+<code>add</code>. In RGtk, the widget is actually detached and can
+be added at a later time. Any handler assigned by
+<code>addhandlerunrealize</code> is called when the widget is
+detached
+</p>
+<p>For notebooks, the <code>delete</code> method removes a page in the notebook.
+</p>
+</dd>
+<dt><code>dispose(obj,...)</code>:
+</dt><dd>
+<p>This method is used to remove an object.
+</p>
+<p>For top-level windows it destroys the window.
+</p>
+<p>For notebooks, it removes the current page.
+</p>
+<p>In RGtk2, for other objects it will destroy the top-level window.
+</p>
+</dd>
+<dt><code> addSpace(obj, value, horizontal=TRUE,...)</code>:
+</dt><dd>
+<p>Used to add space between widgets in a container
+</p>
+</dd>
+<dt>  <code>addSpring(obj, ...)</code>:
+</dt><dd>
+<p>When packing widgets into a group the widget abut each other filling
+in from left to right or top to bottom. This puts a &quot;spring&quot; between
+two widgets forcing the ones to the right of (or below) the spring to be pushed
+as far as possible to the right (or bottom).
+</p>
+</dd>
+</dl>
+
+<p>To access the underlying toolkits the <code>getToolkitWidget</code> will
+return the main widget associated with a component. The <code>$</code>
+method can be used to dispatch to an underlying method call in the
+toolkit. The <code>[[</code> and <code>[[&lt;-</code> method can be used to inspect
+and set properties of the underlying object.
+</p>
+
+
+<h3>Note</h3>
+
+<p>See package vignette for more examples</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gWidgets-handlers.html">gWidgets-handlers</a></code> for methods related to handlers.</p>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

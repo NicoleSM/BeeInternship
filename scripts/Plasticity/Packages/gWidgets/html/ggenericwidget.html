@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A constructor to create widgets for evaluating functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ggenericwidget {gWidgets}"><tr><td>ggenericwidget {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A constructor to create widgets for evaluating functions</h2>
+
+<h3>Description</h3>
+
+<p>This constructor creates a widget for collecting arguments for a
+function using a list to define the widget's components. When called
+with a function name a list is created on the fly which can be used as
+is, or modified as desired.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ggenericwidget(lst,  cli = NULL, container = NULL, ..., toolkit = guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>lst</code></td>
+<td>
+<p>Either a list defining the widget or a function name as a
+string. In the latter case, the defining list may be retrieved by
+the <code>svalue</code> method.</p>
+</td></tr>
+</table>
+
+
+
+<p><code>x=</code> for initial variable name.
+</p>
+<table summary="R argblock">
+<tr valign="top"><td><code>cli</code></td>
+<td>
+<p>An instance of <code>gcommandline</code> or NULL. If NULL, then a
+new command line pops up in its own window</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to</p>
+</td></tr>
+</table>
+
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently ignored by <code>ggenericwidget</code>, but passed
+along to <code>gedit</code> by <code>geditlist</code> and <code>geditnamedlist</code></p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This widget provides an easy way to create dialogs that collect the
+arguments for a function evaluation. When the OK button is clicked,
+the arguments are collected and passed along to the function specified
+via the <code>action</code> part of the list. When collecting the arguments,
+empty strings are not passed along. 
+</p>
+<p>The easiest usage is to simply provide a function name and have
+<code>autogenerategeneric</code> take a stab. However, in the long run it
+might be better to use <code>autogenerategeneric</code> to create an initial
+list, and then modify this to adjust the widget's look.
+</p>
+<p>The list contains several named components
+</p>
+
+<dl>
+<dt>title</dt><dd><p>The title for the widget</p>
+</dd>
+<dt>help</dt><dd><p>What help page is called</p>
+</dd>
+<dt>type</dt><dd><p>Either &quot;text&quot; or &quot;graphic.&quot; Currently ignored.</p>
+</dd>
+<dt>variableType</dt><dd><p>Describes the type of variable. Either
+&quot;univariate&quot;, &quot;univariatetable&quot;,&quot;fileurl&quot;,&quot;bivariate&quot;, &quot;model&quot;,
+&quot;lattice&quot;, &quot;lmer&quot; or <code>NULL</code>. 
+This value is passed directly to <code>gvariables</code>.
+For non-NULL values, the widget shows an
+appropriate area for collecting the main variable. For the
+model and lattice interfaces buttons allow editing of fields
+by subsequent dialogs. </p>
+</dd>
+<dt>variableTypeExtras</dt><dd><p>An optional list with components <code>name</code>
+and <code>value</code> containing a name and value passed along to the
+constructor for the variable type. Useful to override default
+</p>
+</dd>
+<dt>assignto</dt><dd><p>If TRUE, creates box for collecting name for
+assigning output</p>
+</dd>
+<dt>action</dt><dd><p>a list with named components <code>beginning</code>
+and <code>ending</code>. The arguments are collected and pasted
+together to form a string containing the R command to
+execute. These get put at the beginning and end of the
+string. A typical pair would be something like &quot;prop.test(&quot;
+and &quot;)&quot;.</p>
+</dd>
+<dt>arguments</dt><dd><p>a list with named components. In the simplest
+usage the names are argument names, and the components are
+lists with entries that create the corresponding widget. The
+first such component is called <code>type</code> and is the name of
+a gWidget, such as <code>"gradio"</code>. Subsequent components are
+passed to this function using <code>do.call</code>.
+</p>
+<p>The constructors <code>geditlist</code> and <code>geditnamedlist</code> can be
+used when the input is to be a list of values or a list of named values.
+</p>
+<p>In the more complicated cases, these named components can be
+grouped into a list component. The name of this is then used
+to block the arguments. See the example.
+</p>
+</dd>
+</dl>
+	   
+<p>The <code>svalue</code> method returns the value of the list. This can be
+used to retrieve the list that is created when the constructor is
+called with a function name.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function may be improved and the list defining it changed.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+	## a sample list definition
+## Save some typing by defining a list to be used more than once later
+TRUE.list &lt;- list(
+  type = "gradio",
+  items = c("TRUE","FALSE")
+  )
+
+## define a list for producing a histogram widget	  
+hist.list &lt;- list(
+  title = "hist()",
+  help = "hist",
+  action = list(
+    beginning = "hist(",
+    ending = ")"
+    ),
+  type = "graphic",                      # either text or graphic
+  variableType = "univariate",           # single variable
+  arguments = list(
+    adjustments = list(
+      breaks= list(
+        type="gdroplist",
+        items=c("\"Sturges\"","\"Scott\"","\"Friedman-Diaconis\"")
+        ),
+      probability = TRUE.list,
+      include.lowest = TRUE.list,
+      right = TRUE.list,
+      shading = list(
+        density = list(
+            type="gedit",
+            text=NULL
+        ),
+      angle = list(
+        type="gedit",
+        coerce.with="as.numeric",
+        text="45"
+        )
+        )
+      )
+    )
+  )
+
+ggenericwidget(hist.list, container=TRUE)
+## or to autogenerate one
+ggenericwidget("boxplot.default", container=TRUE)
+	
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

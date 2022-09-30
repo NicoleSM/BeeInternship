@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructors for label widget</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for glabel {gWidgets}"><tr><td>glabel {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Constructors for label widget</h2>
+
+<h3>Description</h3>
+
+<p>This constructor produces a widget to display a line or multipline
+lines of text.
+</p>
+<p>For some toolkits, the text can be marked up.
+</p>
+<p>An option is available so that the displayed text can be edited.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+glabel(text = "", markup = FALSE, editable = FALSE, handler = NULL,
+action = NULL, container = NULL, ..., toolkit = guiToolkit())
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>Text to show in the label or button. For buttons, if
+this text matches a stock icon name, an icon is shown as well</p>
+</td></tr>
+<tr valign="top"><td><code>markup</code></td>
+<td>
+<p> Logical indicating if text for a label uses markup </p>
+</td></tr>
+<tr valign="top"><td><code>editable</code></td>
+<td>
+<p>Logical. If TRUE, then the label's text can be set
+by clicking on the label and filling in the edit box. </p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Handler called on a click event</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p> Passed to handler </p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to.</p>
+</td></tr>
+</table>
+
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>add</code> method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>svalue()</code> method returns the value of the
+widget. For a label, this is the text as a single string
+(which may not include a &quot;\n&quot; for newlines if not supported by
+the toolkit). 
+</p>
+<p>The <code>svalue&lt;-()</code> method can be used to set the value of
+the widget. For labels and buttons, value with length greater
+than one are pasted together collapsed with &quot;\n&quot;. 
+</p>
+<p>The <code>addhandlerclicked</code> method specifies a handler to be
+called on click events.
+</p>
+<p>Although in some toolkits, labels are meant to hold static text,
+gWidgets treats label widgets like other widgets allowing the user to
+bind handlers to mouse clicks.  For labels, if
+<code>editable=TRUE</code> is specified, clicking on the text allows
+one to edit the label's value overriding the click handler in
+the process. However, the <code>addhandlerchanged</code> handler can
+be given to respond to the text after it has been chnaged.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+   glabel("a label", container=TRUE)
+   glabel("Click me to edit label", editable=TRUE, container=TRUE)
+   glabel("Click me for a message", container=TRUE,
+   handler=function(h,...) {cat("Hi\n")})
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

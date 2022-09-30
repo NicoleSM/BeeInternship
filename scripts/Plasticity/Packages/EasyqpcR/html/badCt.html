@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluation of the qPCR technical replicates</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for badCt {EasyqpcR}"><tr><td>badCt {EasyqpcR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Evaluation of the qPCR technical replicates
+</h2>
+
+<h3>Description</h3>
+
+<p>This function allows you to evaluate your qPCR technical replicates, you only
+need to define the threshold (according to Hellemans et al. (2007), 0.5 is a
+good threshold value), the dataset and the number of technical replicates you
+have done. I recommand you to use the gWidgets package to easily exclude the
+failed replicates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+badCt(data, r, threshold, na.rm = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>data.frame containing row datas (genes in columns, samples in rows, Cq values).
+</p>
+</td></tr>
+<tr valign="top"><td><code>r</code></td>
+<td>
+
+<p>numeric, number of qPCR replicates.
+</p>
+</td></tr>
+<tr valign="top"><td><code>threshold</code></td>
+<td>
+
+<p>numeric, the maximal variation between your qPCR replicates.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+
+<p>a logical value indicating whether NA values should be stripped before the
+computation proceeds.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>To facilitate the use of the function, I suggest you to use the gWidgets package
+as described in the vignette.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function returns the position (sample position and column position) where
+the variation between qPCR replicates is superior to the threshold value.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sylvain Le pape &lt;sylvain.le.pape@univ-poitiers.fr&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Jan Hellemans, Geert Mortier, Anne De Paepe, Frank Speleman and Jo Vandesompele.
+qBase relative quantification framework and software for management and
+automated analysis of real-time quantitative PCR data. Genome Biology 2007,
+8:R19 (doi:10.1186/gb-2007-8-2-r19). &lt;url:http://genomebiology.com/2007/8/2/R19&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(qPCR_run1)
+
+badCt(data=qPCR_run1, r=3, threshold=0.3, na.rm=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>EasyqpcR</em> version 1.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

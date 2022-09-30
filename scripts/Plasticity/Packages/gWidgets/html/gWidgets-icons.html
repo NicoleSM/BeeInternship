@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Functions for adding icons</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gWidgets-icons {gWidgets}"><tr><td>gWidgets-icons {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Functions for adding icons</h2>
+
+<h3>Description</h3>
+
+<p>Two functions for listing &quot;stock&quot; icons, and adding &quot;stock&quot; icons. A
+stock icon can be referenced within gWidgets by its simple name, such
+as &quot;ok&quot; or &quot;close&quot;. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+addStockIcons(iconNames, iconFiles, ...,toolkit=guiToolkit())
+
+getStockIcons(..., toolkit=guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>iconNames</code></td>
+<td>
+<p>A vector of icon names</p>
+</td></tr>
+<tr valign="top"><td><code>iconFiles</code></td>
+<td>
+<p>A matching vector of filenames for the icons</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>ignored</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The file type must be supported by the toolkit. The <code>tcltk</code>
+supports few filetypes without additional libraries.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+ iconNames &lt;- c("larrow","rarrow")
+ iconFiles &lt;= c("/usr/share/icons/larrow.png",
+    "/usr/share/icons/rarrow.png")
+ addStockIcons(iconNames, iconFiles)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

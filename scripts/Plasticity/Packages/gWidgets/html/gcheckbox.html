@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructor of widget to indicate whether a value is desired...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gcheckbox {gWidgets}"><tr><td>gcheckbox {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Constructor of widget to indicate whether a value is desired or not
+</h2>
+
+<h3>Description</h3>
+
+<p>A checkbox shows a value and a box to  check indicating if the
+value is desired or not.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gcheckbox(text, checked = FALSE, use.togglebutton=FALSE, handler = NULL, action = NULL,
+container = NULL, ..., toolkit = guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>Text to show by box</p>
+</td></tr>
+<tr valign="top"><td><code>checked</code></td>
+<td>
+<p>Logical indicating initial state of box</p>
+</td></tr>
+<tr valign="top"><td><code>use.togglebutton</code></td>
+<td>
+<p>Logical indicating if a toggle button should be used (depresses when <code>TRUE</code>) in place of a check box</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p> Called when box is toggled.</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p> Passed to handler</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p> Optional container to attach widget to.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not documented, currently has no role.</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which toolkit to use?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The value of the widget is either <code>TRUE</code> or <code>FALSE</code>.
+</p>
+<p>The <code>svalue</code> method returns a logical indicating
+<code>TRUE</code> if the box is checked.
+</p>
+<p>The <code>svalue&lt;-</code> method can be used to set the value
+using a logical.
+</p>
+<p>The <code>"["</code> method returns the label on the box.
+</p>
+<p>The <code>"[&lt;-"</code> method can be used to change the label on the
+box.
+</p>
+<p>The default handler is set by the <code>addHandlerClicked</code>
+method. This is called when the button is 
+toggled. If one wishes to have the handler called only when
+checked to indicate <code>TRUE</code>, say, one should check the state
+of the widget in the handler (e.g., <code>if(svalue(h$obj))</code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>John Verzani</p>
+
+
+<h3>See Also</h3>
+
+<p>Methods for gComponent objects are detailed in <code><a href="gWidgets-methods.html">gWidgets-methods</a></code>.
+</p>
+<p>Event Handlers are detailed in <code><a href="gWidgets-handlers.html">gWidgets-handlers</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+ gcheckbox("checked", container=TRUE, handler=function(h,...) {
+   cat("The widget is checked?",svalue(h$obj), "\n")
+})
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

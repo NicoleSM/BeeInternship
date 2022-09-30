@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Widgets to allow selection from a vector of items</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gcombobox {gWidgets}"><tr><td>gcombobox {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Widgets to allow selection from a vector of items</h2>
+
+<h3>Description</h3>
+
+<p>A combobox allows selection of a value from a list of items
+using a popup menu. Additionally, the widget can combine a
+text entry widget for user input outside of the pre-set list
+of items. A combobox is useful for selection from a moderate
+size of items (2-30, say). For smaller sets of items, a radio
+button group is a possibility, for larger sets of items, a
+scrollable (and perhaps searchable) table may be preferred.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gcombobox(items, selected = 1, editable = FALSE, coerce.with=NULL, handler = NULL, 
+    action = NULL, container = NULL, ..., toolkit = guiToolkit())
+
+gdroplist(items, selected = 1, editable = FALSE, coerce.with=NULL, handler = NULL, 
+    action = NULL, container = NULL, ..., toolkit = guiToolkit()) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>items</code></td>
+<td>
+<p> Vector of values to select from. This may also be a data frame, in which case the first column is the vector of values, the second (if present) indicates a stock icon to display with the item (not all toolkits), and the third (if present) will indicate a tooltip to display (not all toolkits). </p>
+</td></tr>
+<tr valign="top"><td><code>selected</code></td>
+<td>
+<p> For gradio the initial selected value (as an index)
+For a drop list, the first selected value. Use 0 to
+leave blank</p>
+</td></tr>
+<tr valign="top"><td><code>editable</code></td>
+<td>
+<p>A logical indicating if the user can
+add an entry to the list of available answers</p>
+</td></tr>
+<tr valign="top"><td><code>coerce.with</code></td>
+<td>
+<p>Apply this function to selected value before returning</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Called when selection is changed</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p>Passed to handler when called.</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>add</code> method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The initial <code>items</code> can be a vector or a data frame. Not
+all tool kits do something with the extra columns in the data
+frame.
+</p>
+<p>The <code>svalue</code> method returns the selected value by
+name. Assume the value is a character vector. Use the
+<code>coerce.with</code> argument to return a value of a different
+type. If the extra argument <code>index=TRUE</code> is specified,
+the index of the selected value is given.
+</p>
+<p>The <code>svalue&lt;-</code> method can be used to set the selected
+value. This is done my name or if the argument
+<code>index=TRUE</code> is given by index. The value can be a data
+frame, in which case the first column is used to match against
+the current items.
+</p>
+<p>The <code>"["</code> method refers to the vector defining the items.
+</p>
+<p>The <code>"[&lt;-"</code> method can be used to change the vector
+defining the items. 
+</p>
+<p>The <code>"length"</code> method returns the number of items.
+</p>
+<p>For <code>gcombobox</code> the argument <code>editable=TRUE</code> adds a
+text-edit box where the user can type in a selection. By
+default this value is returned as a character by
+<code>svalue</code>. Use <code>coerce.with</code> to coerce this prior to returning.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>A combobox is one of several ways to select a value of a set of items. See also 
+<code><a href="gcheckbox.html">gcheckbox</a></code>, 
+<code><a href="gradio.html">gradio</a></code>, 
+<code><a href="gcheckboxgroup.html">gcheckboxgroup</a></code>, and
+<code><a href="gtable.html">gtable</a></code>.
+</p>
+<p>Methods for gComponent objects are detailed in <code><a href="gWidgets-methods.html">gWidgets-methods</a></code>.
+</p>
+<p>Event Handlers are detailed in <code><a href="gWidgets-handlers.html">gWidgets-handlers</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  flavors &lt;- c("vanilla", "chocolate", "strawberry")
+
+  f &lt;- function(h,...) print(
+      paste("Yum",
+      paste(svalue(h$obj),collapse=" and "),
+      sep = " "))
+
+  w &lt;- gwindow("combobox example")
+  gp &lt;- ggroup(container=w)
+  glabel("Favorite flavor:", container=gp)
+  cb &lt;- gcombobox(flavors, editable=TRUE, container=gp, handler=f)
+
+  svalue(cb) &lt;- "vanilla"
+  svalue(cb)
+  cbg[3] &lt;- "raspberry"
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructors for widgets to handle text input</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ghtml {gWidgets}"><tr><td>ghtml {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Constructors for widgets to handle text input</h2>
+
+<h3>Description</h3>
+
+<p>The ghtml widget is intended to show HTML text either from a url or
+from a character string. Currently no toolkits support this widget, although it is in gWidgetsWWW.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ghtml(x, handler = NULL, action = NULL, container = NULL, ..., toolkit = guiToolkit())
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>url or HTML-marked up character string to load into widget.</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>(In theory, not implemented yet) Handles a click on a URL. The default is to open the
+clicked url in the widget. To override, the first argument,
+a list <code>h</code>, has component <code>h\$url</code> containing the url.</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p> Passed along to the  handler as <code>h\$action</code></p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>add</code> method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This widget loads the given url into a widget. Currently no toolkits
+support this.
+</p>
+<p>The <code>svalue</code> method returns the current url or character string.
+</p>
+<p>The <code>svalue&lt;-</code> method loads a url or character string
+in the widget.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  ghtml(system.file("html","gedit.html",package="gWidgets"),
+    container = gwindow())
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Dialogs for file and date selection</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gfile {gWidgets}"><tr><td>gfile {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Dialogs for file and date selection</h2>
+
+<h3>Description</h3>
+
+<p>These functions provide dialogs for file selection (files or
+directories) and date selections.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gfile(text = "", type = c("open", "save", "selectdir"), initialfilename = NULL, 
+    filter = list("All files" = list(patterns = c("*")), "R files" =
+    list(patterns = c("*.R","*.Rdata")),
+        "text files" = list(mime.types = c("text/plain"))
+        ), multi=FALSE, handler = NULL, action = NULL, ..., toolkit = guiToolkit())
+
+gfilebrowse (text = "Select a file...", type = "open", quote = TRUE, 
+    container = NULL, ..., toolkit = guiToolkit()) 
+
+gcalendar(text = "", format = "%Y-%m-%d", handler=NULL, 
+action=NULL, container = NULL, ..., toolkit = guiToolkit()) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>Initial text. For thecalendar, an optional date in a form matching <code>format</code></p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>When selecting a file it can be selected for opening,
+for saving or you may want to select a directory.</p>
+</td></tr>
+<tr valign="top"><td><code>initialfilename</code></td>
+<td>
+<p>Suggested name for file save</p>
+</td></tr>
+<tr valign="top"><td><code>filter</code></td>
+<td>
+<p>Filter for files shown during selection. Can be nested list, as in example or a named character vector with the names a description and value a file extension (no dots) of files endings to match. </p>
+</td></tr>
+<tr valign="top"><td><code>multi</code></td>
+<td>
+<p>Logical. Allow selection of multiple files?</p>
+</td></tr>
+<tr valign="top"><td><code>quote</code></td>
+<td>
+<p>Is result quoted</p>
+</td></tr>
+<tr valign="top"><td><code>format</code></td>
+<td>
+<p>Format of date, default is year-month-day</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Handler for when file is changed. The component
+<code>file</code> of the first argument contains the file name</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p> Passed to handler </p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>gedit</code> instance</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>gfile</code> dialog is modal, meaning no action can take
+place until a selection is made. Whereas the
+<code>gfilebrowse</code> dialog consists of a <code>gedit</code> instance
+to hold a filename and a button to click if the dialog is
+desired to fill in this filename.
+</p>
+<p>The <code>gcalendar</code> widget is similar to the
+<code>gfilebrowse</code> widget.
+</p>
+<p>For both <code>gcalendar</code> and <code>gfilebrowse</code> any
+<code>...</code> arguments are passed to <code>gedit</code>. The
+<code>coerce.with</code> argument can be used to here to quote the
+values, or coerce them otherwise such as with
+<code>as.Date</code>. Otherwise, the <code>svalue</code> method returns
+a character string containing the value shown in the
+<code>gedit</code> box.
+</p>
+<p>The <code>svalue&lt;-()</code> method may be used to set the value for
+both <code>gcalendar</code> and <code>gfilebrowse</code> .
+</p>
+<p>The return value is the filename selected. A <code>NA</code> value is
+returned if no file is selected.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+## source a file using a handler
+sourceFile &lt;- function() gfile("Select a file",type="open", handler =
+function(h,...) source(h$file))
+
+## source an R file using fact that dialog is modal
+source(gfile(filter=c("R files"="R")))
+
+## apply a generic action to the file
+countLines &lt;- function(filename) print(length(readLines(filename)))
+chooseFile &lt;- function() gfile("Select a file",type="open",
+action="countLines", handler = function(h,...) do.call(h$action,list(h$file)))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

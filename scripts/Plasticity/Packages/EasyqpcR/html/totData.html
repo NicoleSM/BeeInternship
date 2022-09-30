@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Aggregation of qPCR biological replicates and data...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for totData {EasyqpcR}"><tr><td>totData {EasyqpcR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Aggregation of qPCR biological replicates and data transformation
+</h2>
+
+<h3>Description</h3>
+
+<p>This function aggregates qPCR biological replicates and calculates the main
+parameters : mean (arithmetic or geometric), the standard deviation and the
+standard error from your biological replicates of your experience. This
+function has an algorithm published by Willems et al. (2008) which performs a
+standardization procedure that can be applied to data sets that display high
+variation between biological replicates. This enables proper statistical
+analysis and drawing relevant conclusions. The procedure is not new, it has
+been used in microarray data analysis and is based on a series of sequential
+corrections, including log transformation, mean centering, and autoscaling.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+totData(data, r, geo = TRUE, logarithm = TRUE, base, transformation = TRUE,
+	nSpl, linear = TRUE, na.rm = na.rm)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>data.frame containing row datas (genes in columns, samples in rows, Cq values).
+</p>
+</td></tr>
+<tr valign="top"><td><code>r</code></td>
+<td>
+
+<p>numeric, number of qPCR replicates.
+</p>
+</td></tr>
+<tr valign="top"><td><code>geo</code></td>
+<td>
+
+<p>logical, the function will use the geometrical mean of your biological
+replicates if TRUE or the arithmetic mean if FALSE.
+</p>
+</td></tr>
+<tr valign="top"><td><code>logarithm</code></td>
+<td>
+
+<p>logical, the NRQs will be log-transformed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>base</code></td>
+<td>
+
+<p>numeric, the logarithmic base (2 or 10).
+</p>
+</td></tr>
+<tr valign="top"><td><code>transformation</code></td>
+<td>
+
+<p>logical, if TRUE, the transformation procedure for highly variable biological
+replicates (but with the same tendency) will be done.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nSpl</code></td>
+<td>
+
+<p>numeric, the number of samples.
+</p>
+</td></tr>
+<tr valign="top"><td><code>linear</code></td>
+<td>
+
+<p>logical, after the transformation procedure done, your raw data will be
+normalized (anti-log-transformed).
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+
+<p>logical, indicating whether NA values should be stripped before the computation
+proceeds.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The standardization procedure used in this function (if TRUE for the
+transformation argument) is based on the article of Willems et al. (2008).
+This function perform successively thEerror operations : log-transformation of
+your raw data, mean of your log-transformed data for each biological replicate,
+mean centering for each biological replicate, standard deviation of each
+mean-centered biological replicate, autoscaling of your data, i.e., your
+mean-centered data for each biological replicate will be divided by the
+standard deviation of the mean-centered biological replicate and then
+multiplicated by the mean of the standard deviation of all the biological
+replicates.
+</p>
+<p>For more information for the way to use this function, please see the vignette.
+</p>
+
+
+<h3>Value</h3>
+
+<table summary="R valueblock">
+<tr valign="top"><td><code>Mean of your qPCR runs</code></td>
+<td>
+<p>The geometric (if TRUE for geo) or arithmetic
+mean of your biological replicates.</p>
+</td></tr>
+<tr valign="top"><td><code>Standard deviations of your qPCR runs</code></td>
+<td>
+<p>The standard deviation of your
+biological replicates.</p>
+</td></tr>
+<tr valign="top"><td><code>Standard errors of your qPCR runs</code></td>
+<td>
+<p>The standard error of your biological
+replicates.</p>
+</td></tr>
+<tr valign="top"><td><code>Transformed data</code></td>
+<td>
+<p>If TRUE for transformation, your raw data will be
+transformed by the algorithm of Willems et al. (2008).</p>
+</td></tr>
+<tr valign="top"><td><code>Reordered transformed data</code></td>
+<td>
+<p>The transformed data reordered by rowname.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Sylvain Le pape &lt;sylvain.le.pape@univ-poitiers.fr&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Erik Willems Luc Leyns, Jo Vandesompele. Standardization of real-time PCR gene
+expression data from independent biological replicates. Analytical Biochemistry
+379 (2008) 127-129 (doi:10.1016/j.ab.2008.04.036).
+&lt;url:http://www.sciencedirect.com/science/article/pii/S0003269708002649&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(qPCR_run1,qPCR_run2,qPCR_run3)
+
+nrmData(data = qPCR_run1 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)
+
+nrmData(data = qPCR_run2 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)
+
+nrmData(data = qPCR_run3 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)
+
+
+## Isolate the calibrator NRQ values of the first biological replicate
+
+a &lt;- nrmData(data = qPCR_run1 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)[[3]] 
+
+## Isolate the calibrator NRQ values of the first biological replicate
+
+b &lt;- nrmData(data = qPCR_run2 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)[[3]]
+ 
+## Isolate the calibrator NRQ values of the first biological replicate
+
+c &lt;- nrmData(data = qPCR_run3 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)[[3]]
+
+## Regrouping the calibrator NRQ values of all the biological replicates
+
+d &lt;- rbind(a, b, c) 
+
+## Calibration factor calculation
+
+e &lt;- calData(d) 
+
+
+## Attenuation of inter-run variation thanks to the calibration factor for the
+## first biological replicate
+
+nrmData(data = qPCR_run1 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=e, CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)
+
+## Attenuation of inter-run variation thanks to the calibration factor for the
+## second biological replicate
+
+nrmData(data = qPCR_run2 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=e, CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE) 
+
+## Attenuation of inter-run variation thanks to the calibration factor for the
+## third biological replicate
+
+nrmData(data = qPCR_run3 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=e, CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE) 
+
+## Isolate the NRQs scaled to control of the first biological replicate
+
+a1 &lt;- nrmData(data = qPCR_run1 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=e, CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)[1] 
+
+## Isolate the NRQs scaled to control of the second biological replicate 
+
+b1 &lt;- nrmData(data = qPCR_run2 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=e, CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)[1] 
+
+## Isolate the NRQs scaled to control of the third biological replicate
+
+c1 &lt;- nrmData(data = qPCR_run3 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=e, CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)[1]
+
+## Data frame transformation
+
+a2 &lt;- as.data.frame(a1)
+b2 &lt;- as.data.frame(b1)
+c2 &lt;- as.data.frame(c1)
+
+## Aggregation of the three biological replicates
+
+d2 &lt;- rbind(a2, b2, c2)
+
+totData(data=d2, r=3, geo=TRUE, logarithm=TRUE, base=2, 
+	transformation=TRUE, nSpl=5, linear=TRUE,
+	na.rm=TRUE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>EasyqpcR</em> version 1.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

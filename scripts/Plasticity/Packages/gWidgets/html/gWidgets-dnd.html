@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Functions to add drag and drop ability to widgets</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gWidgets-dnd {gWidgets}"><tr><td>gWidgets-dnd {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Functions to add drag and drop ability to widgets</h2>
+
+<h3>Description</h3>
+
+<p>These functions allow drag and drop between widgets. The basic
+idea is that one creates drop sources from which one defines
+values which may be
+dragged and drop target where values may be dropped. These
+values can be text, or widgets.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+adddropsource (obj, targetType = "text", handler = NULL, action = NULL, 
+    ...) 
+adddropmotion (obj, handler = NULL, action = NULL, ...) 
+adddroptarget (obj, targetType = "text", handler = NULL, action = NULL, 
+    ...) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+<p>Object to put drop handler on</p>
+</td></tr>
+<tr valign="top"><td><code>targetType</code></td>
+<td>
+<p>What type of drop target: either &quot;text&quot; or
+&quot;pixmap&quot; or &quot;entry&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Handler called for the drop motion</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p>action passed to handler</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not documented, currently has no role.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>To specify if one can drag values from a widget use
+<code>adddropsource</code> called on the object.  The argument
+<code>targetType</code> can be set to <code>"object"</code> when the drop
+value is to be a widget, and not a string.  The arguments
+<code>handler</code> and <code>action</code> can be used to describe what
+gets dropped. The default is to drop the widget's contents as
+returned by <code>svalue</code>.
+</p>
+<p>To specify if an object is a drop target the
+<code>adddroptarget</code> method is called on the object. The
+argument <code>handler</code> (but no <code>action</code>) is used to handle
+the drop.
+</p>
+<p>The handler's first argument is a list with named components.
+The <code>obj</code> component refers to the object that has the
+target placed on it. The component <code>dropdata</code> is set by the
+<code>adddropsource</code> method. The dropdata is typically a string,
+but a mechanism is in place to drop widgets.
+The default handler for <code>adddroptarget</code> is to replace the
+widget's value with the dropped data.
+</p>
+<p>To add an action to a motion event, use the
+<code>adddropmotion</code> method. The <code>adddroptarget</code> must first
+have been added to the object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>These functions return an ID returned  when registering
+a handler. The function <code>removehandler</code> uses this
+information to remove a drag and drop handler.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Implementation of Simon Urbanek's iwidgets API was done by
+Michael Lawrence and John Verzani </p>
+
+
+<h3>See Also</h3>
+
+<p><a href="gWidgets-methods.html">gWidgets-methods</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+## simple dnd
+lab  = glabel("drag me",container=gwindow())
+ed = gedit("drop here",container = gwindow())
+adddropsource(lab)
+adddroptarget(ed)
+adddropmotion(ed,handler=function(h,...) print("bombs away"))
+
+## more complicated
+## this shows that rows of editable data frame can be dropped.
+## by assigning to the changed signal, the graphs can be dynamic.
+## THat is, drop a column, then edit it. The graph will update. The key
+## is referring to the "value" stored in gd. This refers to the column
+## in the editable data frame.
+## By using svalue() and id(), the dropped value can also be a
+## character string referring to a variable in the workspace.
+adf = gdf(mtcars, container = gwindow())
+gd = ggraphics(container = gwindow())
+plotData = function() {
+  dropvalue = tag(gd,"value")
+  theValues = svalue(dropvalue)
+  theName = id(dropvalue)
+  hist(theValues, xlab=theName, main="")
+}
+
+ids = adddroptarget(gd,targetType="object", handler = function(h,...) {
+    tag(gd, "value") &lt;- h$dropdata
+    plotData()
+
+    if(is.gdataframecolumn(h$dropdata)) {
+      view.col = h$dropdata
+      id = addhandlerchanged(view.col, handler=function(h,...) plotData())
+    }
+})
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

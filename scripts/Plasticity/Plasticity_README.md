@@ -1,0 +1,30 @@
+# README for Plasticity folder
+This folder stores the scripts used for the data analysis of qPCR data 
+ 
+## Package folder
+Stores packages for qPCR analysis
+- EasyqpcR
+- gWidgets
+- gWidgetsRGtk2
+- mgcv
+- RGtk2
+- SLqPCR
+
+## Scripts
+
+qPCR1
+- Requires R version 3.6 due to archived EasyqpcR package and dependencies which 
+  can be found in packages folder 
+- Treats the run data *separately* (run1 and run2 as separate CSV files)
+- Generates boxplots describing the relative expression using efficiences and 
+  calibration factor from calibrator data
+  
+qPCR2
+- Requires R version 3.6 due to archived EasyqpcR package and dependencies which 
+  can be found in packages folder 
+- Treats the run data *together* (run1_2 with run1 and run 2 combined as CSV file)
+- Generates boxplots describing the relative expression using efficiences and 
+  calibration factor from calibrator data
+
+  
+PDF describing EasyqpcR package

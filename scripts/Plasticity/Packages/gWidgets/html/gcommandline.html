@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A command line interface</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gcommandline {gWidgets}"><tr><td>gcommandline {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A command line interface</h2>
+
+<h3>Description</h3>
+
+<p>This constructs a simple command line interface for R
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gcommandline(command = "", assignto = NULL, useGUI = TRUE, 
+useConsole = FALSE, prompt = getOption("prompt"), width = 500, 
+height = 0.6 * width, container = NULL, ...,toolkit =
+                 guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>command</code></td>
+<td>
+<p>Initial command to evalues </p>
+</td></tr>
+<tr valign="top"><td><code>assignto</code></td>
+<td>
+<p>Assigns output to this variable is non-NULL</p>
+</td></tr>
+<tr valign="top"><td><code>useGUI</code></td>
+<td>
+<p>Is result also printed to GUI. Use FALSE to get
+text-only instance</p>
+</td></tr>
+<tr valign="top"><td><code>useConsole</code></td>
+<td>
+<p>Is result also printed to console?</p>
+</td></tr>
+<tr valign="top"><td><code>prompt</code></td>
+<td>
+<p>Prompt to use</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>Width of widget in pixels</p>
+</td></tr>
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>Height of widget in pixels</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Ignored for now</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Additional commands can be added programmatically with the
+<code>svalue&lt;-</code> method. The The value assigned is a string containing
+the command. If it has a <code>names</code> attribute, this is taken as the
+variable name to assign the output to.
+</p>
+<p>The <code>svalue</code> method returns the command history.
+</p>
+<p>The <code>"["</code> method can be used to retrieve the command history as well.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  obj = gcommandline(container=TRUE)
+  svalue(obj) &lt;- "2+2"
+  ## assign to x
+  command = "rnorm(100)"; names(command) = "x"
+  svalue(obj) &lt;- command
+  ## look at history
+  obj[]
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,23 @@
+Package: SLqPCR
+Type: Package
+Title: Functions for analysis of real-time quantitative PCR data at
+        SIRS-Lab GmbH
+Version: 1.60.0
+Date: 2007-19-04
+Author: Matthias Kohl
+Maintainer: Matthias Kohl <kohl@sirs-lab.com>
+Description: Functions for analysis of real-time quantitative PCR data
+        at SIRS-Lab GmbH
+Depends: R(>= 2.4.0)
+Imports: stats
+Suggests: RColorBrewer
+License: GPL (>= 2)
+biocViews: MicrotitrePlateAssay, qPCR
+git_url: https://git.bioconductor.org/packages/SLqPCR
+git_branch: RELEASE_3_14
+git_last_commit: 35169d7
+git_last_commit_date: 2021-10-26
+Date/Publication: 2021-10-26
+NeedsCompilation: no
+Packaged: 2021-10-27 04:05:38 UTC; biocbuild
+Built: R 4.1.1; ; 2021-10-27 13:30:59 UTC; windows

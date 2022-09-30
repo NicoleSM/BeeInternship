@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Determination of the NF, RQ, NRQ, NRQ scaled to control and...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for nrmData {EasyqpcR}"><tr><td>nrmData {EasyqpcR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Determination of the NF, RQ, NRQ, NRQ scaled to control and their SE and SD.
+</h2>
+
+<h3>Description</h3>
+
+<p>This function determines the values of the normalization factors, the relative
+quantitues, the normalized relative quantities, the normalized relative
+quantities scaled to control and their respectives standard errors and
+standard deviations by the method described by Hellemans et al. (2007).</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+nrmData(data, r, E, Eerror, nSpl, nbRef, Refposcol, nCTL, CF, CalPos, 
+	trace = FALSE, geo = FALSE, na.rm = na.rm)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>data.frame containing row datas (genes in columns, samples in rows, Cq values).
+</p>
+</td></tr>
+<tr valign="top"><td><code>r</code></td>
+<td>
+
+<p>numeric, number of qPCR replicates.
+</p>
+</td></tr>
+<tr valign="top"><td><code>E</code></td>
+<td>
+
+<p>numeric, amplification efficiency values for each gene (follow the same order of
+the genes).
+</p>
+</td></tr>
+<tr valign="top"><td><code>Eerror</code></td>
+<td>
+
+<p>numeric, standard errors of amplification efficiencies for each gene (follow the
+same order of the genes).
+</p>
+</td></tr>
+<tr valign="top"><td><code>nSpl</code></td>
+<td>
+
+<p>numeric, number of samples to analyzed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nbRef</code></td>
+<td>
+
+<p>numeric, number of reference genes used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>Refposcol</code></td>
+<td>
+
+<p>column position of your reference gene(s).
+</p>
+</td></tr>
+<tr valign="top"><td><code>nCTL</code></td>
+<td>
+
+<p>numeric, number of samples forming your control group.
+</p>
+</td></tr>
+<tr valign="top"><td><code>CF</code></td>
+<td>
+
+<p>numeric (or object if you have used the calData function from this package),
+values of the calibration factors for each gene (follow the same order of the
+genes).
+</p>
+</td></tr>
+<tr valign="top"><td><code>CalPos</code></td>
+<td>
+
+<p>numeric, sample number of your calibrator(s).
+</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+
+<p>logical, print additional information.
+</p>
+</td></tr>
+<tr valign="top"><td><code>geo</code></td>
+<td>
+	
+<p>logical, to scale to your control group, the function will use the geometrical
+mean if TRUE or the arithmetic mean if FALSE.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+
+<p>a logical value indicating whether NA values should be stripped before the
+computation proceeds.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The algorithm used in this function is based on the article of Hellemans et al.
+(2007). This function calculates the expression value scaled to your control
+group and normalized to the calibration factor and the normalization factor.
+The limiting step is that you need to put the control samples on the top of the
+data frame otherwise, the algorithm will not work correctly. For more
+information for the way to use this function, please see the vignette.
+</p>
+
+
+<h3>Value</h3>
+
+<table summary="R valueblock">
+<tr valign="top"><td><code>NRQs normalized to control</code></td>
+<td>
+<p>Gives the normlized relative quantities
+scaled to your control group.</p>
+</td></tr>
+<tr valign="top"><td><code>NRQs</code></td>
+<td>
+<p>Gives the normlized relative quantities.</p>
+</td></tr>
+<tr valign="top"><td><code>NRQs of your calibrator for this run</code></td>
+<td>
+<p>Gives the normlized relative
+quantities of your calibrator(s).</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Sylvain Le pape &lt;sylvain.le.pape@univ-poitiers.fr&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Jan Hellemans, Geert Mortier, Anne De Paepe, Frank Speleman and Jo Vandesompele.
+qBase relative quantification framework and software for management and
+automated analysis of real-time quantitative PCR data. Genome Biology 2007,
+8:R19 (doi:10.1186/gb-2007-8-2-r19). &lt;url:http://genomebiology.com/2007/8/2/R19&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(qPCR_run1,qPCR_run2,qPCR_run3)
+
+nrmData(data = qPCR_run1 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)
+
+nrmData(data = qPCR_run2 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)
+
+nrmData(data = qPCR_run3 , r=3, E=c(2, 2, 2, 2), 
+	      Eerror=c(0.02, 0.02, 0.02, 0.02), nSpl=5, 
+	      nbRef=2, Refposcol=1:2, nCTL=2, 
+	      CF=c(1, 1, 1, 1), CalPos=5, trace=TRUE, geo=TRUE, na.rm=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>EasyqpcR</em> version 1.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

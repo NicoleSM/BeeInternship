@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A container for aligning widgets in a table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for glayout {gWidgets}"><tr><td>glayout {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A container for aligning widgets in a table</h2>
+
+<h3>Description</h3>
+
+<p>A container for laying out widgets in a table. The widgets are added
+using matrix notation (<code>[i,j]&lt;-</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+glayout(homogeneous = FALSE, spacing = 10, container = NULL, ..., toolkit = guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>homogeneous</code></td>
+<td>
+<p>A logical indicating if the  cells are all the same size</p>
+</td></tr>
+<tr valign="top"><td><code>spacing</code></td>
+<td>
+<p>Spacing in pixels between cells</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>add</code> method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Widgets are added using matrix notation. A widget can span several
+cells, for instance <code>obj[1:2,2:3] &lt;- widget</code> would place the
+widget in the first and second rows and second and third columns.  The
+matrix notation is to specify the space allocated to the widget. 
+</p>
+<p>For <code>gWidgetstcltk</code>, it is necessary for a child widget to have the
+layout object as its parent container and to call the <code>[&lt;-</code>
+method to add the widget. (See the example.)
+</p>
+<p>As a convenience, if the value to be assigned is a character it will
+be turned into a <code>glabel</code> object before being added.
+</p>
+<p>Like <code>ggroup</code>, the extra argument <code>expand</code> can be used to
+force the widget to expand to fill all the space allocated to it.
+</p>
+<p>Like <code>ggroup</code>, the extra argument <code>anchor</code> can by used to
+anchor the child within the space allocated when this space islarger
+than needed by the widget. This is specified as a pair of values from
+-1,0,1 to indicating the x and y positioning of the widget within the
+cell.
+</p>
+<p>Like  <code>ggroup</code>, the extra argument <code>fill</code> can by used when <code>expand</code> is given, but not <code>anchor</code>, to have the widget expand in the <code>x</code> direction, the <code>y</code> direction, or <code>both</code> (the default). (Toolkit specific). 
+</p>
+<p>The method <code>[</code> can be used to subset. In the simplest usage, it
+returns the item at index i,j. (The item at i,j may be in other
+cells too. The return value is a gwidget if 1x1, a list if 1xn or
+mx1 (n&gt;1), or a mxn matrix of items.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  ## show part of mtcars dataframe in a layout
+  w &lt;- gwindow("glayout example")
+  tbl &lt;- glayout(container = w)
+  tbl[1,1] &lt;- "a label"
+  ## need container argument in gWidgetstcltk, gWidgetsRwxwidgets
+  ## so we always use it.
+  tbl[1,2, expand = TRUE] &lt;- gedit("edit here", container=tbl)
+  tbl[2,1, anchor = c(-1,-1)] &lt;- glabel("ll", container = tbl)
+
+  ## extraction:
+  tbl[1,1] # glabel instance
+  tbl[1,2] # gedit instance, ...
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

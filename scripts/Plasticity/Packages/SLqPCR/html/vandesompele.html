@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Data set of Vandesompele et al (2002)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for vandesompele {SLqPCR}"><tr><td>vandesompele {SLqPCR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Data set of Vandesompele et al (2002) </h2>
+
+<h3>Description</h3>
+
+<p>This data set was used in Vandesompele et al (2002) to demonstrate normalization 
+of real-time quantitative RT-PCR data by geometric averaging of housekeeping genes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>data(vandesompele)</pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 85 observations on the following 10 variables which stand for 
+expression data of ten commonly used housekeeping genes
+</p>
+
+<dl>
+<dt><code>ACTB</code></dt><dd><p>actin, beta</p>
+</dd>
+<dt><code>B2M</code></dt><dd><p>beta-2-microglobulin</p>
+</dd>
+<dt><code>GAPD</code></dt><dd><p>glyceraldehyde-3-phosphate dehydrogenase</p>
+</dd>
+<dt><code>HMBS</code></dt><dd><p>hydroxymethylbilane synthase</p>
+</dd>
+<dt><code>HPRT1</code></dt><dd><p>hypoxanthine phosphoribosyltransferase 1</p>
+</dd>
+<dt><code>RPL13A</code></dt><dd><p>ribosomal protein L13a</p>
+</dd>
+<dt><code>SDHA</code></dt><dd><p>succinate dehydrogenase complex subunit A</p>
+</dd>
+<dt><code>TBP</code></dt><dd><p>TATA box binding protein</p>
+</dd>
+<dt><code>UBC</code></dt><dd><p>ubiquitin C</p>
+</dd>
+<dt><code>YWHAZ</code></dt><dd><p>tyrosine 3-monooxygenase/tryptophan 5-monooxygenase activation protein, zeta polypeptide</p>
+</dd>
+</dl>
+
+
+
+<h3>Details</h3>
+
+<p>The row names of this data set indicate the various human tissues which were
+investigated. 
+</p>
+
+<dl>
+<dt>BM</dt><dd><p>9 normal bone-marrow samples</p>
+</dd>
+<dt>POOL</dt><dd><p>9 normal human tissues from pooled organs (heart, brain, fetal brain, lung, trachea, kidney, mammary gland, small intestine and uterus)</p>
+</dd>
+<dt>FIB</dt><dd><p>20 short-term cultured normal fibroblast samples from different individuals</p>
+</dd>
+<dt>LEU</dt><dd><p>13 normal leukocyte samples</p>
+</dd>
+<dt>NB</dt><dd><p>34 neuroblastoma cell lines (independently prepared in different labs from different patients)</p>
+</dd>
+</dl>
+
+
+
+<h3>Source</h3>
+
+<p>The data set was obtained from
+<a href="http://genomebiology.com/content/supplementary/gb-2002-3-7-research0034-s1.txt">http://genomebiology.com/content/supplementary/gb-2002-3-7-research0034-s1.txt</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Jo Vandesompele, Katleen De Preter, Filip Pattyn et al. (2002). Accurate 
+normalization of real-time quantitative RT-PCR data by geometric averaging 
+of multiple internal control genes. 
+Genome Biology 2002. 3(7):research0034.1-0034.11.
+<a href="http://genomebiology.com/2002/3/7/research/0034/">http://genomebiology.com/2002/3/7/research/0034/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(vandesompele)
+str(vandesompele)
+rownames(vandesompele)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>SLqPCR</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

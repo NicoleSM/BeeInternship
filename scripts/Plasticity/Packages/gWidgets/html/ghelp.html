@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Widget to interface with help pages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ghelp {gWidgets}"><tr><td>ghelp {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Widget to interface with help pages</h2>
+
+<h3>Description</h3>
+
+<p>A widget to interface with the help pages and that widget placed in a
+browser. The widget is a notebook capable of showing several pages at once.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ghelp(topic = NULL, package = NULL, container = NULL, ..., toolkit = guiToolkit())
+ghelpbrowser(title = "Help browser", maxTerms=100, width=1000, 
+height=600, ..., toolkit = guiToolkit()) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>topic</code></td>
+<td>
+<p>Help topic</p>
+</td></tr>
+<tr valign="top"><td><code>package</code></td>
+<td>
+<p>Which package to look for topic in</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>title</code></td>
+<td>
+<p>Title of help browser</p>
+</td></tr>
+<tr valign="top"><td><code>maxTerms</code></td>
+<td>
+<p>Maximum number of search responses</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>Width of browser window in pixels</p>
+</td></tr>
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>Height  of browser window in pixels</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>add</code> method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>ghelp</code> widget is a notebook to hold help pages. One
+can add pages with <code>add</code>. The help page is specified with a
+character vector or list. The first component is the topic, the
+second and optional package designation. The <code>svalue</code>
+method returns a list with topic and package. The <code>dispose</code> method
+will remove the current page. For toolkits that support them,
+closebuttons appear on the etabs
+</p>
+<p>The <code>ghelpbrowser</code> constructor produces a stand alone GUI for
+browsing help pages. Unlike other <span class="pkg">gWidgets</span> constructors, this
+has no <code>container</code> argument.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The <span class="pkg">helpr</span> package provides a much better interface to R's help pages.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  w &lt;- gwindow("Help browser", visible=FALSE)
+  g &lt;- ggroup(horizontal=FALSE, container=w)
+  g1 &lt;- ggroup(container=g)
+  addSpring(g1)
+  glabel("Help on:", container=g1)
+  e &lt;- gedit("", container=g1)
+  helpWidget &lt;- ghelp(container = g, expand=TRUE)
+  addHandlerChanged(e, handler=function(h,...) {
+     add(helpWidget, svalue(h$obj))
+  })
+  visible(w) &lt;- TRUE
+  ## add others
+  add(helpWidget,"base:::mean")
+  add(helpWidget, list(topic="mean", package="base"))
+  add(helpWidget, "boxplot")
+
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

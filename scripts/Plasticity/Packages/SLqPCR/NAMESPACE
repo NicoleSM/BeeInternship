@@ -1,0 +1,2 @@
+importFrom(stats, sd)
+export(geneStabM, geomMean, normPCR, relQuantPCR, selectHKgenes)

@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructor to show images</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gimage {gWidgets}"><tr><td>gimage {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Constructor to show images</h2>
+
+<h3>Description</h3>
+
+<p>This constructor produces a widget intended to show images
+stored as files on the file system. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gimage(filename = "", dirname = "",  size = "", 
+    handler = NULL, action = NULL, container = NULL, ..., 
+    toolkit = guiToolkit()) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>Specifies location of image. May be a stock icon
+name or filename. (In the future may be a url.)</p>
+</td></tr>
+<tr valign="top"><td><code>dirname</code></td>
+<td>
+<p>Directory of file. If &quot;stock&quot;, then a stock icon is used.</p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>Size of image when stock image is used. Values are in
+<code>c("menu", "small_toolbar","large_toolbar","button","dialog")</code></p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Handler called on a click event</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p> Passed to handler </p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to.</p>
+</td></tr>
+</table>
+
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>add</code> method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>svalue()</code> method returns the filename of the figure or
+the stock icon name, if the icon was set from a stock icon.
+</p>
+<p>The <code>svalue&lt;-()</code> method can be used to set the value of
+the widget. The value is a filename containing the image to
+display.
+</p>
+<p>The <code>addhandlerclicked</code> method is called on click
+events. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code><a href="gWidgets-icons.html">getStockIcons</a></code> to get a list of available
+icons and <code><a href="gWidgets-icons.html">addStockIcons</a></code> to add to this list.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+   w &lt;- gwindow("Stock icon example")
+   gimage("ok",dirname="stock", container = w)
+
+   ## example contributed by Richard Cotton
+
+w &lt;- gwindow("Help button window")
+add_help_button &lt;- function(help_text, container = w,
+                            width = getOption("width"), indent = 2, ...) {
+  gimage("help",	      
+         dirname   = "stock",
+         container = container,
+         handler   = function(h, ...) {
+           help_win &lt;- gwindow("Help")
+           help_label &lt;- glabel(text= strwrap(help_text, width = width, indent = indent),
+                                container = help_win)
+         })
+}
+
+add_help_button(paste("Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                      "Nunc magna magna, vestibulum sit amet posuere sit amet, ",
+		      "gravida placerat odio.",
+                      "Integer et purus lorem, quis suscipit risus.", collapse=" "))
+
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

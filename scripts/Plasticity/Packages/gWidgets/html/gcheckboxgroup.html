@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Widget to allow multiple selection from a vector of items</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gcheckboxgroup {gWidgets}"><tr><td>gcheckboxgroup {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Widget to allow multiple selection from a vector of items</h2>
+
+<h3>Description</h3>
+
+<p>Widgets to select one (or several) from a given vector of
+items. These are a radio group where all values are shown at once,
+but only one may be selected; a checkbox group where more than one
+may be selected; and a
+combo box (or droplist) where initially only a single value is shown, and the others
+are a mouse click away,
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gcheckboxgroup(items, checked = FALSE,  horizontal = FALSE, use.table=FALSE,
+    handler = NULL, action = NULL, container = NULL, ..., toolkit = guiToolkit()) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>items</code></td>
+<td>
+<p> Vector of values to select from </p>
+</td></tr>
+<tr valign="top"><td><code>checked</code></td>
+<td>
+<p>A logical vector indicating  initial values.</p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+<p>A logical specifying the  layout for gradio and gcheckboxgroup</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Called when selection is changed</p>
+</td></tr>
+<tr valign="top"><td><code>use.table</code></td>
+<td>
+<p>If <code>TRUE</code> a table with checkboxes will be used
+instead (toolkit depending) so that one can scroll through the values</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p>Passed to handler when called.</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>add</code> method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>svalue</code> method returns the selected values by
+name. If the extra argument <code>index=TRUE</code> is specified,
+the indices of the selected values is given. 
+</p>
+<p>The <code>svalue&lt;-</code> method can be used to set the selected
+value. This widget is a cross between a checkbox and a radio
+button group. As such, there are different ways to specify the
+state.  As with a checkbox, the argument can be a logical
+vector indicating which checkboxes are to be checked
+(recycling is done). As with a radio button group, the value
+can be a character vector indicating by label which checkboxes
+are to be checked; or if the <code>index=TRUE</code> argument is
+given, a vector of indices for those checkboxes to be checked.
+</p>
+<p>The <code>"["</code> method refers to the vector defining the items.
+</p>
+<p>The <code>"[&lt;-"</code> method can be used to change the vector
+defining the items. The length should be the same as the
+original, although in some toolkits this isn't necessary.
+</p>
+<p>The <code>"length"</code> method returns the number of items.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>A checkboxgroup is one of several ways to select a value of a
+set of items. See also
+</p>
+<p><code><a href="gcheckbox.html">gcheckbox</a></code>, 
+<code><a href="gradio.html">gradio</a></code>, 
+<code><a href="gcombobox.html">gcombobox</a></code>, and
+<code><a href="gtable.html">gtable</a></code>.
+</p>
+<p>Methods for gComponent objects are detailed in <code><a href="gWidgets-methods.html">gWidgets-methods</a></code>.
+</p>
+<p>Event Handlers are detailed in <code><a href="gWidgets-handlers.html">gWidgets-handlers</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  flavors &lt;- c("vanilla", "chocolate", "strawberry")
+
+  f &lt;- function(h,...) print(
+      paste("Yum",
+      paste(svalue(h$obj),collapse=" and "),
+      sep = " "))
+
+  w &lt;- gwindow("checkbox example")
+  gp &lt;- ggroup(container=w)
+  glabel("Favorite flavors:",container=gp)
+  cbg &lt;- gcheckboxgroup(flavors, container=gp, handler=f)
+
+  svalue(cbg) &lt;- c(TRUE, FALSE, TRUE)
+  svalue(cbg)
+  svalue(cbg) &lt;- "vanilla"
+  svalue(cbg, index=TRUE) &lt;- 1:2
+  cbg[3] &lt;- "raspberry"
+
+  ## use a table to display (toolkit specific) so that scrollars can be used
+  cbg &lt;- gcheckboxgroup(letters, container=gwindow(), use.table=TRUE)
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

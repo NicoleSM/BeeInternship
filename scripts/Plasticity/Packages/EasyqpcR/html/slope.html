@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to calculate the amplification efficiency</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for slope {EasyqpcR}"><tr><td>slope {EasyqpcR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Function to calculate the amplification efficiency
+</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates the amplification efficiency from classical qPCR
+dilution experiment using the Cq values. The Cq values are plotted against the
+logarithmized concentration (or dilution) values, a linear regression line is
+fit and the efficiency calculated by E = 10^-1/slope. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+slope(data, q, r, na.rm = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>data.frame containing row datas (genes in columns, samples in rows, Cq values).
+</p>
+</td></tr>
+<tr valign="top"><td><code>q</code></td>
+<td>
+
+<p>numeric, cDNA dilution values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>r</code></td>
+<td>
+
+<p>numeric, number of qPCR replicates.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+
+<p>logical, indicating whether NA values should be stripped before the computation
+proceeds.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<table summary="R valueblock">
+<tr valign="top"><td><code>Efficiency</code></td>
+<td>
+<p>Primer amplification efficiency.</p>
+</td></tr>
+<tr valign="top"><td><code>Slope</code></td>
+<td>
+<p>Slope of the dilution curve.</p>
+</td></tr>
+<tr valign="top"><td><code>Intercept</code></td>
+<td>
+<p>Intercept of the dilution curve</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Sylvain Le pape &lt;sylvain.le.pape@univ-poitiers.fr&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p>You can also see the <code>qpcR</code> package with the <code>calib</code> and <code>calib2</code>
+functions.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(Efficiency_calculation)
+
+slope(data = Efficiency_calculation, q=c(1000, 100 ,10, 1, 0.1), r=3, na.rm=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>EasyqpcR</em> version 1.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Toolkit implementation of gWidgets for RGtk2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gWidgetsRGtk2-package {gWidgetsRGtk2}"><tr><td>gWidgetsRGtk2-package {gWidgetsRGtk2}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Toolkit implementation of gWidgets for RGtk2
+</h2>
+
+<h3>Description</h3>
+
+<p>Port of gWidgets API to RGtk2
+</p>
+
+
+<h3>Details</h3>
+
+<p>This package allows the gWidgets API to use the RGtk2 package allowing
+the use of the GTK libraries within R. The documentation for
+the functions in this package are contained in the gWidgets package.
+</p>
+<p>As gWidgets is meant to be multi-toolkit, this file documents
+differences from the API, as defined by the man pages of the
+<span class="pkg">gWidgets</span> package.
+</p>
+<p><b>Containers:</b><br />
+</p>
+<p>If using a <code>ggraphics</code> device, one should call <code>gwindow</code>
+with the argument <code>visible=FALSE</code> then after the device is
+added call the <code>visible&lt;-</code> method to show the window.
+</p>
+<p>To access the underlying gtk container from a <code>gframe</code> object
+one uses <code>getToolkitWidget(obj)$getParent()</code> <br />
+</p>
+<p>The gnotebook changed handler has component <code>pageno</code> to
+indicate the newly selected page number, as the <code>svalue</code> method
+returns the page before the change.<br />
+</p>
+<p><b>Widgets:</b><br />
+</p>
+<p>The <code>gbutton</code> constructor can not be called before
+<span class="pkg">gWidgetsRGtk2</span> is loaded. This means that an initial call like
+<code>gbutton("label", cont=gwindow())</code> won't work. Instead, either
+load directly <span class="pkg">gWidgetsRGtk2</span> (not just <span class="pkg">gWidgets</span>) or
+create another widget, like a top-level window. Something similar is the case
+for the <code>gdfedit</code> widget.
+<br />
+</p>
+<p>The <code>gradio</code> widget can now have its items shortened or lengthened via <code>[&lt;-</code>.<br />
+</p>
+<p>For the data frame viewer <code>gtable</code> when no filtering is
+requested &ndash; the default &ndash; the column headers can be clicked to sort
+the values. Setting the index to 0 will clear the selection.
+</p>
+<p>In the data frame editor <code>gdf</code> the <code>subset</code> option only
+works if the column names have not been changed. One can suppress
+the creation of keyboard navigation and the right click popup on the
+column headers. The hiddern argument <code>diy</code> (for do it yourself)
+if left empty will place in both. A value of <code>"suppress.key"</code>
+or <code>"suppress.popup"</code> (or both) will suppress the respective
+handler.  <br />
+</p>
+<p>The <code>gaction</code> constructor produces action objects. The
+<code>enabled&lt;-</code> method can be used to set their sensitivity. The
+objects can be used with <code>gbutton</code> through the <code>action</code>
+argument, and in the lists defining menubars and toolbars. The
+<code>key.accel</code> argument (for assigning a keyboard accelerator) of the constructor is ignored for now. The
+<code>tooltip</code> is OS sensitive, as it depends on the event loop
+implementation. <br />
+</p>
+<p>The <code>gtoolbar</code> list can have components that are a) lists with
+a handler componented, b) lists with a separator component, c)
+gaction instances d) gWidgets, in which case the widget appears in
+the toolbar. The latter is not portable to other gWidgets
+implementations.<br />
+</p>
+<p>The <code>gvarbrowser</code> constructor depends on a variable
+<code>knownTypes</code>. A default is provided in the package, but this can
+be overridden by a) providing a hidden argument <code>knownTypes</code> to
+the constructor or b) setting an option <code>knownTypes</code>. In each
+case this is a named list whose components are character vectors
+listing classes of a similar nature. For example, the default value
+for <code>knownTypes</code> included <code>"data sets"=
+  c("numeric","logical","factor","character","integer",
+  "data.frame","matrix","list", "table","xtabs",
+  "nfnGroupedData","nffGroupedData","nmGroupedData",
+  "POSIXct","POSIXlt","POSIXt" )</code>.  <br />
+</p>
+<p>The function used to map a class to an icon is by default
+<code>getStockIconFromClass</code>. This can be changed by assigning a
+function to the option <code>gWidgetsStockIconFromClass</code>. This function should take a class and return a stock icon name. (The class passed is the first value only.) 
+</p>
+<p>The <code>gfile</code> constructor has the argument <code>multiple</code>, which if
+TRUE will allow for multiple selections of files. This feature
+should be merged into the gWidgets API, but for now is passed in via
+<code>...</code>.
+<br />
+</p>
+<p>The <code>ggraphics</code> constructor provides a means to embed a graphics
+window inside a GUI. A right mouse popup allows one to copy the
+graphic to the clipboard or save it to a file. The different file
+types are limited by the function <code>gdkPixbufSave</code> whose manual page states
+that jpg, png, ico and bmp are permissable.
+</p>
+<p>A few quirks exist.
+</p>
+
+<ol>
+<li><p> Drawing a graphic too soon may result in a message about
+<code>plot.margins too small</code>. This comes from trying to draw the
+first graphic before the window is fully realized.
+<br />
+</p>
+<p>One workaround is to initially set the window not visible then when the GUI is done, make the window visible. That is, try: <code>w &lt;- gwindow(visible=FALSE); ggraphics(cont=w); visible(w) &lt;- TRUE; hist(rnorm(100))</code>
+</p>
+</li>
+<li><p> When there are multiple
+devices, the standard means of setting a device via <code>dev.set</code>
+are supplemented by mouse handlers. Clicking in the graphics window
+sets the window as the current device.
+</p>
+</li>
+<li><p> The handler for <code>addHandlerClicked</code> responds to a  mouse
+click. The components <code>x</code> and <code>y</code> give the coordinates in
+&quot;usr&quot; coordinates.
+</p>
+</li>
+<li><p> The handler for <code>addHandlerChanged</code> responds to the
+&quot;rubber-banding&quot; effect that comes from trying to trace out a
+rectangle in the graphic window. The components <code>x</code> and <code>y</code>
+give the coordinates in &quot;usr&quot; coordinates. (These each have two
+values.) The functions <code>grconvertX</code> and <code>grconvertY</code> can
+convert to other coordinate systems for you. See the <code>ggraphics</code>
+help page for an example of how
+this can be used to update a data frame.
+</p>
+</li></ol>
+
+<p>The <code>gbasicdialog</code> constructor can be used both ways. The hidden
+argument <code>buttons</code> can take values <code>ok</code>, <code>yes</code>,
+<code>cancel</code>, <code>close</code>, <code>no</code>, with a default of <code>c("ok","cancel")</code>.
+</p>
+<p><b>Methods:</b><br />
+</p>
+<p>The <code>font</code> method is not implemented. 
+<br />
+</p>
+<p>For widgets which allow markup (<code>gframe</code>, <code>glabel</code>) PANGO
+markup is used. This is not HTML, but is similar to basic HTML.<br />
+</p>
+<p><b>gWidgetsRGtk2 and the RGtk2 package:</b><br />	
+</p>
+<p>The <span class="pkg">RGtk2</span> package is imported only so its namespace, which is
+large, is not loaded by default. To access its functions, load the
+package. <br />
+</p>
+<p>The <span class="pkg">RGtk2</span> package and <span class="pkg">gWidgetsRGtk2</span> can be used together
+in the following ways. First, an <span class="pkg">RGtk2</span> object can be added to
+a <span class="pkg">gWidgetsRGtk2</span> through the <code>add</code> method of the
+container. This works for most objects. If you find one that doesn't
+work, simply place it inside a <code>gtkHBox</code> container, then add
+that container. Second, a <span class="pkg">gWidgetsRGtk2</span> object can be added to
+to a <span class="pkg">RGtk2</span> container by adding the return value of the
+<code>getToolkitWidget</code> method of the object. Again, this should
+work, but if not, the <span class="pkg">gWidgetsRGtk2</span> can be added to a
+<code>ggroup</code> container first. In either case, the
+<span class="pkg">gWidgetsRGtk2</span> object should not be previsously attached to a container, so
+in particular the constructor should be called with its
+<code>container</code> argument as <code>NULL</code> (the default).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Lawrence, John Verzani
+</p>
+<p>Maintainer: John Verzani &lt;gwidgetsrgtk@gmail.com&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p>gWidgets</p>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgetsRGtk2</em> version 0.0-86.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

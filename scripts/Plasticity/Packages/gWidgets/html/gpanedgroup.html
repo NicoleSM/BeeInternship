@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A paned group holds two child components with a handle, or...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gpanedgroup {gWidgets}"><tr><td>gpanedgroup {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+A paned group holds two child components with a handle, or sash,
+between them to adjust the amount of space allocated to each
+</h2>
+
+<h3>Description</h3>
+
+<p>A constructor for a paned group.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gpanedgroup(widget1=NULL, widget2=NULL, horizontal = TRUE, 
+container = NULL, ..., toolkit = guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>widget1</code></td>
+<td>
+<p>Left (top) widget. Can be added at time of
+construction, or the <code>add</code> method can be used to add the child
+widgets one at a time.</p>
+</td></tr>
+<tr valign="top"><td><code>widget2</code></td>
+<td>
+<p>Right (bottom) widget</p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+<p>Left/right (<code>TRUE</code>) or top/bottom</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>add</code> method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>add</code> method can be used to one child at a time.
+</p>
+<p>The <code>svalue</code> method returns the sash position with a value
+between 0 and 1.
+</p>
+<p>The <code>svalue&lt;-</code> method can be used to specify the sash position
+with a value between 0 and 1.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  w &lt;- gwindow("gpanedgroup example")
+  pg &lt;- gpanedgroup(container=w)
+  gvarbrowser(container = pg) ## first is left/top
+  gtext(container = pg)
+  svalue(pg) &lt;- 0.25
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

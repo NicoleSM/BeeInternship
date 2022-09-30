@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructor for widget to display heirarchical dta</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gtree {gWidgets}"><tr><td>gtree {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Constructor for widget to display heirarchical dta</h2>
+
+<h3>Description</h3>
+
+<p>This widget allows tree-like data to be presented. Each node
+on the tree should be a data frame with the same column
+structure. The first column is treated like a key, and should
+be unique. Offspring are specified through a function of the
+keys which are ancestors. This function returns the data frame
+to be displayed. Values in the tree can be selected with the
+mouse. This value can be retrieved through a method, or a
+handler can be assigned to double click events.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gtree(offspring = NULL, hasOffspring = NULL, offspring.data = NULL,
+col.types = NULL, icon.FUN = NULL, chosencol = 1, multiple = FALSE,
+handler = NULL, action = NULL, container = NULL, ..., toolkit = guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>offspring</code></td>
+<td>
+<p>A function to produce a data frame. 
+</p>
+<p>The first column of the data frame is used as a key. It should be
+unique, otherwise the updating will not work properly.
+</p>
+<p>The <code>offspring</code> function has two arguments, the first being the
+path (the first column of the offspring data frame is the key, and
+the path is the vector of keys) and the value of
+<code>offspring.data</code>. The data frame can determine  whether an
+entry has offspring, by having the second column be a logical
+vector, <code>TRUE</code> if there is offspring, <code>FALSE</code> if not.
+</p>
+</td></tr>
+<tr valign="top"><td><code>hasOffspring
+</code></td>
+<td>
+
+<p>Whether an entry has an offspring is determined by a. if this
+function is non-<code>NULL</code> and it returns a <code>TRUE</code> value when
+called on the offspring data frame for this row, b. if this is NULL
+and the second column of the offspring data frame is a logical vector
+and for this row is <code>TRUE</code>. If this function is <code>NULL</code> and
+the second column is not a logical vector then it is assumed that
+there are no offspring.
+</p>
+</td></tr>
+<tr valign="top"><td><code>offspring.data</code></td>
+<td>
+<p>Passed to <code>offspring</code> function to
+parameterize that function.</p>
+</td></tr>
+<tr valign="top"><td><code>col.types</code></td>
+<td>
+<p>Used to determine the type of column, given as a
+data frame with 1 or more rows. Otherwise it is determined by first
+row of offspring data frame. If the offspring function can return an
+empty data frame, then this argument should be given.</p>
+</td></tr>
+<tr valign="top"><td><code>icon.FUN</code></td>
+<td>
+<p>An optional function to determine an icon place into
+the first column. This function gets called with the data in
+<code>offspring</code>, and should return a row vector of length
+<code>nrow(offspring)</code>. The icons are stock icons, and should be
+referenced by name. The helper function <code>getStockIcons</code> list
+all the available stock icons.</p>
+</td></tr>
+<tr valign="top"><td><code>chosencol</code></td>
+<td>
+<p>The column used when requesting the selected row's
+value. Defaults to first</p>
+</td></tr> 
+<tr valign="top"><td><code>multiple</code></td>
+<td>
+<p> A logical to determine if multiple selection is
+allowed. Defaults to <code>FALSE</code></p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p> Handler for double click events</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p> Passed to handler </p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>add</code> method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>  
+</table>
+
+
+<h3>Details</h3>
+
+<p>In an abstract sense, these trees are specified by a function which
+produces the value at a given node from the ancestry of the given
+node, and a function specifying if a node has offspring.
+</p>
+<p>The <code>offspring</code> function determines the displayed data for a
+certain node. It has signature <code>(path, offspring.data)</code>, where
+the path consists of the ancestors and <code>offspring.data</code> is an
+optional value passed in when the tree object is constructed. This
+function returns a data frame. Its first column should consist of
+unique values, as it is treated like a key.
+</p>
+<p>The <code>hasOffspring</code> function is called on the return value of
+<code>offspring</code>. It should return a logical indicating which rows
+have offspring. If this argument is not present, then the second
+column of the return values of <code>offspring</code> are consulted. If
+these are logical, then they are used to determine if offspring are
+present. Otherwise, no offspring are assumed.
+</p>
+<p>The <code>icon.FUN</code> function is called on the return value of
+<code>offspring</code>. If present, it should return a vector of stock
+icon names.
+</p>
+<p>The <code>svalue</code> method returns the current key.  The <code>index</code>
+argument has changed. If <code>index</code> is <code>TRUE</code>, the path of
+each selection is returned as a numeric vector, where the numbers
+represent the sibling count at each level, 1-based. That is
+<code>c(1,2,3)</code> is the 3rd offspring of the second offspring of the
+first offspring of the root. If more than one selection is made,
+then a list of such values is returned.  This way &ndash; in theory &ndash; we
+can set values by index too. In particular, we should have
+<code>svalue(obj, index=TRUE) &lt;- svalue(obj, index=TRUE)</code>.  (Before,
+using a numeric value for index would give the ith column, as
+opposed to the chosen column. This behaviour can be found using the
+<code>"["</code> method.) 
+</p>
+<p>The <code>"["</code> method refers to the vector of keys for the selected
+object. That is, svalue gives the current key, and <code>[</code> returns
+the path of keys.
+</p>
+<p>The <code>addHandlerDoubleclick</code> handler (also
+<code>addHandlerChanged</code>) can be set to respond to
+a double click event. 
+</p>
+<p>The <code>addHandlerClicked</code> handler should be called when the
+selection is changed.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+ ## function to find offspring
+ offspring &lt;- function(path, offspring.data=NULL) {
+         if(length(path) &gt; 0) 
+           directory &lt;- paste(getwd(), .Platform$file.sep,
+                              paste(path,collapse=.Platform$file.sep),
+                              sep="")
+         else
+           directory &lt;- getwd()
+
+         files &lt;- file.info(dir(path=directory, full.names=TRUE))[,c(1,2,3)]
+         files &lt;- data.frame(filename=dir(path=directory),
+                             isdir=files[,2],
+                             size=as.integer(files[,1]),
+                             mode=as.character(files[,3]),
+                             stringsAsFactors=FALSE)
+         return(files)
+ }
+ hasOffspring &lt;- function(children,offspring.data=NULL, ...) {
+   return(children$isdir)
+ }
+ icon.FUN &lt;- function(children,offspring.data=NULL, ...) {
+   x &lt;- rep("file", length=nrow(children))
+   x[children$isdir] &lt;- "directory"
+   return(x)
+  }
+  ## shows isdir directory, as hasOffspring is specified
+  w &lt;- gwindow("test with isdir showing")
+  gtree(offspring, hasOffspring, icon.FUN = icon.FUN, container=w)
+
+  ## does not show isdir directory, as hasOffspring=NULL and
+  ## second column is a logical
+  w &lt;- gwindow("tree test no dir column")
+  tr &lt;- gtree(offspring, hasOffspring=NULL, icon.FUN = icon.FUN, container=w)
+
+  ## Show a fixed list using a dynamic tree
+l &lt;- list(a=list(
+            aa=1,
+            ab=2,
+            ac=list(ac1=1)
+            ),
+          b=list(
+            ba=list(
+              baa=1,
+              bab=list(
+                baba=1
+                )
+              )
+            ))
+
+offspring &lt;- function(path, ...) {
+  print(path)
+  ll &lt;- l
+  if(length(path) &gt; 0) {
+    for(i in path)
+      ll &lt;- ll[[i]]
+  }
+  out &lt;- data.frame(name=names(ll),
+                    hasOffspring=!sapply(ll, is.atomic),
+                    value=as.character(sapply(ll, function(i) ifelse(is.atomic(i), i, ""))),
+                    stringsAsFactors=FALSE)
+  out
+}
+
+w &lt;- gwindow("Tree from list")
+tr &lt;- gtree(offspring=offspring, container=w)
+
+addHandlerDoubleclick(tr, handler=function(h,...) {
+  print(svalue(h$obj))		# the key
+  print(h$obj[])		# vector of keys
+})
+
+
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

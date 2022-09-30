@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Radio button group widget</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gradio {gWidgets}"><tr><td>gradio {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Radio button group widget</h2>
+
+<h3>Description</h3>
+
+<p>A radio group allows the user to select one value from a set
+of items. The items may be displayed horizontally or
+vertically.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gradio(items, selected = 1, horizontal = FALSE, handler
+= NULL, action = NULL, container = NULL, ..., toolkit = guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>items</code></td>
+<td>
+<p> Vector of values to select from </p>
+</td></tr>
+<tr valign="top"><td><code>selected</code></td>
+<td>
+<p> The initial selected value (as an index). Radio groups must have a selection</p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+<p>A logical specifying the  layout for gradio</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Called when selection is changed</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p>Passed to handler when called.</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>add</code> method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>svalue</code> method returns the selected value by
+name. If the extra argument <code>index=TRUE</code> is specified,
+the index of the selected value is given. 
+</p>
+<p>The <code>svalue&lt;-</code> method can be used to set the selected
+value. One can specify the value by name or by index if
+<code>index=TRUE</code> is specified.
+</p>
+<p>The <code>"["</code> method refers to the vector defining the items.
+</p>
+<p>The <code>"[&lt;-"</code> method can be used to change the vector
+defining the items. 
+</p>
+<p>The <code>"length"</code> method returns the number of items.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The radio group is one of several widgets useful to selecting a value
+or values from a set of items. See also <code><a href="gcheckbox.html">gcheckbox</a></code>,
+<code><a href="gcheckboxgroup.html">gcheckboxgroup</a></code>, <code><a href="gcombobox.html">gcombobox</a></code>, and
+<code><a href="gtable.html">gtable</a></code>
+</p>
+<p>Methods for gComponent objects are detailed in <code><a href="gWidgets-methods.html">gWidgets-methods</a></code>.
+</p>
+<p>Event Handlers are detailed in <code><a href="gWidgets-handlers.html">gWidgets-handlers</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+
+  flavors &lt;- c("vanilla", "chocolate", "strawberry")
+
+  w &lt;- gwindow("Radio example", visible=FALSE)
+  gp &lt;- ggroup(container=w)
+  glabel("Favorite flavor:",container=gp, anchor=c(0,1))
+  rb &lt;- gradio(flavors, container=gp)
+  addHandlerClicked(rb, handler=function(h,..) {
+   cat(sprintf("You picked %s\n", svalue(h$obj)))
+  })
+  visible(w) &lt;- TRUE
+  
+  betterFlavors &lt;- c("coffee", "mint chip")
+  rb[] &lt;- betterFlavors 
+  rb[] &lt;- c(betterFlavors, "chocolate") # some toolkits don't allow change of length
+  
+  rb[3] &lt;- "mango sorbet" ## can change a label name
+
+  ## set values
+  svalue(rb) &lt;- "coffee"  ## by name
+  svalue(rb, index=TRUE) &lt;- 1  ## by index
+
+  ## get selected values
+  svalue(rb)
+  svalue(rb, index=TRUE)
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

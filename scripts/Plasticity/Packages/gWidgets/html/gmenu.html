@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructors to make menubars or toolbars</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gmenu {gWidgets}"><tr><td>gmenu {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Constructors to make menubars or toolbars</h2>
+
+<h3>Description</h3>
+
+<p>A menubar or toolbar are created using these
+constructors. These are specified using a lists, and these may
+be seen as simply mapping these lists into the corresponding widget.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gmenu(menulist,  popup = FALSE, action=NULL, container = NULL, ..., 
+toolkit = guiToolkit())
+
+gtoolbar (toolbarlist, style = c("both", "icons", "text",
+	 "both-horiz"), 
+	 action=NULL, container = NULL, 
+    ..., toolkit = guiToolkit()) 
+
+gaction(label, tooltip = NULL, icon = NULL, key.accel = NULL, 
+        handler = NULL, action = NULL, parent=NULL, ...,
+        toolkit = guiToolkit())
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>menulist</code></td>
+<td>
+<p>A list defining a menu bar</p>
+</td></tr>
+<tr valign="top"><td><code>popup</code></td>
+<td>
+<p>Logical indicating if this should return a popup menu</p>
+</td></tr>
+<tr valign="top"><td><code>toolbarlist</code></td>
+<td>
+<p>A list defining a toolbar</p>
+</td></tr>
+<tr valign="top"><td><code>style</code></td>
+<td>
+<p>What style to use</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p>Passed to menubar handlers</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Container to attach widget to. Should be a gwindow instance.</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>Label for action item</p>
+</td></tr>
+<tr valign="top"><td><code>tooltip</code></td>
+<td>
+<p>tooltip</p>
+</td></tr>
+<tr valign="top"><td><code>icon</code></td>
+<td>
+<p>icon to decorate instance of action</p>
+</td></tr>
+<tr valign="top"><td><code>key.accel</code></td>
+<td>
+<p>keyboard accelerator. If specified, a parent window must also be specified.</p>
+</td></tr>
+<tr valign="top"><td><code>parent</code></td>
+<td>
+<p>Needed if key.accel is specified</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Handler called when object attached to action is activated</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to the <code>add</code> method of the container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The gaction constructor creates reusable objects for use with
+buttons, menubars and toolbars. Once constructed, the main
+methods are <code>svalue</code>, and <code>svalue&lt;-</code> for getting and
+setting the label text and <code>enabled&lt;-</code> which can changes
+whether the widgets depending on the action are sensitive to
+user input. An action object contains a label, an optional
+icon, an optional keyboard accelerator, a handler and a parent
+window. The handler does not have the widget from which it is
+called passed in to the <code>obj</code> component of the first
+argument, but one can parametrize the argument with the
+<code>action</code> argument. The icon, tooltip, and keyboard
+accelerator are very much toolkit and OS dependent, and so may
+not always be available by the widget using the gaction
+object. The keyboard accelerator may use modifiers
+<code>Control</code>, <code>Alt</code> or <code>Shift</code> along with a
+letter, such as <code>Control-c</code>.  For <span class="pkg">gWidgetstcltk</span> the
+value is passed to <code>tkbind</code>.  For <span class="pkg">gWidgetsQt</span> the
+value is passed to <code>Qt$QKeySequence</code>.  For
+<span class="pkg">gWidgetsRGtk2</span> the value is parsed and manipulated.  The
+keyboard accelerator requires a parent container so that the
+corresponding window for which the accelerator applies can be
+found.
+</p>
+<p>The lists defining a menubar or toolbar are very similar.
+</p>
+<p>Each is a list with <em>named</em> components. A component is a
+terminal node if it a) is a <code>gaction</code> instance or b) has a
+<code>handler</code> component, which is a function to be called
+(without arguments) when the menu item or toolbar item is
+selected. Optionally, an <code>icon</code> component can be given
+specifying a stock icon to accompany the text. A non-null
+component named <code>separator</code> will also indicate a terminal
+node. In this case, a visible separator will be displayed.
+</p>
+<p>A menubar list can use the hierarchical nature of a list to
+generate submenus. For toolbars this is not the case.
+</p>
+<p>These constructors map the list into the widget. The methods
+for the constructors refer to these list defining the widget.
+</p>
+<p>The <code>svalue</code> method returns the list.
+</p>
+<p>The <code>svalue&lt;-</code> method can be used to change the list, and
+hence redo the menubar.
+</p>
+<p>The <code>"["</code> method refers to the components of the list.
+</p>
+<p>The <code>"[&lt;-"</code> method can be used to change pieces of the
+menubar or toolbar.
+</p>
+<p>The <code>add</code> method with signature <code>(obj,lst)</code> or
+<code>(obj,gmenu.instance)</code> can be used to apped to the
+current menubar/toolbar. The second argument is a list or an
+gmenu or gtoolbar instance.
+</p>
+<p>The <code>delete</code> method 
+can be used to delete part of the menubar/toolbar. The
+<code>value</code> argument can be either a character vector with
+the top-level names to delete, or a named list, or an instance
+of either gmenu or gtoolbar.
+</p>
+<p>Popular usage reserves toolbars and menubars for top-level
+windows &ndash; not dialog sub windows, or sub groups within a GUI
+&ndash; as such, the container, specified at construction, should
+be a top-level gwindow instance
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+ mbl &lt;- list()
+ mbl$File$Open$handler = function(h,...) print("open")
+ mbl$File$Quit$handler = function(h,...) print("quit")
+ mbl$File$Quit$icon = "quit"
+ mbl$Edit$Find$handler = function(h,...) print("Find")
+ mbl$Edit$Replace$handler = function(h,...) print("Replace")
+
+ w &lt;- gwindow("gmenu test")
+ mb &lt;- gmenu(mbl, container=w)
+
+ tbl &lt;- list()
+ tbl$New &lt;- list(icon="new",handler = function(...) print("new"))
+ tbl$Print &lt;- list(icon="print",handler = function(...) print("print"))
+
+ tb &lt;- gtoolbar(tbl, container=w)
+
+ ## example of using gaction
+ ## works in gWidgetstcltk, but much  better in gWidgetsRGtk2
+
+ ## stub for handler
+f &lt;- function(h,...) print("stub")
+
+## some actions. The icon is optional, as is tooltip
+aOpen &lt;-  gaction(label="Open",   icon="open",  handler=f)
+aClose &lt;- gaction(label="Close",  icon="close", handler=f)
+aQuit  &lt;- gaction(label="Quit",   icon="quit",  handler=function(h,...) dispose(w))
+aCut &lt;-   gaction(label="Cut",    icon="cut",   handler=f)
+aCopy &lt;-  gaction(label="Copy",   icon="copy",  handler=f)
+aPaste &lt;- gaction(label="Paste",  icon="paste", handler=f)
+
+## set up groups of actions so that they can be disabled/enabled
+## all at once
+allActionsGroup &lt;- list(aOpen, aClose, aQuit, aCut, aCopy, aPaste)
+editActionsGroup &lt;- list(aCut, aCopy, aPaste)
+
+## define menubar list
+ml &lt;- list(File = list(
+             open = aOpen,
+             close = aClose,
+             sep = list(separator = TRUE), # must be named component
+             quit = aQuit),
+           Edit = list(
+             copy = aCopy,
+             paste = aPaste))
+
+## toolbar list has only one level
+tl &lt;- list(
+   Open=aOpen, 
+   sep = list(separator = TRUE), # must be named component
+   Quit = aQuit)
+
+## set up main window
+w &lt;- gwindow()
+gmenu(ml, container = w)
+gtoolbar(tl, container = w)
+
+## Now add a widget
+gbutton(action = aQuit, container = w)
+
+## disable a group of action
+sapply(editActionsGroup, function(i) enabled(i) &lt;- FALSE)
+
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

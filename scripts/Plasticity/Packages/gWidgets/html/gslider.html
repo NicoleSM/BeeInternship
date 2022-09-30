@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructors for widgets to select a value from a sequence.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gslider {gWidgets}"><tr><td>gslider {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Constructors for widgets to select a value from a sequence.</h2>
+
+<h3>Description</h3>
+
+<p>The gslider widget and gspinbutton widget allow the user to
+select a value from a sequence using the mouse. In the slider
+case, a slider is dragged left or right (or up or down) to
+change the value. For a spin button a text box with arrows
+beside allow the user to scroll through the values by clicking
+the arrows.
+</p>
+<p>Some toolkits only allow integer values for these.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gslider(from = 0, to = 100, by = 1, length.out=NULL, along.with=NULL, 
+value = from[1], horizontal = TRUE, handler = NULL, action = NULL, 
+container = NULL, ..., toolkit = guiToolkit())
+
+gspinbutton (from = 0, to = 10, by = 1, length.out=NULL, along.with=NULL, 
+value = from, digits = 0, 
+    handler = NULL, action = NULL, container = NULL, ..., toolkit = guiToolkit()) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>from</code></td>
+<td>
+<p>Starting point in range. For <code>glider</code>, this may be a vector of values that
+can be sorted from <code>sort(unique(...))</code>. In this case, <code>to</code>,
+<code>by</code>, etc. are ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p>Ending point in range</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>Step size between values in the sequence</p>
+</td></tr>
+<tr valign="top"><td><code>length.out</code></td>
+<td>
+<p>In place of by, take number of steps from this</p>
+</td></tr>
+<tr valign="top"><td><code>along.with</code></td>
+<td>
+<p>In place of length.out, take length from this vector</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p> The initial value </p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>The number of digits shown</p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+<p>Specifies orientation of gslider widget</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Called on a change event.</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p>Passed to handler </p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p> Optional container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code>add</code> method of container</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Widgets to select from a vector of values. This vector is
+usually a sequence, as is returned by <code>seq</code>, hence the
+similar arguments, although the implementation is a bit less
+general, as <code>length.out</code> and <code>along.with</code> are used to
+compute <code>by</code> when given.
+</p>
+<p>For <code>gslider</code> any ordered vector may be used if specified
+to <code>from</code>.  Some toolkits only allow integer sequences, see
+the respective <span class="pkg">gWidgetsXXX</span> packages for details.
+</p>
+<p>The <code>svalue</code> method returns the selected value. If all
+values are specified to <code>from</code>, then <code>index</code>
+argument is respected.
+</p>
+<p>The <code>svalue&lt;-</code> method is used to set the selected value.
+If all values are specified to <code>from</code>, then <code>index</code>
+argument is respected.
+</p>
+<p>The <code>[&lt;-</code> method can be used to change the sequence that the
+value is selected from. It expects a regular sequence, or if all
+values were originally specified to <code>from</code> a sortable
+sequence.
+</p>
+<p>The <code>addhandlerchanged</code> handler is called when the
+widgets' value is changed. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  x &lt;- rnorm(100)
+
+  ## our handler
+  plotHist &lt;- function(...)
+    hist(x, col=gray(svalue(sb)), breaks = svalue(sl))
+
+   
+
+  w &lt;- gwindow("Slider and spinbox example")
+  tbl = glayout(container=w)
+  tbl[1,1] &lt;- "Slide value to adjust shade"
+  tbl[1,2] &lt;- (sb &lt;- gspinbutton(from=0,to=1,by=0.05,value=.5, container=tbl,
+    handler=plotHist))
+  tbl[2,1] &lt;- "No. breaks"
+  tbl[2,2, expand=TRUE] &lt;- (sl &lt;- gslider(from = 1, to= 100, by=1, value = 10,
+    container = tbl, handler = plotHist))
+
+## update slider using [&lt;-
+  sl[] &lt;- seq(2,50, by=2)
+
+
+  ## other sequence:
+  w &lt;- gwindow("Slider with sequence")
+  sl &lt;- gslider(letters, container=w)
+  svalue(sl, index=TRUE)
+  svalue(sl) &lt;- "m"
+  sl[] &lt;- LETTERS ## can be sorted via sort(unique(LETTERS))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

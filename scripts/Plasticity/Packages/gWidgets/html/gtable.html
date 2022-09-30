@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructor for widget to display tabular data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gtable {gWidgets}"><tr><td>gtable {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Constructor for widget to display tabular data</h2>
+
+<h3>Description</h3>
+
+<p>This widget displays either a vector, matrix or data frame in
+a tabular format. The main usage is for user selection of a
+row or rows.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gtable(items, multiple = FALSE, chosencol = 1, icon.FUN = NULL,
+filter.column = NULL, filter.labels = NULL, filter.FUN = NULL, 
+handler = NULL, action = NULL, container = NULL, ..., toolkit = guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>items</code></td>
+<td>
+<p>A vector, matrix or data frame to be displayed. A
+vector and matrix is coerced into a data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>multiple</code></td>
+<td>
+<p>A logical. If <code>TRUE</code> multiple lines can be selected</p>
+</td></tr>
+<tr valign="top"><td><code>chosencol</code></td>
+<td>
+<p>By default, only the value in this column is
+returned by the <code>svalue</code> method.</p>
+</td></tr>
+<tr valign="top"><td><code>icon.FUN</code></td>
+<td>
+<p>If given, this function is applied to the data frame
+to be shown. It should return a vector of stock icon names</p>
+</td></tr>
+<tr valign="top"><td><code>filter.column</code></td>
+<td>
+<p>If not <code>NULL</code> a filter by droplist is
+given which can be used to filter the displayed values shown using
+the values in this column.</p>
+</td></tr>
+<tr valign="top"><td><code>filter.labels</code></td>
+<td>
+<p>If more complex filtering is desired then this argument populates the values of the combobox and the <code>filter.FUN</code> argument is used to specify a function to interpret these values.</p>
+</td></tr>
+<tr valign="top"><td><code>filter.FUN</code></td>
+<td>
+<p>Either a function with signature <code>(obj, filter.by)</code>
+to specify a vector of logical values indicating which rows should
+be shown or the character &quot;manual&quot; in which filtering is done directly through the <code>visible</code> method and not through a popup box</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Called on a double click event</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p>Passed to handler</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Optional container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> ignored </p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>svalue</code> method returns the selected value(s). By
+default, only the value(s) in the chosen column are
+returned. Use the argument <code>drop=FALSE</code> to return the
+entire row. To return the row index, use the argument
+<code>index=TRUE</code>. This index refers to the whole data store,
+not just the visible portion when filtering is being used.
+</p>
+<p>The <code>"["</code> notion treats the object like a data frame. When
+filtering, this notation refers to the entire data frame, not
+the visible data frame. The comment about the
+returned index by <code>svalue</code> can be described by the fact that
+<code>obj[svalue(obj,index=TRUE), ]</code> should be the same value as
+<code>svalue(obj)</code>. 
+</p>
+<p>Assignment via <code>"[&lt;-"</code> is possible with limitations imposed
+by the toolkits. The graphical display of tabular matter is
+usually done, similar to data frames, in terms of columns each
+having the same type. For some toolkits, all values are
+converted to characters, for others, the type must be
+maintained. In R, coercion of types may occur when assigning to
+a data frame, but this won't be so with the underlying toolkit widget.
+To be portable across toolkits, the column type should not
+change during assignment, nor should the number of rows be
+reduced. 
+</p>
+<p>In particular, assignment with <code>"[&lt;-"</code> for factors can
+cause warnings if the values are not in the factor's
+levels. When the value being assigned is a matrix there is a
+coercion to a data frame which may change the type.
+</p>
+<p>The <code>visible</code> and <code>visible&lt;-</code> methods refer to which
+rows of the data store are visible in the widget. These are
+specified by a vector of class logical. This may be used when
+there is filtering, not sorting. The value returned by
+<code>svalue</code> is a logical vector of length given by the number
+of rows of the data store, with <code>TRUE</code> indicating that the
+row is displayed. When setting the visibility of a row through
+<code>svalue</code> the vector of values should have the same length
+as the number of rows, otherwise recycling occurs. (So
+<code>visible(obj) &lt;- TRUE</code> will work to display all the rows.)
+</p>
+<p>The <code>length</code> method returns the length of the underlying
+data store.
+</p>
+<p>The <code>dim</code> method returns the dimension of the underlying
+data store.
+</p>
+<p>The <code>names</code> method returns the names of the underlying data
+store.
+</p>
+<p>The <code>names&lt;-</code> method can be used to set the names of the
+underlying data store and the values displayed in the column
+headers of the widget.
+</p>
+<p>Row names are ignored in the display of this widget.
+</p>
+<p>A single click is used for selection of a value. 
+</p>
+<p>The <code>addHandlerDoubleclick</code> handler can be used to define a
+callback to respond to a double click event.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See also
+<code><a href="gtree.html">gtree</a></code> for displaying tree-like data and
+<code><a href="gdf.html">gdf</a></code> for tabular data meant to be edited
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  ## example to select CRAN mirror
+  m &lt;- getCRANmirrors()[,c(1,4)]
+  setCRAN &lt;- function(URL) { ## see chooseCRANmirror
+    repos = getOption("repos")
+    repos["CRAN"] &lt;- gsub("/$", "", URL)
+    options(repos=repos)
+  }
+  w &lt;- gwindow("gtable example",width=400)
+  gp &lt;- ggroup(horizontal=FALSE, container=w)
+  tab &lt;- gtable(m, chosencol = 2, container=gp, expand=TRUE,
+       handler = function(h,...) setCRAN(svalue(h$obj)))
+  bg &lt;- ggroup(container=gp)
+  addSpring(bg)
+  gbutton("dismiss", container=bg, handler = function(h,...) dispose(w))
+
+
+  ## an example with icons.
+  ## Select variables from a data frame
+
+
+  ## find icons by class
+  icon.FUN &lt;- function(items) {
+    dfName &lt;- svalue(cb)
+    df &lt;- try(get(dfName, envir=.GlobalEnv), silent=TRUE)
+    if(inherits(df,"try-error"))
+      return(rep(NULL,dim(items)[1]))
+    if(is.data.frame(items))
+      items &lt;- items[,1, drop=TRUE]
+    sapply(items, function(i) {
+      class(df[,i])[1]
+    })
+  }
+  ## list data frames in an environment
+  lsDF &lt;- function(envir=.GlobalEnv) {
+    varNames &lt;- ls(envir=envir)
+    dfs &lt;- sapply(varNames, function(i) inherits(get(i,envir=envir),"data.frame"))
+    varNames[dfs]
+  }
+  ## set up GUI
+  w &lt;- gwindow("Select variables",width=250)
+  g &lt;- ggroup(horizontal=FALSE, container=w)
+  l &lt;- glabel("Data frame", container=g)
+  cb &lt;- gcombobox(lsDF(), container=g)
+  blankDF = data.frame(variables=character(0), stringsAsFactors=FALSE)
+  tbl &lt;- gtable(blankDF, icon.FUN=icon.FUN, container=g, expand=TRUE)
+  ## add handlers
+  addHandlerChanged(cb, handler &lt;- function(h,...) {
+    dfName &lt;- svalue(h$obj)
+    dfNames &lt;- names(get(dfName,envir=.GlobalEnv))
+    tbl[,] &lt;- data.frame(variables=dfNames, stringsAsFactors=FALSE)
+  })
+  addHandlerClicked(tbl, handler = function(h,...) {
+    cat("Do something with",svalue(cb),"::", svalue(h$obj),"\n")
+  })
+
+
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

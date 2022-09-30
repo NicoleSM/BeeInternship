@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructor for widget to show SVG files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gsvg {gWidgets}"><tr><td>gsvg {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Constructor for widget to show SVG files</h2>
+
+<h3>Description</h3>
+
+<p>Some toolkit packages provide a widget to display an SVG file. This
+widget allows this to be embedded within a gWidgets window.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gsvg( filename="", width=480, height=480,
+                 handler=NULL, action=NULL,
+                 container = NULL, ... ,
+                 toolkit=guiToolkit())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>SVG file</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>width in pixels of widget</p>
+</td></tr>
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>height in pixels of widget</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>Called on click event</p>
+</td></tr>
+<tr valign="top"><td><code>action</code></td>
+<td>
+<p>Used to parameterize callback specified by handler</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>Container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Passed to add method of container. </p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>svalue</code> method returns the current filename.
+</p>
+<p>The <code>svalue&lt;-</code> method can be used to set a new file to display.
+</p>
+<p>The <code>addhandlerclicked(obj, handler, action, ...)</code> method where handler has
+first argument <code>h</code> has the additional values <code>h\$x</code> and
+<code>h\$y</code> where these are pixel values for where the mouse click occurred.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This is implemented in Qt only (and gWidgetsWWW).</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+f = tempfile()
+svg(f)
+hist(rnorm(100))
+dev.off()
+win &lt;- gwindow("Graphics example")
+gsvg(f, container=win)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

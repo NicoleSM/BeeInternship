@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Constructor of widget to edit a data frame</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gdf {gWidgets}"><tr><td>gdf {gWidgets}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Constructor of widget to edit a data frame</h2>
+
+<h3>Description</h3>
+
+<p>A widget used to edit data frames
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gdf(items = NULL, name = deparse(substitute(items)), do.subset = FALSE,
+container = NULL, ...,toolkit = guiToolkit())
+
+gdfnotebook(items = NULL, container = NULL, ..., toolkit=guiToolkit()) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>items</code></td>
+<td>
+<p>data frame to be edited</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>Name of data frame</p>
+</td></tr>
+<tr valign="top"><td><code>do.subset</code></td>
+<td>
+<p>A logical. If <code>TRUE</code> a means to filter the
+output using logical values is given.</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>An optional container to attach widget to</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Can be used to overide default colors.</p>
+</td></tr>
+<tr valign="top"><td><code>toolkit</code></td>
+<td>
+<p>Which GUI toolkit to use</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This widget is similar to that provided by <code><a href="gtable.html">gtable</a></code>
+only this is intended for editing of data frames. The
+<code>gdfnotebook</code> widget uses a notebook to hold several data
+frames at once.
+</p>
+<p>In gWidgetsRGtk2, the table shown can be edited. Double click in
+a cell to allow this. When editing, the value is saved when the
+cell is left. This is done using the up or down arrow keys, the
+Enter key, the Tab key or the mouse. The down arrow key moves
+the cursor down a row, extending the size of the data frame if
+necessary. The Enter key moves the cursor down, but does not
+extend the data frame if at the bottom. The Tab key moves to the
+right. If at the end, a dialog to add a new variable pops up.
+</p>
+<p>Right clicking in a cell that is not currently being edited pops
+up a menu to edit the colum names, sort or apply a function to a
+row.
+</p>
+<p>If <code>do.subset=TRUE</code> then one can filter using subsetting  by
+a single variable. The variable may be selected by a droplist,
+the logical expression can be entered or one selected from a
+droplist.
+</p>
+<p>If more complicated filtering is desired, the
+<code>visible&lt;-</code> method may be used, its value should a logical
+vector of length given by the number of rows of the data frame.
+</p>
+<p>The <code>svalue</code> method returns the selected value.
+</p>
+<p>The <code>svalue&lt;-</code> method is used to select rows without a
+moust, the value is a set of row numbers.
+</p>
+<p>The <code>"["</code> method is used for data-frame like extraction
+from the object.
+</p>
+<p>The <code>"[&lt;-"</code> method can be used for data-frame like
+assignment, with limitations.
+</p>
+<p>The <code>dim</code>, <code>dimnames</code>, <code>dimnames&lt;-</code>,
+<code>length</code>, <code>names</code> , and <code>names&lt;-</code> methods should
+work on the object as they do for data frames.
+</p>
+<p>The <code>addhandlerchanged</code> handler responds to changes in
+the values of the data frame.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gtable.html">gtable</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+	obj &lt;- gdf(mtcars, container=gwindow("mtcars"), do.subset=TRUE)
+	obj[1,1]
+	obj[1,]
+	obj[,1]
+        obj[1,1] &lt;- 21
+        obj[,] &lt;- head(mtcars) ## replace df
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgets</em> version 0.0-54.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

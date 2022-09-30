@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Coerce an RGtk2 object into a gWidgetsRGtk2 object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for as.gWidgetsRGtk2 {gWidgetsRGtk2}"><tr><td>as.gWidgetsRGtk2 {gWidgetsRGtk2}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Coerce an RGtk2 object into a gWidgetsRGtk2 object</h2>
+
+<h3>Description</h3>
+
+<p>This function coerces an RGtk2 object into a gWidgetsRGtk2 object,
+thereby allowing most of the methods to work on the new object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+as.gWidgetsRGtk2(widget, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>widget</code></td>
+<td>
+<p>An object of class <code>RGtkObject</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Ignored here </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Many RGtk2 widgets can be coerced into gWidgetsRGtk2 objects. This
+allows the method of gWidgets to be called. The example shows how one
+can use glade to layout a dialog, and use gWidget methods for the handlers.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code>gWidgetsRGtk2</code> object. (This is not a <code>gWidgets</code>
+object, so there may be some oddities
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+## This requires glade libraries to be installed before compiling RGtk2
+options("guiToolkit"="RGtk2")
+library(RGtk2)
+library(gWidgets)
+library(gWidgetsRGtk2)
+
+gladeFile &lt;- system.file("examples/t.test.glade",package="gWidgetsRGtk2")
+GUI &lt;- gladeXMLNew("t.test.glade")
+
+w &lt;- GUI$GetWidget("window1")
+w$Show()                                # show
+win &lt;- as.gWidgetsRGtk2(w)
+
+gladeXMLGetWidgetNames &lt;- function(obj) {
+  sapply(obj$GetWidgetPrefix(""),gladeGetWidgetName)
+}
+
+gladeXMLGetgWidgetsRGtk2 &lt;- function(obj) {
+  nms &lt;- obj$GetWidgetNames()
+  widgets &lt;- sapply(nms, function(i) obj$GetWidget(i))
+  widgets &lt;- sapply(widgets, as.gWidgetsRGtk2)
+  return(widgets)
+}
+
+l &lt;- GUI$GetgWidgetsRGtk2()
+
+## val names have similar form
+valNames &lt;- grep("Val$",GUI$GetWidgetNames())
+defHandler &lt;- function(...) {
+  lst &lt;- list()
+  args &lt;- c("x","y", "mu","alt","var.equal","paired","conf.level")
+  for(i in args) {
+    key &lt;- paste(i,"Val",sep="")
+    widget &lt;- l[[key]]
+    val &lt;- svalue(widget)
+    if(!is.null(val) &amp;&amp; val != "")
+      lst[[i]] &lt;- val
+  }
+  if(!is.null(lst$x)) {
+    cmd &lt;- "t.test("
+    argList &lt;- c()
+    for(i in names(lst)) {
+      argList &lt;- c(argList,paste(i,"=",lst[[i]], sep=""))
+    }
+    cmd &lt;- paste(cmd, paste(argList,collapse=", "),")",sep="")
+    print(cmd)
+  }      
+}  
+## Add handler to each widget
+sapply(valNames, function(i) addHandlerChanged(l[[i]],handler=defHandler))
+## put handler on dismiss button
+addHandlerChanged(l[['dismiss']], handler = function(h,...) dispose(win))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gWidgetsRGtk2</em> version 0.0-86.1 <a href="00Index.html">Index</a>]</div>
+</body></html>
